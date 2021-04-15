@@ -25,20 +25,20 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Slider x:Name="musicVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="musicVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="3"/>
-                <Button x:Name="musicVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="musicVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="3">
+                <Slider x:Name="MusicVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="MusicVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="3"/>
+                <Button x:Name="MusicVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="MusicVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="3">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-                <Slider x:Name="ambientVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="ambientVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="5"/>
-                <Button x:Name="ambientVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="ambientVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="5">
+                <Slider x:Name="AmbientVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="AmbientVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="5"/>
+                <Button x:Name="AmbientVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="AmbientVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="5">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-                <Slider x:Name="sfxVolumeSlider" HorizontalAlignment="Right" Margin="0,0,10,0" Width="106" BorderThickness="0,3,0,0" SmallChange="1" Maximum="100" IsMoveToPointEnabled="True" Value="100" ValueChanged="sfxVolumeSlider_ValueChanged" Grid.Column="1"/>
-                <Button x:Name="sfxVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="sfxVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="1">
+                <Slider x:Name="SfxVolumeSlider" HorizontalAlignment="Right" Margin="0,0,10,0" Width="106" BorderThickness="0,3,0,0" SmallChange="1" Maximum="100" IsMoveToPointEnabled="True" Value="100" ValueChanged="SfxVolumeSlider_ValueChanged" Grid.Column="1"/>
+                <Button x:Name="SfxVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="SfxVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="1">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
@@ -68,7 +68,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="sfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Height="66" Click="SfxButton_Click">
                         <Button.Background>
                             <ImageBrush/>
                         </Button.Background>
@@ -83,7 +83,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32" Text="Добавить SFX"/>
-                    <Button x:Name="sfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon5" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -91,7 +91,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock5" Grid.Row="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon9" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -99,7 +99,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock9" Grid.Row="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon13" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -107,7 +107,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock13" Grid.Row="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton17" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton17" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon17" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -115,7 +115,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock17" Grid.Row="4" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton21" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton21" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon21" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -123,7 +123,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock21" Grid.Row="5" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon2" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -131,7 +131,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock2" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon6" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -139,7 +139,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock6" Grid.Row="1" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon10" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -147,7 +147,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock10" Grid.Row="2" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon14" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -155,7 +155,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock14" Grid.Row="3" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton18" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton18" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon18" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -163,7 +163,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock18" Grid.Row="4" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton22" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="1" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton22" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon22" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -171,7 +171,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock22" Grid.Row="5" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon3" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -179,7 +179,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock3" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon7" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -187,7 +187,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock7" Grid.Row="1" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon11" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -195,7 +195,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock11" Grid.Row="2" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon15" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -203,7 +203,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock15" Grid.Row="3" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton19" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton19" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon19" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -211,7 +211,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock19" Grid.Row="4" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton23" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="2" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton23" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon23" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -219,7 +219,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock23" Grid.Row="5" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon4" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -227,7 +227,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock4" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon8" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -235,7 +235,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock8" Grid.Row="1" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon12" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -243,7 +243,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock12" Grid.Row="2" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton16" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton16" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon16" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -251,7 +251,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock16" Grid.Row="3" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton20" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton20" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon20" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -259,7 +259,7 @@
                         </Button.Template>
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock20" Grid.Row="4" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton24" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="3" Height="66" Click="sfxButton1_Click">
+                    <Button x:Name="sfxButton24" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon24" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
@@ -273,16 +273,16 @@
                     <ListBoxItem Content="Игра на рояле"/>
                     <ListBoxItem Content="Игра на скрипке"/>
                 </ListBox>
-                <ListBox x:Name="listOfReadyMadeTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="listOfReadyMadeTemplates_Loaded" Margin="0,0,0,60"/>
+                <ListBox x:Name="ListOfReadyMadeTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="0,0,0,60"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="60" VerticalAlignment="Bottom">
-                    <Button x:Name="createTemplateButton" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="createTemplateButton_Click">
+                    <Button x:Name="createTemplateButton" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="deleteTemplateButton" Content="Удалить шаблон" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="deleteTemplateButton_Click">
+                    <Button x:Name="deleteTemplateButton" Content="Удалить шаблон" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="DeleteTemplateButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
