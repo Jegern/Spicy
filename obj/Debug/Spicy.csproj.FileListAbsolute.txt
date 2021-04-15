@@ -29,3 +29,6 @@ C:\Users\sever\Programming Languages\Технологическая практи
 C:\Users\sever\Programming Languages\Технологическая практика\obj\Debug\TemplateCreationForm.g.cs
 C:\Users\sever\Programming Languages\Технологическая практика\obj\Debug\MainForm.baml
 C:\Users\sever\Programming Languages\Технологическая практика\obj\Debug\MainForm.g.cs
+C:\Users\sever\Programming Languages\Технологическая практика\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\sever\Programming Languages\Технологическая практика\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\sever\Programming Languages\Технологическая практика\obj\Debug\Spicy.csproj.CopyComplete

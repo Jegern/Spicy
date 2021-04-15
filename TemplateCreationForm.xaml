@@ -38,10 +38,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Slider Grid.Column="0" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="162" Height="19"/>
+            <Slider x:Name="SoundSettingsSlider" Grid.Column="0" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100"/>
             <Label Grid.Column="0" Content="Громкость" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
             <Label Content="Частота повторения" VerticalAlignment="Top" Margin="0,40,0,0" Grid.Column="1" HorizontalContentAlignment="Center" Height="30" FontSize="16"/>
-            <TextBox HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,70,0,0" Grid.Column="1"/>
+            <TextBox x:Name="SoundSettingsTextBox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,70,0,0" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15"/>
             <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,70,154.6,0" Height="30" Grid.Column="1" HorizontalAlignment="Center" FontSize="15"/>
             <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,70,0,0" Grid.Column="1" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia"/>
         </Grid>
