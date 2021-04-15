@@ -88,7 +88,7 @@ namespace Spicy
         private void addIconToSfxButton(Button button, string buttonIconName)
         {
             Ellipse ellipse = button.Template.FindName(buttonIconName, button) as Ellipse;
-            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri("C:/Users/sever/Programming Languages/Технологическая практика/bin/Debug/images/Sound icon.png")));
+            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory+"//images/Sound icon.png")));
         }
 
         private void addTextToSfxLabel(string labelName, string text)
@@ -97,120 +97,7 @@ namespace Spicy
             label.Text = text;
         }
 
-        private void sfxButton2_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton3_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton4_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton5_Click(object sender, RoutedEventArgs e)
-        { 
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton6_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton7_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton8_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton9_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton10_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton11_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton12_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton13_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton14_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton15_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton16_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton17_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton18_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton19_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton20_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton21_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton22_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton23_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        private void sfxButton24_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
+       
         #endregion
 
         private void listOfReadyMadeTemplates_Loaded(object sender, RoutedEventArgs e)
