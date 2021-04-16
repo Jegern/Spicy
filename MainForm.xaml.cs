@@ -7,11 +7,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.IO;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Spicy
 {
     public partial class MainForm : Window
     {
+        readonly ObservableCollection<Sound> collectionOfSounds;
         int musicVolume = 100;
         int ambientVolume = 100;
         int sfxVolume = 100;
@@ -19,6 +21,7 @@ namespace Spicy
         public MainForm()
         {
             InitializeComponent();
+            collectionOfSounds = new ObservableCollection<Sound>();
         }
 
         #region Sound Control
@@ -87,7 +90,7 @@ namespace Spicy
         private void AddIconToSfxButton(Button button, string buttonIconName)
         {
             Ellipse ellipse = button.Template.FindName(buttonIconName, button) as Ellipse;
-            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory+"//images/Sound icon.png")));
+            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "//images/Sound icon.png")));
         }
 
         private void AddTextToSfxLabel(string labelName, string text)
@@ -95,15 +98,15 @@ namespace Spicy
             TextBlock label = sfxGrid.FindName(labelName) as TextBlock;
             label.Text = text;
         }
-       
+
         #endregion
 
         private void ListOfReadyMadeTemplates_Loaded(object sender, RoutedEventArgs e)
         {
             DirectoryInfo directory = new DirectoryInfo("bin/templates/");
             foreach (var fileName in directory.GetFiles("*.bin"))
-                ListOfReadyMadeTemplates.Items.Add(fileName.Name.Replace(".bin", ""));
-            ListOfReadyMadeTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+                ListOfTemplates.Items.Add(fileName.Name.Replace(".bin", ""));
+            ListOfTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
         }
 
         private void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
@@ -115,11 +118,48 @@ namespace Spicy
 
         private void DeleteTemplateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ListOfReadyMadeTemplates.SelectedIndex != -1)
+            if (ListOfTemplates.SelectedIndex != -1)
             {
-                File.Delete("bin/templates/" + ListOfReadyMadeTemplates.SelectedItem.ToString() + ".bin");
-                ListOfReadyMadeTemplates.Items.RemoveAt(ListOfReadyMadeTemplates.SelectedIndex);
+                File.Delete("bin/templates/" + ListOfTemplates.SelectedItem.ToString() + ".bin");
+                ListOfTemplates.Items.RemoveAt(ListOfTemplates.SelectedIndex);
             }
+        }
+
+        private void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListOfTemplates.SelectedIndex != -1)
+            {
+                ChangeTemplateNameTextBlock();
+                LoadTemplateSoundsInCollection();
+                AddSoundsInListAndSort();
+            }
+        }
+
+        private void ChangeTemplateNameTextBlock()
+        {
+            TemplateName.Text = ListOfTemplates.SelectedItem.ToString();
+        }
+
+        private void LoadTemplateSoundsInCollection()
+        {
+            collectionOfSounds.Clear();
+            using (BinaryReader reader = new BinaryReader(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Open)))
+                while (reader.PeekChar() != -1)
+                {
+                    string[] soundNameAndSettings = reader.ReadString().Split(new[] { ".wav" }, StringSplitOptions.None);
+                    string[] soundSettings = soundNameAndSettings[1].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    string soundName = soundNameAndSettings[0];
+                    int soundVolume = Convert.ToInt32(soundSettings[0]);
+                    int soundRepetitionRate = Convert.ToInt32(soundSettings[1]);
+                    collectionOfSounds.Add(new Sound(soundName, soundVolume, soundRepetitionRate));
+                }
+        }
+
+        private void AddSoundsInListAndSort()
+        {
+            ListOfSounds.ItemsSource = collectionOfSounds;
+            ListOfSounds.DisplayMemberPath = "Name";
+            ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
     }
 }

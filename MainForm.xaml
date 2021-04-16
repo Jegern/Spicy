@@ -360,12 +360,12 @@
                     </Button>
                     <TextBlock  x:Name="sfxTextBlock24" Grid.Row="5" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
                 </Grid>
-                <ListBox FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1">
+                <ListBox FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1" Margin="5">
                     <ListBoxItem Content="Игра на гитаре"/>
                     <ListBoxItem Content="Игра на рояле"/>
                     <ListBoxItem Content="Игра на скрипке"/>
                 </ListBox>
-                <ListBox x:Name="ListOfReadyMadeTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="0,0,0,60"/>
+                <ListBox x:Name="ListOfTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="5,5,5,65" SelectionChanged="ListOfTemplates_SelectionChanged"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="60" VerticalAlignment="Bottom">
                     <Button x:Name="createTemplateButton" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
                         <Button.Resources>
@@ -383,12 +383,13 @@
                     </Button>
                 </Grid>
             </Grid>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2"/>
         </Grid>
         <Border Grid.Column="1" VerticalAlignment="Top" Height="50">
-            <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="Название шаблона" TextAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontFamily="Georgia" Padding="5" Grid.IsSharedSizeScope="True"/>
+            <TextBlock x:Name="TemplateName" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontFamily="Georgia" Padding="5" Grid.IsSharedSizeScope="True"/>
         </Border>
         <Grid Grid.Column="1" Margin="0.2,48,-0.4,2.4">
-            <ListBox BorderThickness="0"/>
+            <ListBox x:Name="ListOfSounds" BorderThickness="0" Margin="5,5,5,105"/>
             <Border VerticalAlignment="Bottom" Height="100">
                 <Button Content="Запустить" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Georgia" FontSize="25" Padding="10" Background="White" BorderBrush="Black">
                     <Button.Resources>

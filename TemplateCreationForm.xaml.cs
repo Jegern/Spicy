@@ -3,7 +3,6 @@ using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Spicy
@@ -12,22 +11,6 @@ namespace Spicy
     {
         readonly ObservableCollection<Sound> collectionOfIncludedSounds;
         bool leftMouseDown = false;
-
-        struct Sound
-        {
-            public Sound (string Name, int Volume, int RepetitionRate)
-            {
-                this.Name = Name;
-                this.Volume = Volume;
-                this.RepetitionRate = RepetitionRate;
-            }
-
-            public string Name { get; }
-
-            public int Volume { get; set; }
-
-            public int RepetitionRate { get; set; }
-        }
 
         public TemplateCreationForm()
         {
@@ -164,9 +147,14 @@ namespace Spicy
 
         private void CreateTemplateAndCloseForm()
         {
-            WriteTemplateInFile();
-            AddToListOfReadyMadeTemplates();
-            Close();
+            if (TemplateName.Text.Length != 0)
+            {
+                WriteTemplateInFile();
+                AddToListOfReadyMadeTemplates();
+                Close();
+            }
+            else
+                MessageBox.Show("Пожалуйста, введите имя шаблона", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         private void WriteTemplateInFile()
@@ -183,7 +171,7 @@ namespace Spicy
 
         private void AddToListOfReadyMadeTemplates()
         {
-            ListBox listOfTemplates = (Owner as MainForm).ListOfReadyMadeTemplates;
+            ListBox listOfTemplates = (Owner as MainForm).ListOfTemplates;
             listOfTemplates.Items.Add(TemplateName.Text);
             listOfTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
         }
