@@ -19,7 +19,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <ListBox x:Name="ListOfSounds" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,10" Loaded="ListOfSounds_Loaded" PreviewMouseLeftButtonDown="ListOfSounds_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="ListOfSounds_PreviewMouseLeftButtonUp" MouseLeave="ListOfSounds_MouseLeave" PreviewMouseDoubleClick="ListOfSounds_PreviewMouseDoubleClick" AllowDrop="True" PreviewMouseMove="ListOfSounds_PreviewMouseMove" Drop="ListOfSounds_Drop"/>
-            <ListBox x:Name="ListOfIncluded" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,10" AllowDrop="True" Drop="ListOfIncluded_Drop" PreviewMouseDoubleClick="ListOfIncluded_PreviewMouseDoubleClick" PreviewMouseLeftButtonDown="ListOfIncluded_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="ListOfIncluded_PreviewMouseLeftButtonUp" PreviewMouseMove="ListOfIncluded_PreviewMouseMove" MouseLeave="ListOfIncluded_MouseLeave"/>
+            <ListBox x:Name="ListOfIncluded" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,10" AllowDrop="True" Drop="ListOfIncluded_Drop" PreviewMouseDoubleClick="ListOfIncluded_PreviewMouseDoubleClick" PreviewMouseLeftButtonDown="ListOfIncluded_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="ListOfIncluded_PreviewMouseLeftButtonUp" PreviewMouseMove="ListOfIncluded_PreviewMouseMove" MouseLeave="ListOfIncluded_MouseLeave" SelectionChanged="ListOfIncluded_SelectionChanged"/>
             <Label Content="Список звуков" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Georgia"/>
             <Label Content="Включено в шаблон" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Georgia" Grid.Column="1"/>
         </Grid>
@@ -35,10 +35,10 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Slider x:Name="SoundSettingsSlider" Grid.Column="0" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100"/>
+            <Slider x:Name="SoundVolumeSlider" Grid.Column="0" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="SoundVolumeSlider_ValueChanged"/>
             <Label Grid.Column="0" Content="Громкость" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
             <Label Content="Частота повторения" VerticalAlignment="Top" Margin="0,40,0,0" Grid.Column="1" HorizontalContentAlignment="Center" Height="30" FontSize="16"/>
-            <TextBox x:Name="SoundSettingsTextBox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,70,0,0" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15"/>
+            <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,70,0,0" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" TextChanged="SoundRepetitionRateTextbox_TextChanged"/>
             <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,70,154.6,0" Height="30" Grid.Column="1" HorizontalAlignment="Center" FontSize="15"/>
             <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,70,0,0" Grid.Column="1" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia"/>
         </Grid>

@@ -2,7 +2,7 @@
 {
     public partial class TemplateCreationForm
     {
-        struct Sound
+        class Sound
         {
             public Sound(string Name, int Volume, int RepetitionRate)
             {
@@ -21,7 +21,7 @@
 
     public partial class MainForm
     {
-        struct Sound
+        class Sound
         {
             public Sound(string Name, int Volume, int RepetitionRate)
             {

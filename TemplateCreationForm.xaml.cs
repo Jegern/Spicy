@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -50,8 +51,8 @@ namespace Spicy
 
         private Sound NewSoundWithSettings(string name)
         {
-            int volume = (int)SoundSettingsSlider.Value;
-            int.TryParse(SoundSettingsTextBox.Text, out int repetitionRate);
+            int volume = (int)SoundVolumeSlider.Value;
+            int.TryParse(SoundRepetitionRateTextbox.Text, out int repetitionRate);
 
             return new Sound(name, volume, repetitionRate);
         }
@@ -85,6 +86,24 @@ namespace Spicy
 
         #endregion
 
+        private void ListOfIncluded_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as Sound).Volume;
+            SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as Sound).RepetitionRate.ToString();
+        }
+
+        private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ListOfIncluded.SelectedIndex != -1)
+                (ListOfIncluded.SelectedItem as Sound).Volume = (int)SoundVolumeSlider.Value;
+        }
+
+        private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ListOfIncluded.SelectedIndex != -1)
+                (ListOfIncluded.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
+        }
+
         #region Included -> Sounds
 
         private void ListOfIncluded_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -96,7 +115,7 @@ namespace Spicy
         {
             if (ListOfIncluded.SelectedIndex != -1)
             {
-                ListOfSounds.Items.Add(((Sound)ListOfIncluded.SelectedItem).Name);
+                ListOfSounds.Items.Add((ListOfIncluded.SelectedItem as Sound).Name);
                 collectionOfIncludedSounds.RemoveAt(ListOfIncluded.SelectedIndex);
 
                 ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
