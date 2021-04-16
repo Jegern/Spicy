@@ -171,7 +171,7 @@ namespace Spicy
 
         private void AddToListOfReadyMadeTemplates()
         {
-            ListBox listOfTemplates = (Owner as MainForm).listOfReadyMadeTemplates;
+            ListBox listOfTemplates = (Owner as MainForm).ListOfReadyMadeTemplates;
             listOfTemplates.Items.Add(TemplateName.Text);
             listOfTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
         }

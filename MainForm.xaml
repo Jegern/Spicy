@@ -7,7 +7,7 @@
         Title="Автоматизированное формирование звукового сопровождения" Height="720" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
@@ -76,17 +76,21 @@
                             <ControlTemplate>
                                 <Ellipse x:Name="sfxButtonIcon1" Height="66" Margin="0" Stroke="Black" Width="66">
                                     <Ellipse.Fill>
-                                        <ImageBrush ImageSource="Plus icon.png"/>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock  x:Name="sfxTextBlock1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32" Text="Добавить SFX"/>
+                    <TextBlock  x:Name="sfxTextBlock1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
                     <Button x:Name="sfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon5" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon5" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -94,7 +98,11 @@
                     <Button x:Name="sfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon9" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon9" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -102,7 +110,11 @@
                     <Button x:Name="sfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon13" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon13" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -110,7 +122,11 @@
                     <Button x:Name="sfxButton17" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon17" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon17" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -118,7 +134,11 @@
                     <Button x:Name="sfxButton21" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon21" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon21" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -126,7 +146,11 @@
                     <Button x:Name="sfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon2" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon2" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -134,7 +158,11 @@
                     <Button x:Name="sfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon6" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon6" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -142,7 +170,11 @@
                     <Button x:Name="sfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon10" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon10" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -150,7 +182,11 @@
                     <Button x:Name="sfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon14" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon14" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -158,7 +194,11 @@
                     <Button x:Name="sfxButton18" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon18" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon18" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -166,7 +206,11 @@
                     <Button x:Name="sfxButton22" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="1" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon22" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon22" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -174,7 +218,11 @@
                     <Button x:Name="sfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon3" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon3" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -182,7 +230,11 @@
                     <Button x:Name="sfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon7" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon7" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -190,7 +242,11 @@
                     <Button x:Name="sfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon11" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon11" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -198,7 +254,11 @@
                     <Button x:Name="sfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon15" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon15" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -206,7 +266,11 @@
                     <Button x:Name="sfxButton19" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon19" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon19" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -214,7 +278,11 @@
                     <Button x:Name="sfxButton23" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="2" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon23" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon23" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -222,7 +290,11 @@
                     <Button x:Name="sfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon4" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon4" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -230,7 +302,11 @@
                     <Button x:Name="sfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon8" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon8" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -238,7 +314,11 @@
                     <Button x:Name="sfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon12" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon12" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -246,7 +326,11 @@
                     <Button x:Name="sfxButton16" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon16" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon16" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -254,7 +338,11 @@
                     <Button x:Name="sfxButton20" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon20" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon20" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -262,7 +350,11 @@
                     <Button x:Name="sfxButton24" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="3" Height="66" Click="SfxButton_Click">
                         <Button.Template>
                             <ControlTemplate>
-                                <Ellipse x:Name="sfxButtonIcon24" Fill="#FFF4F4F5" Height="66" Margin="0" Stroke="Black" Width="66"/>
+                                <Ellipse x:Name="sfxButtonIcon24" Height="66" Margin="0" Stroke="Black" Width="66">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="Plus icon.png" Opacity="0"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -296,13 +388,9 @@
             <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="Название шаблона" TextAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontFamily="Georgia" Padding="5" Grid.IsSharedSizeScope="True"/>
         </Border>
         <Grid Grid.Column="1" Margin="0.2,48,-0.4,2.4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            <ListBox Grid.Column="0" BorderThickness="0"/>
-            <Border Grid.Column="1" VerticalAlignment="Bottom" Height="100">
-                <Button Content="Запустить" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Georgia" FontSize="25" Padding="10" Background="White" BorderBrush="Black">
+            <ListBox BorderThickness="0"/>
+            <Border VerticalAlignment="Bottom" Height="100">
+                <Button Content="Запустить" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Georgia" FontSize="25" Padding="10" Background="White" BorderBrush="Black">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
