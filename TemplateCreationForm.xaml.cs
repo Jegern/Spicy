@@ -50,17 +50,18 @@ namespace Spicy
 
         private void ListOfSounds_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MoveSelectedSoundToIncluded();
-            ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+            MoveSelectedSoundToIncludedAndSort();
         }
 
-        private void MoveSelectedSoundToIncluded()
+        private void MoveSelectedSoundToIncludedAndSort()
         {
             if (ListOfSounds.SelectedIndex != -1)
             {
                 string soundName = ListOfSounds.SelectedItem.ToString();
                 collectionOfIncludedSounds.Add(NewSoundWithSettings(soundName));
                 ListOfSounds.Items.Remove(ListOfSounds.SelectedItem);
+
+                ListOfIncluded.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             }
         }
 
@@ -96,7 +97,7 @@ namespace Spicy
         private void ListOfIncluded_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetData(typeof(ListBox)) as ListBox == ListOfSounds)
-                MoveSelectedSoundToIncluded();
+                MoveSelectedSoundToIncludedAndSort();
         }
 
         #endregion
@@ -105,23 +106,18 @@ namespace Spicy
 
         private void ListOfIncluded_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ListOfIncluded.SelectedIndex != -1)
-            {
-                RemoveSettingFromMovedSound();
-                MoveSelectedItemFromIncludedAndSort();
-            }
-        }
-
-        private void RemoveSettingFromMovedSound()
-        {
-            //listOfSoundSettings.RemoveAt(ListOfIncluded.SelectedIndex);
+            MoveSelectedItemFromIncludedAndSort();
         }
 
         private void MoveSelectedItemFromIncludedAndSort()
         {
-            ListOfSounds.Items.Add(ListOfIncluded.SelectedItem);
-            ListOfIncluded.Items.Remove(ListOfIncluded.SelectedItem);
-            ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+            if (ListOfIncluded.SelectedIndex != -1)
+            {
+                ListOfSounds.Items.Add(((Sound)ListOfIncluded.SelectedItem).Name);
+                collectionOfIncludedSounds.RemoveAt(ListOfIncluded.SelectedIndex);
+
+                ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+            }
         }
 
         private void ListOfIncluded_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -153,20 +149,36 @@ namespace Spicy
 
         #endregion
 
+        #region Сompletion of template creation
+
         private void TemplateName_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                CreateTemplateButton_Click(null, null);
+                CreateTemplateAndCloseForm();
         }
 
         private void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
         {
-            using (BinaryWriter writer = new BinaryWriter(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Create)))
-                foreach (var item in ListOfIncluded.Items)
-                    writer.Write(item.ToString() + ".wav");
+            CreateTemplateAndCloseForm();
+        }
 
+        private void CreateTemplateAndCloseForm()
+        {
+            WriteTemplateInFile();
             AddToListOfReadyMadeTemplates();
             Close();
+        }
+
+        private void WriteTemplateInFile()
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Create)))
+                foreach (var sound in collectionOfIncludedSounds)
+                {
+                    string soundFileName = sound.Name + ".wav";
+                    string soundVolume = sound.Volume.ToString();
+                    string soundRepetitionRate = sound.RepetitionRate.ToString();
+                    writer.Write(soundFileName + " " + soundVolume + " " + soundRepetitionRate);
+                }
         }
 
         private void AddToListOfReadyMadeTemplates()
@@ -175,5 +187,7 @@ namespace Spicy
             listOfTemplates.Items.Add(TemplateName.Text);
             listOfTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
         }
+
+        #endregion
     }
 }
