@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Автоматизированное формирование звукового сопровождения" Height="720" Width="1280" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Автоматизированное формирование звукового сопровождения" Height="720" Width="1150" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -453,17 +453,34 @@
         <Border Grid.Column="1" VerticalAlignment="Top" Height="50">
             <TextBlock x:Name="TemplateName" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontFamily="Georgia" Padding="5" Grid.IsSharedSizeScope="True"/>
         </Border>
-        <Grid Grid.Column="1" Margin="0.2,48,-0.4,2.4">
-            <ListBox x:Name="ListOfSounds" BorderThickness="0" Margin="5,5,5,105"/>
-            <Border VerticalAlignment="Bottom" Height="100">
-                <Button Content="Запустить" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Georgia" FontSize="25" Padding="10" Background="White" BorderBrush="Black">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </Border>
+        <Grid Grid.Column="1" Margin="0,50,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="ListOfSounds" Grid.Row="0" BorderThickness="0" Margin="5" SelectionChanged="ListOfSounds_SelectionChanged"/>
+            <Slider x:Name="SoundVolumeSlider" Grid.Row="1" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="SoundVolumeSlider_ValueChanged"/>
+            <Label Grid.Row="1" Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
+            <Label Content="Частота повторения" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="16" Grid.Row="2"/>
+            <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,30,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" Grid.Row="2" TextChanged="SoundRepetitionRateTextbox_TextChanged"/>
+            <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,30,154.6,0" Height="30" HorizontalAlignment="Center" FontSize="15" Grid.Row="2"/>
+            <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,30,0,0" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia" Grid.Row="2"/>
+            <Button x:Name="createTemplateButton1" Grid.Row="3" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="8"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="deleteTemplateButton1" Grid.Row="3" Content="Удалить шаблон" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="DeleteTemplateButton_Click">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="8"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
     </Grid>
 </Window>

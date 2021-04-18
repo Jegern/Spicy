@@ -17,8 +17,6 @@ namespace Spicy
         readonly ObservableCollection<Sound> collectionOfSounds;
         DoubleAnimation fadingAnimation;
         DoubleAnimation appearanceAnimation;
-        Storyboard fadingStoryboard;
-        Storyboard appearanceStoryboard;
         int musicVolume = 100;
         int ambientVolume = 100;
         int sfxVolume = 100;
@@ -147,6 +145,8 @@ namespace Spicy
             }
         }
 
+        #region List of templates selection
+
         private void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListOfTemplates.SelectedIndex != -1)
@@ -184,6 +184,8 @@ namespace Spicy
             ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
 
+        #endregion
+
         #region Button Animation
 
         private void sfxButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -204,6 +206,31 @@ namespace Spicy
         private void sfxButton_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             AnimationForButtonIconAndTextBlock(sender, fadingAnimation);
+        }
+
+        #endregion
+
+        #region List of sounds selection
+
+        private void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListOfTemplates.SelectedIndex != -1)
+            {
+                SoundVolumeSlider.Value = (ListOfSounds.SelectedItem as Sound).Volume;
+                SoundRepetitionRateTextbox.Text = (ListOfSounds.SelectedItem as Sound).RepetitionRate.ToString();
+            }
+        }
+
+        private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (ListOfSounds.SelectedIndex != -1)
+                (ListOfSounds.SelectedItem as Sound).Volume = (int)SoundVolumeSlider.Value;
+        }
+
+        private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ListOfSounds.SelectedIndex != -1 && SoundRepetitionRateTextbox.Text.Length != 0)
+                (ListOfSounds.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
 
         #endregion

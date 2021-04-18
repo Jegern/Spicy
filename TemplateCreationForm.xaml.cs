@@ -86,6 +86,8 @@ namespace Spicy
 
         #endregion
 
+        #region List of included selection
+
         private void ListOfIncluded_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as Sound).Volume;
@@ -103,6 +105,8 @@ namespace Spicy
             if (ListOfIncluded.SelectedIndex != -1 && SoundRepetitionRateTextbox.Text.Length != 0)
                 (ListOfIncluded.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
+
+        #endregion
 
         #region Included -> Sounds
 
