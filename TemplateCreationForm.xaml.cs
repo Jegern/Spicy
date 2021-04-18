@@ -100,7 +100,7 @@ namespace Spicy
 
         private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ListOfIncluded.SelectedIndex != -1)
+            if (ListOfIncluded.SelectedIndex != -1 && SoundRepetitionRateTextbox.Text.Length != 0)
                 (ListOfIncluded.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
 

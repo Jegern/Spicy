@@ -8,12 +8,17 @@ using System.Windows.Media;
 using System.IO;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
 
 namespace Spicy
 {
     public partial class MainForm : Window
     {
         readonly ObservableCollection<Sound> collectionOfSounds;
+        DoubleAnimation fadingAnimation;
+        DoubleAnimation appearanceAnimation;
+        Storyboard fadingStoryboard;
+        Storyboard appearanceStoryboard;
         int musicVolume = 100;
         int ambientVolume = 100;
         int sfxVolume = 100;
@@ -22,6 +27,23 @@ namespace Spicy
         {
             InitializeComponent();
             collectionOfSounds = new ObservableCollection<Sound>();
+            InitializeAnimation();
+        }
+
+        private void InitializeAnimation()
+        {
+            fadingAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(500))
+            };
+            appearanceAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = 1,
+                Duration = new Duration(TimeSpan.FromMilliseconds(500)),
+            };
         }
 
         #region Sound Control
@@ -84,7 +106,7 @@ namespace Spicy
             Button button = sender as Button;
             string buttonNumber = Regex.Match(button.Name, @"[0-9]{1,2}").ToString();
             AddIconToSfxButton(button, "sfxButtonIcon" + buttonNumber);
-            AddTextToSfxLabel("sfxTextBlock" + buttonNumber, "SFX звук");
+            AddTextToSfxTextBlock("sfxTextBlock" + buttonNumber, "SFX звук");
         }
 
         private void AddIconToSfxButton(Button button, string buttonIconName)
@@ -93,10 +115,10 @@ namespace Spicy
             ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "//images/Sound icon.png")));
         }
 
-        private void AddTextToSfxLabel(string labelName, string text)
+        private void AddTextToSfxTextBlock(string textBlockName, string text)
         {
-            TextBlock label = sfxGrid.FindName(labelName) as TextBlock;
-            label.Text = text;
+            TextBlock textBlock = sfxGrid.FindName(textBlockName) as TextBlock;
+            textBlock.Text = text;
         }
 
         #endregion
@@ -161,5 +183,29 @@ namespace Spicy
             ListOfSounds.DisplayMemberPath = "Name";
             ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
+
+        #region Button Animation
+
+        private void sfxButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            AnimationForButtonIconAndTextBlock(sender, appearanceAnimation);
+        }
+
+        private void AnimationForButtonIconAndTextBlock(object sender, DoubleAnimation animation)
+        {
+            Button button = sender as Button;
+            string buttonNumber = Regex.Match(button.Name, @"[0-9]{1,2}").ToString();
+            Ellipse ellipse = button.Template.FindName("sfxButtonIcon" + buttonNumber, button) as Ellipse;
+            TextBlock textBlock = sfxGrid.FindName("sfxTextBlock" + buttonNumber) as TextBlock;
+            ellipse.BeginAnimation(OpacityProperty, animation);
+            textBlock.BeginAnimation(OpacityProperty, animation);
+        }
+
+        private void sfxButton_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            AnimationForButtonIconAndTextBlock(sender, fadingAnimation);
+        }
+
+        #endregion
     }
 }
