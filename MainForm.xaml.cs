@@ -171,7 +171,7 @@ namespace Spicy
                     string[] soundNameAndSettings = reader.ReadString().Split(new[] { ".wav" }, StringSplitOptions.None);
                     string[] soundSettings = soundNameAndSettings[1].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     string soundName = soundNameAndSettings[0];
-                    double soundVolume = Convert.ToDouble(soundSettings[0]);
+                    double soundVolume = double.Parse(soundSettings[0], System.Globalization.CultureInfo.InvariantCulture) ;
                     int soundRepetitionRate = Convert.ToInt32(soundSettings[1]);
                     collectionOfSounds.Add(new Sound(soundName, soundVolume, soundRepetitionRate));
                 }
