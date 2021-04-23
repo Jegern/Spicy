@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Spicy
 {
@@ -17,8 +18,8 @@ namespace Spicy
     {
         readonly ObservableCollection<Sound> collectionOfSounds;
         readonly List<MediaPlayer> players;
-        DoubleAnimation fadingAnimation;
-        DoubleAnimation appearanceAnimation;
+        readonly DoubleAnimation fadingAnimation;
+        readonly DoubleAnimation appearanceAnimation;
         int musicVolume = 100;
         int ambientVolume = 100;
         int sfxVolume = 100;
@@ -28,11 +29,6 @@ namespace Spicy
             InitializeComponent();
             collectionOfSounds = new ObservableCollection<Sound>();
             players = new List<MediaPlayer>();
-            InitializeAnimation();
-        }
-
-        private void InitializeAnimation()
-        {
             fadingAnimation = new DoubleAnimation
             {
                 From = 1,
@@ -113,7 +109,7 @@ namespace Spicy
         private void AddIconToSfxButton(Button button, string buttonIconName)
         {
             Ellipse ellipse = button.Template.FindName(buttonIconName, button) as Ellipse;
-            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "//images/Sound icon.png")));
+            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri(AppDomain.CurrentDomain.BaseDirectory + "images/Sound icon.png")));
         }
 
         private void AddTextToSfxTextBlock(string textBlockName, string text)
@@ -157,7 +153,7 @@ namespace Spicy
                 ChangeTemplateNameTextBlock();
                 LoadTemplateSoundsInCollection();
                 AddSoundsInListAndSort();
-                PlaySounds();
+                PlayNewSounds();
             }
         }
 
@@ -188,15 +184,16 @@ namespace Spicy
             ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
 
-        private void PlaySounds()
+        private void PlayNewSounds()
         {
             StopSounds();
             for (int i = 0; i < collectionOfSounds.Count; i++)
             {
                 players.Add(new MediaPlayer());
-                string soundPath = "//sounds/" + collectionOfSounds[i].Name + ".wav";
-                players[i].Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + soundPath));
+                players[i].MediaEnded += MediaPlayerSoundEnded;
                 players[i].Volume = collectionOfSounds[i].Volume;
+                string soundPath = "sounds/" + collectionOfSounds[i].Name + ".wav";
+                players[i].Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + soundPath));
                 players[i].Play();
             }
         }
@@ -207,6 +204,16 @@ namespace Spicy
                 for (int i = 0; i < players.Count; i++)
                     players[i].Stop();
             players.Clear();
+        }
+
+        private async void MediaPlayerSoundEnded(object sender, EventArgs e)
+        {
+            MediaPlayer player = sender as MediaPlayer;
+            int soundIndex = players.IndexOf(player);
+            int delay = collectionOfSounds[soundIndex].RepetitionRate;
+            await Task.Delay(delay * 1000);
+            player.Position = new TimeSpan(0);
+            player.Play();
         }
 
         private void AddSoundButton_Click(object sender, RoutedEventArgs e)
