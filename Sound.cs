@@ -4,7 +4,7 @@
     {
         class Sound
         {
-            public Sound(string Name, int Volume, int RepetitionRate)
+            public Sound(string Name, double Volume, int RepetitionRate)
             {
                 this.Name = Name;
                 this.Volume = Volume;
@@ -13,7 +13,7 @@
 
             public string Name { get; }
 
-            public int Volume { get; set; }
+            public double Volume { get; set; }
 
             public int RepetitionRate { get; set; }
         }
@@ -23,7 +23,7 @@
     {
         class Sound
         {
-            public Sound(string Name, int Volume, int RepetitionRate)
+            public Sound(string Name, double Volume, int RepetitionRate)
             {
                 this.Name = Name;
                 this.Volume = Volume;
@@ -32,7 +32,7 @@
 
             public string Name { get; }
 
-            public int Volume { get; set; }
+            public double Volume { get; set; }
 
             public int RepetitionRate { get; set; }
         }

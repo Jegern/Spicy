@@ -51,7 +51,7 @@ namespace Spicy
 
         private Sound NewSoundWithSettings(string name)
         {
-            int volume = (int)SoundVolumeSlider.Value;
+            double volume = SoundVolumeSlider.Value;
             int.TryParse(SoundRepetitionRateTextbox.Text, out int repetitionRate);
 
             return new Sound(name, volume, repetitionRate);
@@ -97,7 +97,7 @@ namespace Spicy
         private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (ListOfIncluded.SelectedIndex != -1)
-                (ListOfIncluded.SelectedItem as Sound).Volume = (int)SoundVolumeSlider.Value;
+                (ListOfIncluded.SelectedItem as Sound).Volume = SoundVolumeSlider.Value;
         }
 
         private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
