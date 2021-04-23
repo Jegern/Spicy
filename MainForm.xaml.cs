@@ -212,8 +212,11 @@ namespace Spicy
             int soundIndex = players.IndexOf(player);
             int delay = collectionOfSounds[soundIndex].RepetitionRate;
             await Task.Delay(delay * 1000);
-            player.Position = new TimeSpan(0);
-            player.Play();
+            if (players.Contains(player))
+            {
+                player.Position = new TimeSpan(0);
+                player.Play();
+            }
         }
 
         private void AddSoundButton_Click(object sender, RoutedEventArgs e)
