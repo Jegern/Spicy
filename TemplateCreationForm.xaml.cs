@@ -90,8 +90,11 @@ namespace Spicy
 
         private void ListOfIncluded_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as Sound).Volume;
-            SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as Sound).RepetitionRate.ToString();
+            if (ListOfIncluded.SelectedItem != null)
+            {
+                SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as Sound).Volume;
+                SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as Sound).RepetitionRate.ToString();
+            }
         }
 
         private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
