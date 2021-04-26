@@ -59,10 +59,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddingSoundForm.xaml.cs">
+      <DependentUpon>AddingSoundForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Sound.cs" />
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddingSoundForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -10,14 +10,14 @@ namespace Spicy
 {
     public partial class TemplateCreationForm : Window
     {
-        readonly ObservableCollection<Sound> collectionOfIncludedSounds;
+        readonly ObservableCollection<MainForm.Sound> collectionOfIncludedSounds;
         bool leftMouseDown = false;
 
         public TemplateCreationForm()
         {
             InitializeComponent();
             TemplateName.Focus();
-            collectionOfIncludedSounds = new ObservableCollection<Sound>();
+            collectionOfIncludedSounds = new ObservableCollection<MainForm.Sound>();
             ListOfIncluded.ItemsSource = collectionOfIncludedSounds;
             ListOfIncluded.DisplayMemberPath = "Name";
         }
@@ -25,8 +25,8 @@ namespace Spicy
         private void ListOfSounds_Loaded(object sender, RoutedEventArgs e)
         {
             DirectoryInfo directory = new DirectoryInfo("sounds/");
-            foreach (var fileName in directory.GetFiles("*.wav"))
-                ListOfSounds.Items.Add(fileName.Name.Replace(".wav", ""));
+            foreach (var fileName in directory.GetFiles("*.mp3"))
+                ListOfSounds.Items.Add(fileName.Name.Replace(".mp3", ""));
             ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
         }
 
@@ -39,7 +39,7 @@ namespace Spicy
 
         private void MoveSelectedSoundToIncludedAndSort()
         {
-            if (ListOfSounds.SelectedIndex != -1)
+            if (ListOfSounds.SelectedItem != null)
             {
                 string soundName = ListOfSounds.SelectedItem.ToString();
                 collectionOfIncludedSounds.Add(NewSoundWithSettings(soundName));
@@ -49,12 +49,12 @@ namespace Spicy
             }
         }
 
-        private Sound NewSoundWithSettings(string name)
+        private MainForm.Sound NewSoundWithSettings(string name)
         {
             double volume = SoundVolumeSlider.Value;
             int.TryParse(SoundRepetitionRateTextbox.Text, out int repetitionRate);
 
-            return new Sound(name, volume, repetitionRate);
+            return new MainForm.Sound(name, volume, repetitionRate);
         }
 
         private void ListOfSounds_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -92,21 +92,21 @@ namespace Spicy
         {
             if (ListOfIncluded.SelectedItem != null)
             {
-                SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as Sound).Volume;
-                SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as Sound).RepetitionRate.ToString();
+                SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as MainForm.Sound).Volume;
+                SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as MainForm.Sound).RepetitionRate.ToString();
             }
         }
 
         private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (ListOfIncluded.SelectedIndex != -1)
-                (ListOfIncluded.SelectedItem as Sound).Volume = SoundVolumeSlider.Value;
+            if (ListOfIncluded.SelectedItem != null)
+                (ListOfIncluded.SelectedItem as MainForm.Sound).Volume = SoundVolumeSlider.Value;
         }
 
         private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ListOfIncluded.SelectedIndex != -1 && SoundRepetitionRateTextbox.Text.Length != 0)
-                (ListOfIncluded.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
+            if (ListOfIncluded.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length != 0)
+                (ListOfIncluded.SelectedItem as MainForm.Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
 
         #endregion
@@ -120,10 +120,10 @@ namespace Spicy
 
         private void MoveSelectedItemFromIncludedAndSort()
         {
-            if (ListOfIncluded.SelectedIndex != -1)
+            if (ListOfIncluded.SelectedItem != null)
             {
-                ListOfSounds.Items.Add((ListOfIncluded.SelectedItem as Sound).Name);
-                collectionOfIncludedSounds.RemoveAt(ListOfIncluded.SelectedIndex);
+                ListOfSounds.Items.Add((ListOfIncluded.SelectedItem as MainForm.Sound).Name);
+                collectionOfIncludedSounds.Remove(ListOfIncluded.SelectedItem as MainForm.Sound);
 
                 ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
             }
@@ -188,7 +188,7 @@ namespace Spicy
             using (BinaryWriter writer = new BinaryWriter(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Create)))
                 foreach (var sound in collectionOfIncludedSounds)
                 {
-                    string soundFileName = sound.Name + ".wav";
+                    string soundFileName = sound.Name + ".mp3";
                     string soundVolume = sound.Volume.ToString();
                     string soundRepetitionRate = sound.RepetitionRate.ToString();
                     writer.Write(soundFileName + " " + soundVolume + " " + soundRepetitionRate);

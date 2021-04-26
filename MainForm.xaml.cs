@@ -17,7 +17,7 @@ namespace Spicy
     public partial class MainForm : Window
     {
         readonly ObservableCollection<Sound> collectionOfSounds;
-        readonly List<MediaPlayer> players;
+        internal readonly List<MediaPlayer> players;
         readonly DoubleAnimation fadingAnimation;
         readonly DoubleAnimation appearanceAnimation;
         int musicVolume = 100;
@@ -185,14 +185,32 @@ namespace Spicy
             StopSounds();
             MinimizeSoundSettings();
             File.Delete("bin/templates/" + ListOfTemplates.SelectedItem.ToString() + ".bin");
-            ListOfTemplates.Items.RemoveAt(ListOfTemplates.SelectedIndex);
+            ListOfTemplates.Items.Remove(ListOfTemplates.SelectedItem);
+        }
+
+        void AddSoundButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddingSoundForm addingSoundForm = new AddingSoundForm
+            {
+                Owner = this
+            };
+            addingSoundForm.Show();
+        }
+
+        void DeleteSoundButton_Click(object sender, RoutedEventArgs e)
+        {
+            int soundIndex = collectionOfSounds.IndexOf(ListOfSounds.SelectedItem as Sound);
+            players[soundIndex].Stop();
+            players.RemoveAt(soundIndex);
+            collectionOfSounds.Remove(ListOfSounds.SelectedItem as Sound);
+            RewriteTemplateFile();
         }
 
         #region List of templates selection
 
         void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListOfTemplates.SelectedIndex != -1)
+            if (ListOfTemplates.SelectedItem != null)
             {
                 DeleteTemplateButton.IsEnabled = true;
                 ExpandSoundSettings();
@@ -228,10 +246,10 @@ namespace Spicy
             using (BinaryReader reader = new BinaryReader(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Open)))
                 while (reader.PeekChar() != -1)
                 {
-                    string[] soundNameAndSettings = reader.ReadString().Split(new[] { ".wav" }, StringSplitOptions.None);
+                    string[] soundNameAndSettings = reader.ReadString().Split(new[] { ".mp3" }, StringSplitOptions.None);
                     string[] soundSettings = soundNameAndSettings[1].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                     string soundName = soundNameAndSettings[0];
-                    double soundVolume = double.Parse(soundSettings[0], System.Globalization.CultureInfo.InvariantCulture) ;
+                    double soundVolume = double.Parse(soundSettings[0], System.Globalization.CultureInfo.InvariantCulture);
                     int soundRepetitionRate = Convert.ToInt32(soundSettings[1]);
                     collectionOfSounds.Add(new Sound(soundName, soundVolume, soundRepetitionRate));
                 }
@@ -252,7 +270,7 @@ namespace Spicy
                 players.Add(new MediaPlayer());
                 players[i].MediaEnded += MediaPlayerSoundEnded;
                 players[i].Volume = collectionOfSounds[i].Volume;
-                string soundPath = "sounds/" + collectionOfSounds[i].Name + ".wav";
+                string soundPath = "sounds/" + collectionOfSounds[i].Name + ".mp3";
                 players[i].Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + soundPath));
                 players[i].Play();
             }
@@ -266,7 +284,7 @@ namespace Spicy
             players.Clear();
         }
 
-        async void MediaPlayerSoundEnded(object sender, EventArgs e)
+        internal async void MediaPlayerSoundEnded(object sender, EventArgs e)
         {
             MediaPlayer player = sender as MediaPlayer;
             int soundIndex = players.IndexOf(player);
@@ -279,23 +297,13 @@ namespace Spicy
             }
         }
 
-        void AddSoundButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        void DeleteSoundButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region List of sounds selection
 
         void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListOfTemplates.SelectedIndex != -1 && ListOfSounds.SelectedItem != null)
+            if (ListOfTemplates.SelectedItem != null && ListOfSounds.SelectedItem != null)
             {
                 ExpandSoundVolumeAndRepetitionRate();
                 DeleteSoundButton.IsEnabled = true;
@@ -318,7 +326,7 @@ namespace Spicy
 
         void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (ListOfSounds.SelectedIndex != -1)
+            if (ListOfSounds.SelectedItem != null)
             {
                 (ListOfSounds.SelectedItem as Sound).Volume = SoundVolumeSlider.Value;
                 ChangeSoundVolume();
@@ -328,15 +336,16 @@ namespace Spicy
 
         void ChangeSoundVolume()
         {
-            players[ListOfSounds.SelectedIndex].Volume = (ListOfSounds.SelectedItem as Sound).Volume;
+            int soundIndex = collectionOfSounds.IndexOf(ListOfSounds.SelectedItem as Sound);
+            players[soundIndex].Volume = (ListOfSounds.SelectedItem as Sound).Volume;
         }
 
-        void RewriteTemplateFile()
+        internal void RewriteTemplateFile()
         {
             using (BinaryWriter writer = new BinaryWriter(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Create)))
                 foreach (var sound in collectionOfSounds)
                 {
-                    string soundFileName = sound.Name + ".wav";
+                    string soundFileName = sound.Name + ".mp3";
                     string soundVolume = sound.Volume.ToString();
                     string soundRepetitionRate = sound.RepetitionRate.ToString();
                     writer.Write(soundFileName + " " + soundVolume + " " + soundRepetitionRate);
@@ -345,7 +354,7 @@ namespace Spicy
 
         void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ListOfSounds.SelectedIndex != -1 && SoundRepetitionRateTextbox.Text.Length != 0)
+            if (ListOfSounds.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length != 0)
             {
                 (ListOfSounds.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
                 RewriteTemplateFile();
@@ -353,5 +362,11 @@ namespace Spicy
         }
 
         #endregion
+
+        internal void AddSoundInCollectionOfSoundsAndSort(Sound sound)
+        {
+            collectionOfSounds.Add(sound);
+            ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
     }
 }
