@@ -173,8 +173,10 @@ namespace Spicy
 
         void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
         {
-            TemplateCreationForm templateCreationForm = new TemplateCreationForm();
-            templateCreationForm.Owner = this;
+            TemplateCreationForm templateCreationForm = new TemplateCreationForm
+            {
+                Owner = this
+            };
             templateCreationForm.Show();
         }
 
