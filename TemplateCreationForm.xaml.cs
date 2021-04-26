@@ -12,6 +12,7 @@ namespace Spicy
     {
         readonly ObservableCollection<MainForm.Sound> collectionOfIncludedSounds;
         bool leftMouseDown = false;
+        bool soundRepetitionRateTextboxGotFocus = false;
 
         public TemplateCreationForm()
         {
@@ -203,5 +204,19 @@ namespace Spicy
         }
 
         #endregion
+
+        private void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            soundRepetitionRateTextboxGotFocus = true;
+        }
+
+        private void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (soundRepetitionRateTextboxGotFocus)
+            {
+                soundRepetitionRateTextboxGotFocus = false;
+                (sender as TextBox).SelectAll();
+            }
+        }
     }
 }

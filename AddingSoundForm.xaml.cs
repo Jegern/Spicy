@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Spicy
@@ -10,6 +11,7 @@ namespace Spicy
     public partial class AddingSoundForm : Window
     {
         MainForm.Sound newSound;
+        bool soundRepetitionRateTextboxGotFocus = false;
 
         public AddingSoundForm()
         {
@@ -60,6 +62,20 @@ namespace Spicy
             string soundPath = "sounds/" + newSound.Name + ".mp3";
             main.players[index].Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + soundPath));
             main.players[index].Play();
+        }
+
+        private void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            soundRepetitionRateTextboxGotFocus = true;
+        }
+
+        private void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (soundRepetitionRateTextboxGotFocus)
+            {
+                soundRepetitionRateTextboxGotFocus = false;
+                (sender as TextBox).SelectAll();
+            }
         }
     }
 }

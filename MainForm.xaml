@@ -25,19 +25,19 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Slider x:Name="MusicVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="MusicVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="3"/>
+                <Slider x:Name="MusicVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="MusicVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="3" TickFrequency="0.01"/>
                 <Button x:Name="MusicVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="MusicVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="3">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-                <Slider x:Name="AmbientVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="100" SmallChange="1" IsMoveToPointEnabled="True" Value="100" ValueChanged="AmbientVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="5"/>
+                <Slider x:Name="AmbientVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="AmbientVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="5" TickFrequency="0.01"/>
                 <Button x:Name="AmbientVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="AmbientVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="5">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-                <Slider x:Name="SfxVolumeSlider" HorizontalAlignment="Right" Margin="0,0,10,0" Width="106" BorderThickness="0,3,0,0" SmallChange="1" Maximum="100" IsMoveToPointEnabled="True" Value="100" ValueChanged="SfxVolumeSlider_ValueChanged" Grid.Column="1"/>
+                <Slider x:Name="SfxVolumeSlider" HorizontalAlignment="Right" Margin="0,0,10,0" Width="106" BorderThickness="0,3,0,0" SmallChange="0.01" Maximum="1" IsMoveToPointEnabled="True" Value="1" ValueChanged="SfxVolumeSlider_ValueChanged" Grid.Column="1" TickFrequency="0.01"/>
                 <Button x:Name="SfxVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="SfxVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="1">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
@@ -464,7 +464,7 @@
             <Slider x:Name="SoundVolumeSlider" Grid.Row="1" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="SoundVolumeSlider_ValueChanged" TickFrequency="0.01"/>
             <Label Grid.Row="1" Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
             <Label Content="Частота повторения" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="16" Grid.Row="2"/>
-            <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,30,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" Grid.Row="2" TextChanged="SoundRepetitionRateTextbox_TextChanged"/>
+            <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,30,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" Grid.Row="2" TextChanged="SoundRepetitionRateTextbox_TextChanged" SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged" GotFocus="SoundRepetitionRateTextbox_GotFocus"/>
             <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,30,154.6,0" Height="30" HorizontalAlignment="Center" FontSize="15" Grid.Row="2"/>
             <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,30,0,0" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia" Grid.Row="2"/>
             <Button x:Name="AddSoundButton" Grid.Row="3" Content="Добавить звук" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="AddSoundButton_Click">

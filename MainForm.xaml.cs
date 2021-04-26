@@ -20,9 +20,16 @@ namespace Spicy
         internal readonly List<MediaPlayer> players;
         readonly DoubleAnimation fadingAnimation;
         readonly DoubleAnimation appearanceAnimation;
-        int musicVolume = 100;
-        int ambientVolume = 100;
-        int sfxVolume = 100;
+        double musicVolume = 1.0;
+        double pastMusicVolume = 1.0;
+        bool musicIsMute = false;
+        double ambientVolume = 1.0;
+        double pastAmbientVolume = 1.0;
+        bool ambientIsMute = false;
+        double sfxVolume = 1.0;
+        double pastSfxVolume = 1.0;
+        bool sfxIsMute = false;
+        bool soundRepetitionRateTextboxGotFocus = false;
 
         public MainForm()
         {
@@ -74,46 +81,59 @@ namespace Spicy
 
         void MusicVolumeButton_Click(object sender, RoutedEventArgs e)
         {
-            RemoveOrReturnSound(MusicVolumeSlider, ref musicVolume);
+            MuteOrUnmuteGeneralSound(MusicVolumeSlider, ref musicIsMute, pastMusicVolume);
         }
 
-        void RemoveOrReturnSound(Slider slider, ref int volume)
+        void MuteOrUnmuteGeneralSound(Slider slider, ref bool generalSoundIsMute, double pastGeneralSound)
         {
-            if (volume == 0)
-            {
-                volume = (int)slider.Value;
-                slider.IsEnabled = true;
-            }
+            generalSoundIsMute = !generalSoundIsMute;
+            if (generalSoundIsMute)
+                slider.Value = 0;
             else
-            {
-                volume = 0;
-                slider.IsEnabled = false;
-            }
+                slider.Value = pastGeneralSound;
         }
 
         void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            musicVolume = (int)(sender as Slider).Value;
+            musicVolume = (sender as Slider).Value;
+            if (musicVolume != 0)
+            {
+                pastMusicVolume = musicVolume;
+                musicIsMute = false;
+            }
         }
 
         void AmbientVolumeButton_Click(object sender, RoutedEventArgs e)
         {
-            RemoveOrReturnSound(AmbientVolumeSlider, ref ambientVolume);
+            MuteOrUnmuteGeneralSound(AmbientVolumeSlider, ref ambientIsMute, pastAmbientVolume);
         }
 
         void AmbientVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ambientVolume = (int)(sender as Slider).Value;
+            ambientVolume = (sender as Slider).Value;
+            if (ambientVolume != 0)
+            {
+                pastAmbientVolume = ambientVolume;
+                ambientIsMute = false;
+            }
+            if (collectionOfSounds != null)
+                for (int i = 0; i < collectionOfSounds.Count; i++)
+                    players[i].Volume = collectionOfSounds[i].Volume * ambientVolume;
         }
 
         void SfxVolumeButton_Click(object sender, RoutedEventArgs e)
         {
-            RemoveOrReturnSound(SfxVolumeSlider, ref sfxVolume);
+            MuteOrUnmuteGeneralSound(SfxVolumeSlider, ref sfxIsMute, pastSfxVolume);
         }
 
         void SfxVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            sfxVolume = (int)(sender as Slider).Value;
+            sfxVolume = (sender as Slider).Value;
+            if (sfxVolume != 0)
+            {
+                pastSfxVolume = sfxVolume;
+                sfxIsMute = false;
+            }
         }
 
         #endregion
@@ -269,7 +289,7 @@ namespace Spicy
             {
                 players.Add(new MediaPlayer());
                 players[i].MediaEnded += MediaPlayerSoundEnded;
-                players[i].Volume = collectionOfSounds[i].Volume;
+                players[i].Volume = collectionOfSounds[i].Volume * ambientVolume;
                 string soundPath = "sounds/" + collectionOfSounds[i].Name + ".mp3";
                 players[i].Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + soundPath));
                 players[i].Play();
@@ -337,7 +357,7 @@ namespace Spicy
         void ChangeSoundVolume()
         {
             int soundIndex = collectionOfSounds.IndexOf(ListOfSounds.SelectedItem as Sound);
-            players[soundIndex].Volume = (ListOfSounds.SelectedItem as Sound).Volume;
+            players[soundIndex].Volume = (ListOfSounds.SelectedItem as Sound).Volume * ambientVolume;
         }
 
         internal void RewriteTemplateFile()
@@ -367,6 +387,20 @@ namespace Spicy
         {
             collectionOfSounds.Add(sound);
             ListOfSounds.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
+
+        private void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            soundRepetitionRateTextboxGotFocus = true;
+        }
+
+        private void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (soundRepetitionRateTextboxGotFocus)
+            {
+                soundRepetitionRateTextboxGotFocus = false;
+                (sender as TextBox).SelectAll();
+            }
         }
     }
 }
