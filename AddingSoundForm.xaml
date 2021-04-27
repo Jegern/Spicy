@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spicy"
         mc:Ignorable="d"
-        Title="Добавить звук" Height="210" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Loaded="AddingSoundWindow_Loaded">
+        Title="Добавить звук" Height="210" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="ListOfSounds" Grid.Column="0" Margin="0,30,0,0" SelectionChanged="ListOfSounds_SelectionChanged"/>
+        <ListBox x:Name="ListBoxOfAllSounds" Grid.Column="0" Margin="0,30,0,0" SelectionChanged="ListOfSounds_SelectionChanged"/>
         <TextBox Grid.Column="0" Height="30" VerticalAlignment="Top"/>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

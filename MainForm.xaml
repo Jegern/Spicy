@@ -8,7 +8,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition x:Name="SoundSettings" Width="1*"/>
+            <ColumnDefinition x:Name="SoundListAndSettings" Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -26,19 +26,19 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Slider x:Name="MusicVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="MusicVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="3" TickFrequency="0.01"/>
-                <Button x:Name="MusicVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="MusicVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="3">
+                <Button x:Name="MusicVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="VolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="3">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
                 <Slider x:Name="AmbientVolumeSlider" HorizontalAlignment="Right" Width="106" BorderThickness="0,3,0,0" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="AmbientVolumeSlider_ValueChanged" Margin="0,0,10,0" Grid.Column="5" TickFrequency="0.01"/>
-                <Button x:Name="AmbientVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="AmbientVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="5">
+                <Button x:Name="AmbientVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="VolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="5">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
                 <Slider x:Name="SfxVolumeSlider" HorizontalAlignment="Right" Margin="0,0,10,0" Width="106" BorderThickness="0,3,0,0" SmallChange="0.01" Maximum="1" IsMoveToPointEnabled="True" Value="1" ValueChanged="SfxVolumeSlider_ValueChanged" Grid.Column="1" TickFrequency="0.01"/>
-                <Button x:Name="SfxVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="SfxVolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="1">
+                <Button x:Name="SfxVolumeButton" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="20" BorderThickness="0" Click="VolumeButton_Click" Cursor="Hand" Margin="0,2,0,2.8" Grid.Column="1">
                     <Button.Background>
                         <ImageBrush ImageSource="Sound icon.png" Stretch="Uniform"/>
                     </Button.Background>
@@ -68,11 +68,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="sfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <Button x:Name="SfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon1" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -82,12 +82,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock1" Text="Добавить звук" Opacity="0" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock1" Text="Добавить звук" Opacity="0" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon5" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon5" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -97,12 +97,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock5" Text="Добавить звук" Opacity="0" Grid.Row="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock5" Text="Добавить звук" Opacity="0" Grid.Row="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon9" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon9" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -112,12 +112,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock9" Text="Добавить звук" Opacity="0" Grid.Row="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock9" Text="Добавить звук" Opacity="0" Grid.Row="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon13" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon13" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -127,12 +127,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock13" Text="Добавить звук" Opacity="0" Grid.Row="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton17" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock13" Text="Добавить звук" Opacity="0" Grid.Row="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton17" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon17" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon17" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -142,12 +142,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock17" Text="Добавить звук" Opacity="0" Grid.Row="4" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton21" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock17" Text="Добавить звук" Opacity="0" Grid.Row="4" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton21" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon21" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon21" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -157,12 +157,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock21" Text="Добавить звук" Opacity="0" Grid.Row="5" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock21" Text="Добавить звук" Opacity="0" Grid.Row="5" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon2" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon2" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -172,12 +172,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock2" Text="Добавить звук" Opacity="0" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock2" Text="Добавить звук" Opacity="0" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon6" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon6" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -187,12 +187,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock6" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock6" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon10" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon10" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -202,12 +202,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock10" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock10" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon14" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon14" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -217,12 +217,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock14" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton18" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock14" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton18" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon18" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon18" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -232,12 +232,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock18" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton22" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock18" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton22" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="1" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon22" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon22" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -247,12 +247,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock22" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock22" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="1" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon3" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon3" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -262,12 +262,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock3" Text="Добавить звук" Opacity="0" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock3" Text="Добавить звук" Opacity="0" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon7" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon7" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -277,12 +277,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock7" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock7" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon11" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon11" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -292,12 +292,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock11" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock11" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon15" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon15" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -307,12 +307,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock15" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton19" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock15" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton19" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon19" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon19" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -322,12 +322,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock19" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton23" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock19" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton23" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="2" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon23" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon23" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -337,12 +337,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock23" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock23" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="2" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon4" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon4" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -352,12 +352,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock4" Text="Добавить звук" Opacity="0" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock4" Text="Добавить звук" Opacity="0" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon8" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon8" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -367,12 +367,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock8" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock8" Text="Добавить звук" Opacity="0" Grid.Row="1" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon12" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon12" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -382,12 +382,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock12" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton16" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock12" Text="Добавить звук" Opacity="0" Grid.Row="2" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton16" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon16" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon16" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -397,12 +397,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock16" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton20" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="sfxButton_MouseEnter" MouseLeave="sfxButton_MouseLeave">
+                    <TextBlock x:Name="SfxTextBlock16" Text="Добавить звук" Opacity="0" Grid.Row="3" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton20" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseEnter="SfxButton_MouseEnter" MouseLeave="SfxButton_MouseLeave">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon20" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon20" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -412,12 +412,12 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock20" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
-                    <Button x:Name="sfxButton24" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseLeave="sfxButton_MouseLeave" MouseEnter="sfxButton_MouseEnter">
+                    <TextBlock x:Name="SfxTextBlock20" Text="Добавить звук" Opacity="0" Grid.Row="4" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <Button x:Name="SfxButton24" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="5" Grid.Column="3" Height="66" Click="SfxButton_Click" MouseLeave="SfxButton_MouseLeave" MouseEnter="SfxButton_MouseEnter">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Ellipse x:Name="sfxButtonIcon24" Stroke="Black" Opacity="0">
+                                    <Ellipse x:Name="SfxButtonIcon24" Stroke="Black" Opacity="0">
                                         <Ellipse.Fill>
                                             <ImageBrush ImageSource="Plus icon.png"/>
                                         </Ellipse.Fill>
@@ -427,10 +427,10 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <TextBlock x:Name="sfxTextBlock24" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
+                    <TextBlock x:Name="SfxTextBlock24" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
                 </Grid>
-                <ListBox FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1" Margin="5"/>
-                <ListBox x:Name="ListOfTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="5,5,5,65" SelectionChanged="ListOfTemplates_SelectionChanged"/>
+                <ListBox x:Name="ListBoxOfMelodies" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1" Margin="5"/>
+                <ListBox x:Name="ListBoxOfTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="5,5,5,65" SelectionChanged="ListOfTemplates_SelectionChanged"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="60" VerticalAlignment="Bottom">
                     <Button x:Name="CreateTemplateButton" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
                         <Button.Resources>
@@ -460,7 +460,7 @@
                 <RowDefinition x:Name="SoundRepetitionRateRow" Height="60"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <ListBox x:Name="ListOfSounds" Grid.Row="0" BorderThickness="0" Margin="5" SelectionChanged="ListOfSounds_SelectionChanged"/>
+            <ListBox x:Name="ListBoxOfTemplateSounds" Grid.Row="0" BorderThickness="0" Margin="5" SelectionChanged="ListOfSounds_SelectionChanged"/>
             <Slider x:Name="SoundVolumeSlider" Grid.Row="1" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="SoundVolumeSlider_ValueChanged" TickFrequency="0.01"/>
             <Label Grid.Row="1" Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
             <Label Content="Частота повторения" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="16" Grid.Row="2"/>

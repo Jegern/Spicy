@@ -10,213 +10,203 @@ namespace Spicy
 {
     public partial class TemplateCreationForm : Window
     {
-        readonly ObservableCollection<MainForm.Sound> collectionOfIncludedSounds;
+        readonly ObservableCollection<MainForm.Sound> collectionOfSelectedSounds = new ObservableCollection<MainForm.Sound>();
         bool leftMouseDown = false;
-        bool soundRepetitionRateTextboxGotFocus = false;
+        bool soundRepetitionRateTextBoxGotFocus = false;
 
+        #region Initialization
         public TemplateCreationForm()
         {
             InitializeComponent();
+            InitializeOtherComponent();
+        }
+
+        void InitializeOtherComponent()
+        {
+            InitializeListBoxOfAllSounds();
+            InitializeListBoxOfSelectedSounds();
             TemplateName.Focus();
-            collectionOfIncludedSounds = new ObservableCollection<MainForm.Sound>();
-            ListOfIncluded.ItemsSource = collectionOfIncludedSounds;
-            ListOfIncluded.DisplayMemberPath = "Name";
         }
 
-        private void ListOfSounds_Loaded(object sender, RoutedEventArgs e)
+        void InitializeListBoxOfAllSounds()
         {
-            DirectoryInfo directory = new DirectoryInfo("sounds/");
-            foreach (var fileName in directory.GetFiles("*.mp3"))
-                ListOfSounds.Items.Add(fileName.Name.Replace(".mp3", ""));
-            ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+            ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfAllSounds, "sounds", "mp3");
+            ListBoxFunctions.SortAscending(ListBoxOfAllSounds);
         }
 
-        #region Sounds -> Included
-
-        private void ListOfSounds_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        void InitializeListBoxOfSelectedSounds()
         {
-            MoveSelectedSoundToIncludedAndSort();
+            ListBoxOfSelectedSounds.ItemsSource = collectionOfSelectedSounds;
+            ListBoxOfSelectedSounds.DisplayMemberPath = "Name";
+        }
+        #endregion
+
+
+        #region Move from all to selected
+        void ListBoxOfAllSounds_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveSoundFromAllToSelectedAndSort();
         }
 
-        private void MoveSelectedSoundToIncludedAndSort()
+        void MoveSoundFromAllToSelectedAndSort()
         {
-            if (ListOfSounds.SelectedItem != null)
+            if (ListBoxOfAllSounds.SelectedItem != null)
             {
-                string soundName = ListOfSounds.SelectedItem.ToString();
-                collectionOfIncludedSounds.Add(NewSoundWithSettings(soundName));
-                ListOfSounds.Items.Remove(ListOfSounds.SelectedItem);
-
-                ListOfIncluded.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+                MoveSoundFromAllToSelected();
+                ListBoxFunctions.SortAscending(ListBoxOfSelectedSounds, "Name");
             }
         }
 
-        private MainForm.Sound NewSoundWithSettings(string name)
+        void MoveSoundFromAllToSelected()
+        {
+            string soundName = ListBoxOfAllSounds.SelectedItem.ToString();
+            collectionOfSelectedSounds.Add(CreateSoundWithSettings(soundName));
+            ListBoxOfAllSounds.Items.Remove(soundName);
+        }
+
+        MainForm.Sound CreateSoundWithSettings(string name)
         {
             double volume = SoundVolumeSlider.Value;
             int.TryParse(SoundRepetitionRateTextbox.Text, out int repetitionRate);
 
             return new MainForm.Sound(name, volume, repetitionRate);
         }
+        #endregion
 
-        private void ListOfSounds_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        #region Move from selected to all
+        void ListBoxOfSelectedSounds_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MoveSoundFromSelectedToAllAndSort();
+        }
+
+        void MoveSoundFromSelectedToAllAndSort()
+        {
+            if (ListBoxOfSelectedSounds.SelectedItem != null)
+            {
+                MoveSoundFromSelectedToAll();
+                ListBoxFunctions.SortAscending(ListBoxOfAllSounds);
+            }
+        }
+
+        void MoveSoundFromSelectedToAll()
+        {
+            MainForm.Sound selectedSound = ListBoxOfSelectedSounds.SelectedItem as MainForm.Sound;
+            ListBoxOfAllSounds.Items.Add(selectedSound.Name);
+            collectionOfSelectedSounds.Remove(selectedSound);
+        }
+        #endregion
+
+
+        #region Drag & drop
+        //Переменная становится true, если левая кнопка мыши была нажата на ListBox (sender)
+        void SetLeftMouseDownTrue(object sender, EventArgs e)
         {
             leftMouseDown = true;
         }
 
-        private void ListOfSounds_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //Переменная становится false, если левая кнопка мыши была отпущена на ListBox (sender) или курсор был выведен за пределы компонента
+        void SetLeftMouseDownFalse(object sender, EventArgs e)
         {
             leftMouseDown = false;
         }
 
-        private void ListOfSounds_MouseLeave(object sender, MouseEventArgs e)
-        {
-            leftMouseDown = false;
-        }
-
-        private void ListOfSounds_PreviewMouseMove(object sender, MouseEventArgs e)
+        void ListBoxOfAllSounds_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (leftMouseDown)
-                DragDrop.DoDragDrop(ListOfSounds, ListOfSounds, DragDropEffects.Move);
+                DragDrop.DoDragDrop(ListBoxOfAllSounds, ListBoxOfAllSounds, DragDropEffects.Move);
         }
 
-        private void ListOfIncluded_Drop(object sender, DragEventArgs e)
+        void ListBoxOfAllSounds_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetData(typeof(ListBox)) as ListBox == ListOfSounds)
-                MoveSelectedSoundToIncludedAndSort();
+            MoveSoundFromSelectedToAllAndSort();
         }
 
+        void ListBoxOfSelectedSounds_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (leftMouseDown)
+                DragDrop.DoDragDrop(ListBoxOfSelectedSounds, ListBoxOfSelectedSounds, DragDropEffects.Move);
+        }
+
+        void ListBoxOfSelectedSounds_Drop(object sender, DragEventArgs e)
+        {
+            MoveSoundFromAllToSelectedAndSort();
+        }
+
+        //Эффект применяется, если проводится перенос в тот же ListBox, из которого взяты данные
+        void ApplyNoneEffectToListBox(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(typeof(ListBox)) as ListBox == sender as ListBox)
+            {
+                e.Handled = true;
+                e.Effects = DragDropEffects.None;
+            }
+        }
         #endregion
 
-        #region List of included selection
 
-        private void ListOfIncluded_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        #region Control components of selected sounds
+        void ListBoxOfSelectedSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListOfIncluded.SelectedItem != null)
+            if (ListBoxOfSelectedSounds.SelectedItem != null)
             {
-                SoundVolumeSlider.Value = (ListOfIncluded.SelectedItem as MainForm.Sound).Volume;
-                SoundRepetitionRateTextbox.Text = (ListOfIncluded.SelectedItem as MainForm.Sound).RepetitionRate.ToString();
+                MainForm.Sound selectedSound = ListBoxOfSelectedSounds.SelectedItem as MainForm.Sound;
+                SoundVolumeSlider.Value = selectedSound.Volume;
+                SoundRepetitionRateTextbox.Text = selectedSound.RepetitionRate.ToString();
             }
         }
 
-        private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (ListOfIncluded.SelectedItem != null)
-                (ListOfIncluded.SelectedItem as MainForm.Sound).Volume = SoundVolumeSlider.Value;
+            if (ListBoxOfSelectedSounds.SelectedItem != null)
+                (ListBoxOfSelectedSounds.SelectedItem as MainForm.Sound).Volume = SoundVolumeSlider.Value;
         }
 
-        private void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ListOfIncluded.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length != 0)
-                (ListOfIncluded.SelectedItem as MainForm.Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
+            if (ListBoxOfSelectedSounds.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length > 0)
+                (ListBoxOfSelectedSounds.SelectedItem as MainForm.Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
 
-        #endregion
-
-        #region Included -> Sounds
-
-        private void ListOfIncluded_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
         {
-            MoveSelectedItemFromIncludedAndSort();
+            soundRepetitionRateTextBoxGotFocus = true;
         }
 
-        private void MoveSelectedItemFromIncludedAndSort()
+        void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (ListOfIncluded.SelectedItem != null)
+            if (soundRepetitionRateTextBoxGotFocus)
             {
-                ListOfSounds.Items.Add((ListOfIncluded.SelectedItem as MainForm.Sound).Name);
-                collectionOfIncludedSounds.Remove(ListOfIncluded.SelectedItem as MainForm.Sound);
-
-                ListOfSounds.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+                soundRepetitionRateTextBoxGotFocus = false;
+                (sender as TextBox).SelectAll();
             }
         }
-
-        private void ListOfIncluded_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            leftMouseDown = true;
-        }
-
-        private void ListOfIncluded_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            leftMouseDown = false;
-        }
-
-        private void ListOfIncluded_MouseLeave(object sender, MouseEventArgs e)
-        {
-            leftMouseDown = false;
-        }
-
-        private void ListOfIncluded_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (leftMouseDown)
-                DragDrop.DoDragDrop(ListOfIncluded, ListOfIncluded, DragDropEffects.Move);
-        }
-
-        private void ListOfSounds_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetData(typeof(ListBox)) as ListBox == ListOfIncluded)
-                MoveSelectedItemFromIncludedAndSort();
-        }
-
         #endregion
+
 
         #region Сompletion of template creation
-
-        private void TemplateName_KeyUp(object sender, KeyEventArgs e)
+        void TemplateName_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                CreateTemplateAndCloseForm();
+                CompleteTemplateCreation();
         }
 
-        private void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
+        void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateTemplateAndCloseForm();
+            CompleteTemplateCreation();
         }
 
-        private void CreateTemplateAndCloseForm()
+        void CompleteTemplateCreation()
         {
-            if (TemplateName.Text.Length != 0)
+            if (TemplateName.Text.Length > 0)
             {
-                WriteTemplateInFile();
-                AddToListOfReadyMadeTemplates();
+                FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateName.Text);
+                (Owner as MainForm).AddTemplateToListBoxOfTemplates(TemplateName.Text);
                 Close();
             }
             else
                 MessageBox.Show("Пожалуйста, введите имя шаблона", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-
-        private void WriteTemplateInFile()
-        {
-            using (BinaryWriter writer = new BinaryWriter(File.Open("bin/templates/" + TemplateName.Text + ".bin", FileMode.Create)))
-                foreach (var sound in collectionOfIncludedSounds)
-                {
-                    string soundFileName = sound.Name + ".mp3";
-                    string soundVolume = sound.Volume.ToString();
-                    string soundRepetitionRate = sound.RepetitionRate.ToString();
-                    writer.Write(soundFileName + " " + soundVolume + " " + soundRepetitionRate);
-                }
-        }
-
-        private void AddToListOfReadyMadeTemplates()
-        {
-            ListBox listOfTemplates = (Owner as MainForm).ListOfTemplates;
-            listOfTemplates.Items.Add(TemplateName.Text);
-            listOfTemplates.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
-        }
-
         #endregion
-
-        private void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            soundRepetitionRateTextboxGotFocus = true;
-        }
-
-        private void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (soundRepetitionRateTextboxGotFocus)
-            {
-                soundRepetitionRateTextboxGotFocus = false;
-                (sender as TextBox).SelectAll();
-            }
-        }
     }
 }
