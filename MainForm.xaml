@@ -429,19 +429,35 @@
                     </Button>
                     <TextBlock x:Name="SfxTextBlock24" Text="Добавить звук" Opacity="0" Grid.Row="5" Grid.Column="3" Margin="0,71,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" Height="32"/>
                 </Grid>
-                <ListBox x:Name="ListBoxOfMelodies" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1" Margin="5"/>
+                <ListBox x:Name="ListBoxOfMelodies" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="1" Margin="5,5,5,65" MouseDoubleClick="ListBoxOfMelodies_MouseDoubleClick"/>
                 <ListBox x:Name="ListBoxOfTemplates" FontWeight="Bold" VerticalContentAlignment="Stretch" BorderThickness="0" Grid.Column="2" Loaded="ListOfReadyMadeTemplates_Loaded" Margin="5,5,5,65" SelectionChanged="ListOfTemplates_SelectionChanged"/>
-                <Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="60" VerticalAlignment="Bottom">
-                    <Button x:Name="CreateTemplateButton" Content="Создать шаблон" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
+                <Grid Grid.Column="2" Height="60" VerticalAlignment="Bottom">
+                    <Button x:Name="CreateTemplateButton" Content="Создать" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="DeleteTemplateButton" Content="Удалить шаблон" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="DeleteTemplateButton_Click" IsEnabled="False">
+                    <Button x:Name="DeleteTemplateButton" Content="Удалить" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="DeleteTemplateButton_Click" IsEnabled="False">
                         <Button.Resources>
                             <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+                <Grid Grid.Column="1" Height="60" VerticalAlignment="Bottom">
+                    <Button x:Name="AddMelodyButton" Content="Добавить" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="AddMelodyButton_Click">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="DeleteMelodyButton" Content="Удалить" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="DeleteMelodyButton_Click">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Button.Resources>
@@ -462,19 +478,19 @@
             </Grid.RowDefinitions>
             <ListBox x:Name="ListBoxOfTemplateSounds" Grid.Row="0" BorderThickness="0" Margin="5" SelectionChanged="ListOfSounds_SelectionChanged"/>
             <Slider x:Name="SoundVolumeSlider" Grid.Row="1" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" ValueChanged="SoundVolumeSlider_ValueChanged" TickFrequency="0.01"/>
-            <Label Grid.Row="1" Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
-            <Label Content="Частота повторения" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="16" Grid.Row="2"/>
+            <Label Grid.Row="1" Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="18"/>
+            <Label Content="Частота повторения" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="18" Grid.Row="2" VerticalContentAlignment="Center"/>
             <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,30,0,0" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" Grid.Row="2" TextChanged="SoundRepetitionRateTextbox_TextChanged" SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged" GotFocus="SoundRepetitionRateTextbox_GotFocus"/>
             <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,30,154.6,0" Height="30" HorizontalAlignment="Center" FontSize="15" Grid.Row="2"/>
             <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,30,0,0" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia" Grid.Row="2"/>
-            <Button x:Name="AddSoundButton" Grid.Row="3" Content="Добавить звук" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="AddSoundButton_Click">
+            <Button x:Name="AddSoundButton" Grid.Row="3" Content="Добавить" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="AddSoundButton_Click">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="8"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="DeleteSoundButton" Grid.Row="3" Content="Удалить звук" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Click="DeleteSoundButton_Click" IsEnabled="False">
+            <Button x:Name="DeleteSoundButton" Grid.Row="3" Content="Удалить" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0" FontFamily="Georgia" FontSize="18" Padding="8" Background="White" BorderBrush="Black" Click="DeleteSoundButton_Click" IsEnabled="False">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="8"/>

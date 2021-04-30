@@ -1,13 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using static Spicy.MainForm;
 
 namespace Spicy
 {
     public partial class AddingSoundForm : Window
     {
-        MainForm.Sound sound;
+        internal Sound sound;
         bool soundRepetitionRateTextboxGotFocus = false;
 
         public AddingSoundForm()
@@ -48,7 +48,9 @@ namespace Spicy
         {
             if (sound != null)
             {
-                (Owner as MainForm).PlaySoundAndAddToListBoxOfSounds(sound);
+                ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
+                (Owner as MainForm).PlaySound(sound);
+                (Owner as MainForm).RewriteTemplateFile();
                 Close();
             }
             else

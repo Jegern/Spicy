@@ -16,32 +16,13 @@ namespace Spicy
 {
     public partial class MainForm : Window
     {
-        ObservableCollection<Sound> collectionOfTemplateSounds = new ObservableCollection<Sound>();
-        internal readonly List<MediaPlayer> players = new List<MediaPlayer>();
-        readonly DoubleAnimation fadingAnimation = new DoubleAnimation
-        {
-            From = 1,
-            To = 0,
-            Duration = new Duration(TimeSpan.FromMilliseconds(500))
-        };
-        readonly DoubleAnimation appearanceAnimation = new DoubleAnimation
-        {
-            From = 0,
-            To = 1,
-            Duration = new Duration(TimeSpan.FromMilliseconds(500)),
-        };
-        Slider[] volumeSliders;
-        Button[] volumeButtons;
-        double[] volume = new[] { 1.0, 1.0, 1.0 };
-        double[] pastVolume = new[] { 1.0, 1.0, 1.0 };
-        bool[] volumeIsMute = new[] { false, false, false };
-        bool soundRepetitionRateTextBoxGotFocus = false;
-
         #region Initialization
         public MainForm()
         {
             InitializeComponent();
             InitializeOtherComponent();
+            volumeSliders = new[] { SfxVolumeSlider, MusicVolumeSlider, AmbientVolumeSlider };
+            volumeButtons = new[] { SfxVolumeButton, MusicVolumeButton, AmbientVolumeButton };
         }
 
         void InitializeOtherComponent()
@@ -49,11 +30,9 @@ namespace Spicy
             InitializeListBoxOfTemplateSounds();
             MinimizeSoundListAndSettings();
             MinimizeSoundSettings();
-            volumeSliders = new[] { SfxVolumeSlider, MusicVolumeSlider, AmbientVolumeSlider };
-            volumeButtons = new[] { SfxVolumeButton, MusicVolumeButton, AmbientVolumeButton };
         }
 
-        private void InitializeListBoxOfTemplateSounds()
+        void InitializeListBoxOfTemplateSounds()
         {
             ListBoxOfTemplateSounds.ItemsSource = collectionOfTemplateSounds;
             ListBoxOfTemplateSounds.DisplayMemberPath = "Name";
@@ -62,7 +41,7 @@ namespace Spicy
         void MinimizeSoundListAndSettings()
         {
             SoundListAndSettings.Width = new GridLength(0, GridUnitType.Star);
-            Width -= 287;
+            Width -= Width / 4;
         }
 
         void MinimizeSoundSettings()
@@ -73,13 +52,20 @@ namespace Spicy
 
         void ListOfReadyMadeTemplates_Loaded(object sender, RoutedEventArgs e)
         {
-            ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfTemplates, "custom templates", "bin");
+            ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfTemplates, "sound templates", "bin");
             ListBoxFunctions.SortAscending(ListBoxOfTemplates);
         }
         #endregion
 
 
         #region General sound control
+        readonly Slider[] volumeSliders;
+        readonly Button[] volumeButtons;
+        readonly double[] volume = new[] { 1.0, 1.0, 1.0 };
+        readonly double[] pastVolume = new[] { 1.0, 1.0, 1.0 };
+        readonly bool[] volumeIsMute = new[] { false, false, false };
+        bool soundRepetitionRateTextBoxGotFocus = false;
+
         void VolumeButton_Click(object sender, RoutedEventArgs e)
         {
             MuteOrUnmuteGeneralSound(sender);
@@ -116,6 +102,12 @@ namespace Spicy
         {
             if (volumeSliders != null)
                 ChangeGeneralVolume(sender);
+            ApplyMusicVolumeToMelodyMediaPlayer();
+        }
+
+        void ApplyMusicVolumeToMelodyMediaPlayer()
+        {
+            melodyMediaPlayer.Volume = volume[1];
         }
 
         void AmbientVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -128,12 +120,25 @@ namespace Spicy
         void ApplyAmbientVolumeToTemplateSounds()
         {
             for (int i = 0; i < collectionOfTemplateSounds.Count; i++)
-                players[i].Volume = collectionOfTemplateSounds[i].Volume * volume[2];
+                mediaPlayers[i].Volume = collectionOfTemplateSounds[i].Volume * volume[2];
         }
         #endregion
 
 
         #region Button animation
+        readonly DoubleAnimation fadingAnimation = new DoubleAnimation
+        {
+            From = 1,
+            To = 0,
+            Duration = new Duration(TimeSpan.FromMilliseconds(500))
+        };
+        readonly DoubleAnimation appearanceAnimation = new DoubleAnimation
+        {
+            From = 0,
+            To = 1,
+            Duration = new Duration(TimeSpan.FromMilliseconds(500)),
+        };
+
         void SfxButton_MouseEnter(object sender, MouseEventArgs e)
         {
             AnimateButtonIconAndTextBlock(sender, appearanceAnimation);
@@ -176,8 +181,8 @@ namespace Spicy
         {
             Button button = sender as Button;
             string buttonNumber = Regex.Match(button.Name, @"[0-9]{1,2}").ToString();
-            AddIconToSfxButton(button, "sfxButtonIcon" + buttonNumber);
-            AddTextToSfxTextBlock("sfxTextBlock" + buttonNumber, "SFX звук");
+            AddIconToSfxButton(button, "SfxButtonIcon" + buttonNumber);
+            AddTextToSfxTextBlock("SfxTextBlock" + buttonNumber, "SFX звук");
         }
 
         void AddIconToSfxButton(Button button, string buttonIconName)
@@ -191,11 +196,12 @@ namespace Spicy
             TextBlock textBlock = sfxGrid.FindName(textBlockName) as TextBlock;
             textBlock.Text = text;
         }
-
         #endregion
 
 
         #region Control components of templates
+        readonly List<MediaPlayer> mediaPlayers = new List<MediaPlayer>();
+
         void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListBoxOfTemplates.SelectedItem != null)
@@ -205,7 +211,10 @@ namespace Spicy
                 LoadAndPlaySelectedTemplate();
             }
             else
+            {
                 DeleteTemplateButton.IsEnabled = false;
+                TemplateName.Text = string.Empty;
+            }
         }
 
         void ExpandSoundListAndSettings()
@@ -213,14 +222,14 @@ namespace Spicy
             GridLength oneStarLength = new GridLength(1, GridUnitType.Star);
             if (SoundListAndSettings.Width != oneStarLength)
             {
-                Width += 287;
+                Width += Width / 3;
                 if (SystemParameters.PrimaryScreenWidth - Left < Width)
                     Left = SystemParameters.PrimaryScreenWidth - Width;
             }
             SoundListAndSettings.Width = oneStarLength;
         }
 
-        private void LoadAndPlaySelectedTemplate()
+        void LoadAndPlaySelectedTemplate()
         {
             ChangeTextInTemplateName();
             LoadNewTemplateSoundsInCollection();
@@ -236,15 +245,15 @@ namespace Spicy
         void LoadNewTemplateSoundsInCollection()
         {
             collectionOfTemplateSounds.Clear();
-            FileWork.ReadFileToSoundCollection(ref collectionOfTemplateSounds, TemplateName.Text);
+            FileWork.ReadFileToSoundCollection(collectionOfTemplateSounds, TemplateName.Text);
             ListBoxFunctions.SortAscending(ListBoxOfTemplateSounds, "Name");
         }
 
         void StopCurrentTemplateSounds()
         {
-            for (int i = 0; i < players.Count; i++)
-                players[i].Stop();
-            players.Clear();
+            for (int i = 0; i < mediaPlayers.Count; i++)
+                mediaPlayers[i].Stop();
+            mediaPlayers.Clear();
         }
 
         void PlaySoundsInSelectedTemplate()
@@ -257,21 +266,21 @@ namespace Spicy
         {
             MediaPlayer mediaPlayer = ConfiguredMediaPlayer(sound);
             mediaPlayer.Play();
-            players.Add(mediaPlayer);
+            mediaPlayers.Add(mediaPlayer);
         }
 
         MediaPlayer ConfiguredMediaPlayer(Sound sound)
         {
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.MediaEnded += MediaPlayerSoundEnded;
-            mediaPlayer.Volume = sound.Volume * volume[2];
+            mediaPlayer.Volume = 2 * sound.Volume * volume[2];
             string soundPath = "sounds/" + sound.Name + ".mp3";
             mediaPlayer.Open(new Uri(soundPath, UriKind.Relative));
 
             return mediaPlayer;
         }
 
-        internal async void MediaPlayerSoundEnded(object sender, EventArgs e)
+        async void MediaPlayerSoundEnded(object sender, EventArgs e)
         {
             MediaPlayer mediaPlayer = sender as MediaPlayer;
             await Task.Delay(GetDelay(mediaPlayer));
@@ -280,7 +289,7 @@ namespace Spicy
 
         int GetDelay(MediaPlayer mediaPlayer)
         {
-            int soundIndex = players.IndexOf(mediaPlayer);
+            int soundIndex = mediaPlayers.IndexOf(mediaPlayer);
             int repetitionRate = collectionOfTemplateSounds[soundIndex].RepetitionRate;
 
             return repetitionRate * 1000;
@@ -288,7 +297,7 @@ namespace Spicy
 
         void ReplayMediaPlayer(MediaPlayer mediaPlayer)
         {
-            if (players.Contains(mediaPlayer))
+            if (mediaPlayers.Contains(mediaPlayer))
             {
                 mediaPlayer.Position = new TimeSpan(0);
                 mediaPlayer.Play();
@@ -313,13 +322,15 @@ namespace Spicy
 
         void DeleteTemplate(string name)
         {
-            File.Delete("custom templates/" + name + ".bin");
+            File.Delete("sound templates/" + name + ".bin");
             ListBoxOfTemplates.Items.Remove(name);
         }
         #endregion
 
 
         #region Control components of template sounds
+        readonly ObservableCollection<Sound> collectionOfTemplateSounds = new ObservableCollection<Sound>();
+
         void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ListBoxOfTemplateSounds.SelectedItem != null)
@@ -375,7 +386,7 @@ namespace Spicy
         void ChangeSoundVolume()
         {
             int soundIndex = collectionOfTemplateSounds.IndexOf(ListBoxOfTemplateSounds.SelectedItem as Sound);
-            players[soundIndex].Volume = (ListBoxOfTemplateSounds.SelectedItem as Sound).Volume * volume[2];
+            mediaPlayers[soundIndex].Volume = (ListBoxOfTemplateSounds.SelectedItem as Sound).Volume * volume[2];
         }
 
         void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
@@ -409,31 +420,86 @@ namespace Spicy
             RewriteTemplateFile();
         }
 
-        private void StopDeletableSound(Sound sound)
+        void StopDeletableSound(Sound sound)
         {
             int soundIndex = collectionOfTemplateSounds.IndexOf(ListBoxOfTemplateSounds.SelectedItem as Sound);
-            players[soundIndex].Stop();
-            players.RemoveAt(soundIndex);
+            mediaPlayers[soundIndex].Stop();
+            mediaPlayers.RemoveAt(soundIndex);
         }
         #endregion
 
-        internal void PlaySoundAndAddToListBoxOfSounds(Sound sound)
+
+        #region Control components of melodies
+        readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
+
+        void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            AddSoundToCollection(sound);
-            PlaySound(sound);
-            RewriteTemplateFile();
+            AddingMelodyForm addingMelodyForm = new AddingMelodyForm
+            {
+                Owner = this
+            };
+            addingMelodyForm.Show();
         }
 
-        void AddSoundToCollection(Sound sound)
+        void DeleteMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            collectionOfTemplateSounds.Add(sound);
-            ListBoxFunctions.SortAscending(ListBoxOfTemplateSounds);
+            string selectedMelody = (string)ListBoxOfMelodies.SelectedItem;
+            StopIfItPlayingMelody(selectedMelody);
+            ListBoxOfMelodies.Items.Remove(selectedMelody);
+            RewriteMelodiesFile();
         }
 
-        internal void AddTemplateToListBoxOfTemplates(string name)
+        void StopIfItPlayingMelody(string melody)
         {
-            ListBoxOfTemplates.Items.Add(name);
-            ListBoxFunctions.SortAscending(ListBoxOfTemplates);
+            if (melodyMediaPlayer.Source != null)
+            {
+                string playingMelody = System.IO.Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
+                if (melody == playingMelody)
+                {
+                    melodyMediaPlayer.Stop();
+                    PlayNextMelody(GetNextMelodyIndex());
+                }
+            }
         }
+
+        int GetNextMelodyIndex()
+        {
+            string playingMelody = System.IO.Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
+            return ListBoxOfMelodies.Items.IndexOf(playingMelody) + 1;
+        }
+
+        void PlayNextMelody(int index)
+        {
+            if (ListBoxOfMelodies.Items.Count > 0)
+            {
+                if (index == ListBoxOfMelodies.Items.Count)
+                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[0] + ".mp3", UriKind.Relative));
+                else
+                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[index] + ".mp3", UriKind.Relative));
+                melodyMediaPlayer.Play();
+            }
+        }
+
+        internal void RewriteMelodiesFile()
+        {
+            if (TemplateName.Text.Length > 0)
+                FileWork.WriteMelodiesToFile(ListBoxOfMelodies.Items, TemplateName.Text);
+        }
+
+        void ListBoxOfMelodies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                melodyMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
+                melodyMediaPlayer.Volume = volume[1];
+                PlayNextMelody(0);
+            }
+        }
+
+        void MediaPlayerMelodyEnded(object sender, EventArgs e)
+        {
+            PlayNextMelody(GetNextMelodyIndex());
+        }
+        #endregion
     }
 }

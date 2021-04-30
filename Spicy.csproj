@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddingMelodyForm.xaml.cs">
+      <DependentUpon>AddingMelodyForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddingSoundForm.xaml.cs">
       <DependentUpon>AddingSoundForm.xaml</DependentUpon>
     </Compile>
@@ -68,6 +71,10 @@
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddingMelodyForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddingSoundForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

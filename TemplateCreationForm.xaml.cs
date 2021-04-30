@@ -201,7 +201,7 @@ namespace Spicy
             if (TemplateName.Text.Length > 0)
             {
                 FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateName.Text);
-                (Owner as MainForm).AddTemplateToListBoxOfTemplates(TemplateName.Text);
+                ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
                 Close();
             }
             else
