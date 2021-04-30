@@ -198,14 +198,28 @@ namespace Spicy
 
         void CompleteTemplateCreation()
         {
-            if (TemplateName.Text.Length > 0)
+            if (TemplateIsReadyToCreate())
             {
                 FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateName.Text);
                 ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
                 Close();
             }
-            else
+        }
+
+        bool TemplateIsReadyToCreate()
+        {
+            bool isReady = true;
+            if (TemplateName.Text.Length == 0)
+            {
                 MessageBox.Show("Пожалуйста, введите имя шаблона", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                isReady = false;
+            }
+            if ((Owner as MainForm).ListBoxOfTemplates.Items.Contains(TemplateName.Text))
+            {
+                MessageBox.Show("Такое имя шаблона уже есть", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                isReady = false;
+            }
+            return isReady;
         }
         #endregion
     }
