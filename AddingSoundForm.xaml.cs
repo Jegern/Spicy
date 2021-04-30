@@ -7,35 +7,39 @@ namespace Spicy
 {
     public partial class AddingSoundForm : Window
     {
+        MainForm owner;
         internal Sound sound;
         bool soundRepetitionRateTextboxGotFocus = false;
 
-        public AddingSoundForm()
+        public AddingSoundForm(Window owner)
         {
             InitializeComponent();
-            InitializeOtherComponent();
+            InitializeOtherComponent(owner);
         }
 
-        void InitializeOtherComponent()
+        void InitializeOtherComponent(Window window)
         {
+            Owner = window;
+            owner = window as MainForm;
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfAllSounds, "sounds", "mp3");
+            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox(owner.ListBoxOfTemplateSounds, ListBoxOfAllSounds);
             ListBoxFunctions.SortAscending(ListBoxOfAllSounds);
         }
 
-        void ListOfSounds_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string name = ListBoxOfAllSounds.SelectedItem.ToString();
             double volume = SoundVolumeSlider.Value;
             int repetitionRate = SoundRepetitionRateTextbox.Text.Length > 0 ? Convert.ToInt32(SoundRepetitionRateTextbox.Text) : 0;
-            sound = new MainForm.Sound(name, volume, repetitionRate);
+            sound = new Sound(name, volume, repetitionRate);
         }
 
-        private void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
+        void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
         {
             soundRepetitionRateTextboxGotFocus = true;
         }
 
-        private void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
+        void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (soundRepetitionRateTextboxGotFocus)
             {
@@ -46,15 +50,24 @@ namespace Spicy
 
         void AddSoundButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sound != null)
+            if (SoundIsReadyToAdding())
             {
                 ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
-                (Owner as MainForm).PlaySound(sound);
-                (Owner as MainForm).RewriteTemplateFile();
+                owner.PlaySound(sound);
+                owner.RewriteTemplateFile();
                 Close();
             }
-            else
+        }
+
+        bool SoundIsReadyToAdding()
+        {
+            bool isReady = true;
+            if (sound == null)
+            {
                 MessageBox.Show("Пожалуйста, выберите звук", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                isReady = false;
+            }
+            return isReady;
         }
     }
 }

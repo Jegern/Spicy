@@ -64,5 +64,16 @@ namespace Spicy
                 suitableListBox = ((window as AddingSoundForm).Owner as MainForm).ListBoxOfTemplateSounds;
             return suitableListBox;
         }
+
+        public static void RemoveNamesOfFirstListBoxFromSecondListBox(ListBox firstListBox, ListBox secondListBox)
+        {
+            if (firstListBox.Name == "ListBoxOfTemplateSounds")
+                foreach (Sound sound in firstListBox.Items)
+                    secondListBox.Items.Remove(sound.Name);
+            else
+                foreach (var item in firstListBox.Items)
+                    secondListBox.Items.Remove(item);
+        }
+
     }
 }

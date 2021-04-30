@@ -1,32 +1,45 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Spicy
 {
     public partial class AddingMelodyForm : Window
     {
-        public AddingMelodyForm()
+        MainForm owner;
+
+        public AddingMelodyForm(Window owner)
         {
             InitializeComponent();
-            InitializeOtherComponent();
+            InitializeOtherComponent(owner);
         }
 
-        private void InitializeOtherComponent()
+        void InitializeOtherComponent(Window window)
         {
+            Owner = window;
+            owner = window as MainForm;
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfMelodies, "music", "mp3");
+            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox(owner.ListBoxOfMelodies, ListBoxOfMelodies);
             ListBoxFunctions.SortAscending(ListBoxOfMelodies);
         }
 
-        private void AddMelodyButton_Click(object sender, RoutedEventArgs e)
+        void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ListBoxOfMelodies.SelectedItem != null)
+            if (MelodyIsReadyToAdding())
             {
                 ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
-                (Owner as MainForm).RewriteMelodiesFile();
+                owner.RewriteMelodiesFile();
                 Close();
             }
-            else
+        }
+
+        bool MelodyIsReadyToAdding()
+        {
+            bool isReady = true;
+            if (ListBoxOfMelodies.SelectedItem == null)
+            {
                 MessageBox.Show("Пожалуйста, выберите мелодию", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                isReady = false;
+            }
+            return isReady;
         }
     }
 }

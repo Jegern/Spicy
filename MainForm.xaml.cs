@@ -405,10 +405,7 @@ namespace Spicy
 
         void AddSoundButton_Click(object sender, RoutedEventArgs e)
         {
-            AddingSoundForm addingSoundForm = new AddingSoundForm
-            {
-                Owner = this
-            };
+            AddingSoundForm addingSoundForm = new AddingSoundForm(this);
             addingSoundForm.Show();
         }
 
@@ -434,10 +431,7 @@ namespace Spicy
 
         void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            AddingMelodyForm addingMelodyForm = new AddingMelodyForm
-            {
-                Owner = this
-            };
+            AddingMelodyForm addingMelodyForm = new AddingMelodyForm(this);
             addingMelodyForm.Show();
         }
 
