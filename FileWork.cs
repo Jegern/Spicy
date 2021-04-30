@@ -42,5 +42,15 @@ namespace Spicy
                     collection.Add(new Sound(name, volume, repetitionRate));
                 }
         }
+
+        public static void ReadFileToListBox(ListBox listBox, string fileName)
+        {
+            using (BinaryReader reader = new BinaryReader(File.OpenRead("music templates/" + fileName + ".bin")))
+                while (reader.PeekChar() != -1)
+                {
+                    string name = reader.ReadString().Replace(".mp3", "");
+                    listBox.Items.Add(name);
+                }
+        }
     }
 }

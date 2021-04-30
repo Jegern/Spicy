@@ -204,6 +204,7 @@ namespace Spicy
 
         void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ClearComponent();
             if (ListBoxOfTemplates.SelectedItem != null)
             {
                 DeleteTemplateButton.IsEnabled = true;
@@ -211,10 +212,14 @@ namespace Spicy
                 LoadAndPlaySelectedTemplate();
             }
             else
-            {
                 DeleteTemplateButton.IsEnabled = false;
-                TemplateName.Text = string.Empty;
-            }
+        }
+
+        private void ClearComponent()
+        {
+            ListBoxOfMelodies.Items.Clear();
+            melodyMediaPlayer.Stop();
+            TemplateName.Text = string.Empty;
         }
 
         void ExpandSoundListAndSettings()
@@ -235,6 +240,7 @@ namespace Spicy
             LoadNewTemplateSoundsInCollection();
             StopCurrentTemplateSounds();
             PlaySoundsInSelectedTemplate();
+            LoadAndPlayTemplateMelodies();
         }
 
         void ChangeTextInTemplateName()
@@ -302,6 +308,12 @@ namespace Spicy
                 mediaPlayer.Position = new TimeSpan(0);
                 mediaPlayer.Play();
             }
+        }
+
+        void LoadAndPlayTemplateMelodies()
+        {
+            if (File.Exists("music templates/" + TemplateName.Text + ".bin"))
+                FileWork.ReadFileToListBox(ListBoxOfMelodies, TemplateName.Text);
         }
 
         void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
@@ -429,6 +441,38 @@ namespace Spicy
         #region Control components of melodies
         readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
 
+        void ListBoxOfMelodies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                PlayMelodyWithNumber((sender as ListBox).SelectedIndex);
+            }
+        }
+
+        void PlayMelodyWithNumber(int index)
+        {
+            melodyMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
+            melodyMediaPlayer.Volume = volume[1];
+            PlayNextMelody(index);
+        }
+
+        void MediaPlayerMelodyEnded(object sender, EventArgs e)
+        {
+            PlayNextMelody(GetNextMelodyIndex());
+        }
+
+        void PlayNextMelody(int index)
+        {
+            if (ListBoxOfMelodies.Items.Count > 0)
+            {
+                if (index == ListBoxOfMelodies.Items.Count)
+                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[0] + ".mp3", UriKind.Relative));
+                else
+                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[index] + ".mp3", UriKind.Relative));
+                melodyMediaPlayer.Play();
+            }
+        }
+
         void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
             AddingMelodyForm addingMelodyForm = new AddingMelodyForm(this);
@@ -462,37 +506,10 @@ namespace Spicy
             return ListBoxOfMelodies.Items.IndexOf(playingMelody) + 1;
         }
 
-        void PlayNextMelody(int index)
-        {
-            if (ListBoxOfMelodies.Items.Count > 0)
-            {
-                if (index == ListBoxOfMelodies.Items.Count)
-                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[0] + ".mp3", UriKind.Relative));
-                else
-                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[index] + ".mp3", UriKind.Relative));
-                melodyMediaPlayer.Play();
-            }
-        }
-
         internal void RewriteMelodiesFile()
         {
             if (TemplateName.Text.Length > 0)
                 FileWork.WriteMelodiesToFile(ListBoxOfMelodies.Items, TemplateName.Text);
-        }
-
-        void ListBoxOfMelodies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                melodyMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
-                melodyMediaPlayer.Volume = volume[1];
-                PlayNextMelody(0);
-            }
-        }
-
-        void MediaPlayerMelodyEnded(object sender, EventArgs e)
-        {
-            PlayNextMelody(GetNextMelodyIndex());
         }
         #endregion
     }
