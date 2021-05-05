@@ -48,6 +48,18 @@ namespace Spicy
             }
         }
 
+        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (sound != null)
+                sound.Volume = (sender as Slider).Value;
+        }
+
+        void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sound != null)
+                sound.RepetitionRate = Convert.ToInt32((sender as TextBox).Text);
+        }
+
         void AddSoundButton_Click(object sender, RoutedEventArgs e)
         {
             if (SoundIsReadyToAdding())

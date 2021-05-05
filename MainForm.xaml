@@ -464,7 +464,13 @@
                     </Button>
                 </Grid>
             </Grid>
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2"/>
+            <Grid Grid.Row="2">
+                <Button Content="Next" HorizontalAlignment="Left" Margin="80,0,0,0"/>
+                <Button Content="Prev" HorizontalAlignment="Left" Margin="40,0,0,0"/>
+                <Button Content="Play" HorizontalAlignment="Left"/>
+                <Slider HorizontalAlignment="Left" Margin="131,0,0,0" VerticalAlignment="Center" Width="674" Height="24"/>
+                <TextBlock HorizontalAlignment="Right" Margin="814,0,9.6,0" TextWrapping="Wrap" Text="Timer" VerticalAlignment="Center" Height="27" Width="62"/>
+            </Grid>
         </Grid>
         <Border Grid.Column="1" VerticalAlignment="Top" Height="50">
             <TextBlock x:Name="TemplateName" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontFamily="Georgia" Padding="5" Grid.IsSharedSizeScope="True"/>
