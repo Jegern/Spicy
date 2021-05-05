@@ -59,26 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddingMelodyForm.xaml.cs">
-      <DependentUpon>AddingMelodyForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddingSoundForm.xaml.cs">
-      <DependentUpon>AddingSoundForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FileWork.cs" />
-    <Compile Include="ListBoxFunctions.cs" />
-    <Compile Include="Sound.cs" />
-    <Compile Include="TemplateCreationForm.xaml.cs">
-      <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
-    </Compile>
-    <Page Include="AddingMelodyForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddingSoundForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,10 +71,6 @@
       <DependentUpon>MainForm.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TemplateCreationForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -112,12 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Sound icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Plus icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
