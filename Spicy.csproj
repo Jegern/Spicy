@@ -89,5 +89,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Speaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Rewind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
