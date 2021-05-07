@@ -17,8 +17,8 @@
                 <RowDefinition/>
                 <RowDefinition Height="50px"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Margin="5,5,35,5" TextWrapping="Wrap" Text="Название шаблона" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Button Grid.Row="0" Margin="5,5,5,5" Height="20" Width="20" HorizontalAlignment="Right" BorderThickness="0">
+            <TextBox Grid.Row="0" Grid.Column="0" Margin="5,5,35,5" TextWrapping="Wrap" Text="Название шаблона" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Button Grid.Row="0" Grid.Column="0" Margin="5,5,5,5" Height="20" Width="20" HorizontalAlignment="Right" BorderThickness="0">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="Save.png"/>
                 </Button.Background>
@@ -34,7 +34,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="40px"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Margin="5,5,5,0">
+                    <ListBox Grid.Row="0" Grid.Column="0" Margin="5,5,5,0">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Padding" Value="5"/>
@@ -70,7 +70,7 @@
                                                         </Button.Background>
                                                     </Button>
                                                 </Grid>
-                                                
+
                                                 <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,45,0" VerticalAlignment="Center" Height="19"/>
                                                 <Label Grid.Row="1" Content="mm:ss" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                             </Grid>
@@ -95,7 +95,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="40px"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Margin="5,5,5,0">
+                    <ListBox Grid.Row="0" Grid.Column="0" Margin="5,5,5,0">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Padding" Value="5"/>
@@ -109,8 +109,8 @@
                                                     <RowDefinition Height="0.75*"/>
                                                     <RowDefinition Height="0.75*"/>
                                                 </Grid.RowDefinitions>
-                                                <ContentPresenter Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Button Grid.Row="0" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
+                                                <ContentPresenter Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
                                                     <Button.Background>
                                                         <ImageBrush ImageSource="Cross.png" Stretch="Uniform"/>
                                                     </Button.Background>
@@ -146,7 +146,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="TemplateMenu" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Content="Шаблоны" Click="TemplateMenu_Click">
+                    <Button x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.5,0.5" Content="Шаблоны" Click="TemplateMenu_Click">
                         <Button.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -201,13 +201,192 @@
                 </Button>
             </Grid>
         </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="0" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock1" Grid.Row="0" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock2" Grid.Row="0" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock3" Grid.Row="0" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="0" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock4" Grid.Row="1" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock5" Grid.Row="1" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock6" Grid.Row="1" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="0" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock7" Grid.Row="2" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock8" Grid.Row="2" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock9" Grid.Row="2" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="0" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock10" Grid.Row="3" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock11" Grid.Row="3" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock12" Grid.Row="3" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="0" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock13" Grid.Row="4" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock14" Grid.Row="4" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="SfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid>
+                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
+                            <Ellipse Stroke="Black"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="SfxTextBlock15" Grid.Row="4" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Grid>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40px"/>
                 <RowDefinition/>
                 <RowDefinition Height="40px"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Text="Найти шаблон..." HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="0" Text="Найти шаблон..." HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <ListBox Grid.Row="1"/>
             <Button Content="Добавить шаблон" Grid.Row="2"/>
         </Grid>
