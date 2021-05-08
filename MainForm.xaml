@@ -4,21 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Window1" Height="600" Width="1050">
+        Title="Window1" Height="800" Width="1200" Background="#FF212529" Foreground="#00000000" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition x:Name="SfxGrid" Width="0.75*"/>
-            <ColumnDefinition x:Name="TemplateGrid" Width="0.75*"/>
+            <ColumnDefinition x:Name="SfxGrid" Width="1*"/>
+            <ColumnDefinition x:Name="TemplateGrid" Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60px"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition/>
-                <RowDefinition Height="50px"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" Margin="5,5,35,5" TextWrapping="Wrap" Text="Название шаблона" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Button Grid.Row="0" Grid.Column="0" Margin="5,5,5,5" Height="20" Width="20" HorizontalAlignment="Right" BorderThickness="0">
+            <TextBox Grid.Row="0" Grid.Column="0" Margin="20,20,50,10" TextWrapping="Wrap" Text="Название шаблона" HorizontalContentAlignment="Center" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="30" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="12"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <Button Grid.Row="0" Grid.Column="0" Margin="10,20,10,10" Height="30" Width="30" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Center">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="Save.png"/>
                 </Button.Background>
@@ -32,13 +38,13 @@
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="40px"/>
+                        <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Grid.Column="0" Margin="5,5,5,0">
+                    <ListBox Grid.Row="0" Grid.Column="0" Margin="20,10,10,10" Background="#FF2B2F33" BorderThickness="0">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -70,9 +76,8 @@
                                                         </Button.Background>
                                                     </Button>
                                                 </Grid>
-
                                                 <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,45,0" VerticalAlignment="Center" Height="19"/>
-                                                <Label Grid.Row="1" Content="mm:ss" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <Label Grid.Row="1" Content="mm:ss" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
@@ -85,21 +90,35 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
+                        <ListBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="12"/>
+                            </Style>
+                        </ListBox.Resources>
                         <ListBoxItem Content="Первая мелодия"/>
                         <ListBoxItem Content="Вторая мелодия"/>
                     </ListBox>
-                    <Button Content="Добавить мелодию" Grid.Row="1" Margin="5,0,5,5"/>
+                    <Button Content="Добавить мелодию" Grid.Row="1" Margin="20,10,10,10" Background="#FF5E5F65" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="20">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="12"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Foreground>
+                            <SolidColorBrush Color="White"/>
+                        </Button.Foreground>
+                    </Button>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="40px"/>
+                        <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Grid.Column="0" Margin="5,5,5,0">
+                    <ListBox Grid.Row="0" Grid.Column="0" Margin="10,10,20,10" Background="#FF2B2F33" BorderThickness="0">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -120,10 +139,18 @@
                                                         <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19"/>
-                                                <Label Grid.Row="2" Content="Частота повторения: " HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                                <TextBox Grid.Row="2" Margin="128,3,49.6,3" MaxLength="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                                <Label Grid.Row="2" Content=" секунд" HorizontalAlignment="Right"/>
+                                                <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19">
+
+                                                </Slider>
+                                                <Label Grid.Row="2" Content="Частота повторения: " HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
+                                                <TextBox Grid.Row="2" Margin="128,3,49.6,3" MaxLength="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" Background="#FF959799" BorderThickness="0">
+                                                    <TextBox.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="8"/>
+                                                        </Style>
+                                                    </TextBox.Resources>
+                                                </TextBox>
+                                                <Label Grid.Row="2" Content=" секунд" HorizontalAlignment="Right" Foreground="White" />
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
@@ -136,17 +163,28 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
+                        <ListBox.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="12"/>
+                            </Style>
+                        </ListBox.Resources>
                         <ListBoxItem Content="Первый звук"/>
                         <ListBoxItem Content="Второй звук"/>
                     </ListBox>
-                    <Button Content="Добавить звук" Grid.Row="1" Margin="5,0,5,5"/>
+                    <Button Content="Добавить звук" Grid.Row="1" Margin="10,10,20,10" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="12"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.5,0.5" Content="Шаблоны" Click="TemplateMenu_Click">
+                    <Button x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.5,0.5" Content="ШАБЛОНЫ" Click="TemplateMenu_Click" Margin="0,10" Foreground="White" Background="#00DDDDDD" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
                         <Button.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -156,7 +194,7 @@
                             </TransformGroup>
                         </Button.LayoutTransform>
                     </Button>
-                    <Button x:Name="SfxMenu" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="SFX" Click="SfxMenu_Click">
+                    <Button x:Name="SfxMenu" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="SFX" Click="SfxMenu_Click" Margin="0,10" Foreground="White" Background="#00DDDDDD" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
                         <Button.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -170,31 +208,31 @@
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80px"/>
-                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="60px"/>
-                    <ColumnDefinition Width="30px"/>
+                    <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalAlignment="Left" Width="20" Height="20" BorderThickness="0" Margin="5,0,0,0">
+                <Button Grid.Column="0" HorizontalAlignment="Left" Width="30" Height="30" BorderThickness="0" Margin="20,10,0,20" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Rewind.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="0" Width="20" Height="20" Margin="0" HorizontalAlignment="Center" BorderThickness="0">
+                <Button Grid.Column="0" Width="30" Height="30" Margin="20,10,0,20" HorizontalAlignment="Center" BorderThickness="0" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Play.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="0" Width="20" Height="20" HorizontalAlignment="Right" BorderThickness="0" Margin="0,0,5,0">
+                <Button Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Margin="0,10,5,20" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Forward.png"/>
                     </Button.Background>
                 </Button>
-                <Label Grid.Column="1" Content="Название мелодии" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Slider Grid.Column="2" Height="19" VerticalAlignment="Center"/>
-                <Label Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Grid.Column="4" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0">
+                <Label Grid.Column="1" Content="Название мелодии" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,20" FontSize="15" FontFamily="Segoe UI Semibold"/>
+                <Slider Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0,10,0,20"/>
+                <Label Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,20"/>
+                <Button Grid.Column="4" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Margin="0,10,0,20">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
                     </Button.Background>
@@ -382,13 +420,31 @@
         </Grid>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40px"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition/>
-                <RowDefinition Height="40px"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" Text="Найти шаблон..." HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <ListBox Grid.Row="1"/>
-            <Button Content="Добавить шаблон" Grid.Row="2"/>
+            <TextBox Grid.Row="0" Grid.Column="0" Text="Найти шаблон..." HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="12"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
+            <ListBox Grid.Row="1" Margin="20,10" Background="#FF2B2F33" BorderThickness="0">
+                <ListBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="12"/>
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
+            <Button Content="Добавить шаблон" Grid.Row="2" Margin="20,10,20,20" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="12"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
     </Grid>
 </Window>
