@@ -4,7 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Window1" Height="800" Width="1200" Background="#FF212529" Foreground="#00000000" WindowStartupLocation="CenterScreen">
+        Title="Window1" Height="800" Width="1200" Background="#FF212529" Foreground="#00000000" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <Style x:Key="ButtonAnimation" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuButtonAnimation" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="#0000" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -15,7 +57,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Grid.Column="0" Margin="20,20,50,10" TextWrapping="Wrap" Text="Название шаблона" HorizontalContentAlignment="Center" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="30" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center">
                 <TextBox.Resources>
@@ -24,7 +66,7 @@
                     </Style>
                 </TextBox.Resources>
             </TextBox>
-            <Button Grid.Row="0" Grid.Column="0" Margin="10,20,10,10" Height="30" Width="30" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Center">
+            <Button Style="{StaticResource ButtonAnimation}" Grid.Row="0" Grid.Column="0" Margin="10,20,10,10" Height="30" Width="30" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Center">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="Save.png"/>
                 </Button.Background>
@@ -59,18 +101,18 @@
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition Width="40px"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Grid.Column="0" Width="20" Height="20" BorderThickness="0">
+                                                    <Button Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="20" Height="20" BorderThickness="0">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="Play.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
                                                     <ContentPresenter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    <Button Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
+                                                    <Button Style="{StaticResource ButtonAnimation}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="Cross.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
-                                                    <Button Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Margin="0,0,20,0">
+                                                    <Button Style="{StaticResource ButtonAnimation}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Margin="0,0,20,0">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="Arrow Up.png" Stretch="Uniform"/>
                                                         </Button.Background>
@@ -98,7 +140,7 @@
                         <ListBoxItem Content="Первая мелодия"/>
                         <ListBoxItem Content="Вторая мелодия"/>
                     </ListBox>
-                    <Button Content="Добавить мелодию" Grid.Row="1" Margin="20,10,10,10" Background="#FF5E5F65" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="20">
+                    <Button Style="{StaticResource ButtonAnimation}" Content="Добавить мелодию" Grid.Row="1" Margin="20,10,10,10" Background="#FF5E5F65" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="20">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="12"/>
@@ -129,12 +171,12 @@
                                                     <RowDefinition Height="0.75*"/>
                                                 </Grid.RowDefinitions>
                                                 <ContentPresenter Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
+                                                <Button Style="{StaticResource ButtonAnimation}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0">
                                                     <Button.Background>
                                                         <ImageBrush ImageSource="Cross.png" Stretch="Uniform"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Button Grid.Row="1" HorizontalAlignment="Left" Width="20" Height="20" BorderThickness="0">
+                                                <Button Style="{StaticResource ButtonAnimation}" Grid.Row="1" HorizontalAlignment="Left" Width="20" Height="20" BorderThickness="0">
                                                     <Button.Background>
                                                         <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
                                                     </Button.Background>
@@ -171,7 +213,7 @@
                         <ListBoxItem Content="Первый звук"/>
                         <ListBoxItem Content="Второй звук"/>
                     </ListBox>
-                    <Button Content="Добавить звук" Grid.Row="1" Margin="10,10,20,10" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
+                    <Button Style="{StaticResource ButtonAnimation}" Content="Добавить звук" Grid.Row="1" Margin="10,10,20,10" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="12"/>
@@ -184,7 +226,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" RenderTransformOrigin="0.5,0.5" Content="ШАБЛОНЫ" Click="TemplateMenu_Click" Margin="0,10" Foreground="White" Background="#00DDDDDD" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
+                    <Button Style="{StaticResource MenuButtonAnimation}" x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" Content="ШАБЛОНЫ" Click="TemplateMenu_Click" Margin="0,10" Foreground="White" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
                         <Button.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -194,7 +236,7 @@
                             </TransformGroup>
                         </Button.LayoutTransform>
                     </Button>
-                    <Button x:Name="SfxMenu" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Content="SFX" Click="SfxMenu_Click" Margin="0,10" Foreground="White" Background="#00DDDDDD" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
+                    <Button Style="{StaticResource MenuButtonAnimation}" x:Name="SfxMenu" Grid.Row="1" Content="SFX" Click="SfxMenu_Click" Margin="0,10" Foreground="White" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
                         <Button.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -206,40 +248,40 @@
                     </Button>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Margin="20,10,50,20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="60px"/>
-                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalAlignment="Left" Width="30" Height="30" BorderThickness="0" Margin="20,10,0,20" VerticalAlignment="Center">
+                <Border Grid.ColumnSpan="4" Background="#FF2B2F33" BorderThickness="0" CornerRadius="12"/>
+                <Button Style="{StaticResource ButtonAnimation}" Grid.Column="0" HorizontalAlignment="Left" Width="30" Height="30" BorderThickness="0" Margin="20,0,0,0" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Rewind.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="0" Width="30" Height="30" Margin="20,10,0,20" HorizontalAlignment="Center" BorderThickness="0" VerticalAlignment="Center">
+                <Button Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="30" Height="30" Margin="20,0,0,0" HorizontalAlignment="Center" BorderThickness="0" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Play.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Margin="0,10,5,20" VerticalAlignment="Center">
+                <Button Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Margin="0" VerticalAlignment="Center">
                     <Button.Background>
                         <ImageBrush Stretch="Uniform" ImageSource="Forward.png"/>
                     </Button.Background>
                 </Button>
-                <Label Grid.Column="1" Content="Название мелодии" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,20" FontSize="15" FontFamily="Segoe UI Semibold"/>
-                <Slider Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0,10,0,20"/>
-                <Label Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,20"/>
-                <Button Grid.Column="4" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0" Margin="0,10,0,20">
-                    <Button.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
-                    </Button.Background>
-                </Button>
+                <Label Grid.Column="1" Content="Название мелодии" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontSize="15" FontFamily="Segoe UI Semibold"/>
+                <Slider Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0"/>
+                <Label Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,0,20,0"/>
             </Grid>
+            <Button Style="{StaticResource ButtonAnimation}" x:Name="MasterVolumeButton" Grid.Row="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0" Margin="0,10,10,20">
+                <Button.Background>
+                    <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
+                </Button.Background>
+            </Button>
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="20" >
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -252,6 +294,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Border Background="#FF2B2F33" CornerRadius="12" Grid.RowSpan="5" Grid.ColumnSpan="3"/>
             <Button x:Name="SfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="0" Height="66">
                 <Button.Template>
                     <ControlTemplate>
@@ -424,13 +467,39 @@
                 <RowDefinition/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" Text="Найти шаблон..." HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold">
+            <TextBox Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold">
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="12"/>
                     </Style>
                 </TextBox.Resources>
             </TextBox>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <TextBox x:Name="TemplateSearch" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center" Padding="40,0,10,0" MaxLength="30">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="12"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <Label Width="20" Height="20" HorizontalAlignment="Left" Margin="30,20,0,10" VerticalAlignment="Center">
+                    <Label.Background>
+                        <ImageBrush ImageSource="Search.png" Stretch="Uniform"/>
+                    </Label.Background>
+                </Label>
+                <TextBlock IsHitTestVisible="False" Text="Искать" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,20,20,10" Foreground="White" FontSize="16" FontFamily="Segoe UI Semibold">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=TemplateSearch}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
             <ListBox Grid.Row="1" Margin="20,10" Background="#FF2B2F33" BorderThickness="0">
                 <ListBox.Resources>
                     <Style TargetType="Border">
@@ -438,7 +507,7 @@
                     </Style>
                 </ListBox.Resources>
             </ListBox>
-            <Button Content="Добавить шаблон" Grid.Row="2" Margin="20,10,20,20" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
+            <Button Style="{StaticResource ButtonAnimation}" Content="Добавить шаблон" Grid.Row="2" Margin="20,10,20,20" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="12"/>

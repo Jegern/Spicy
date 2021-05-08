@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Spicy
@@ -14,8 +13,29 @@ namespace Spicy
 
         private void InitializeOtherComponent()
         {
-            MinimizeMenu(SfxGrid);
-            MinimizeMenu(TemplateGrid);
+            HideTemplateAndSfxMenu();
+        }
+
+        private void HideTemplateAndSfxMenu()
+        {
+            TemplateGrid.Width = new GridLength(0);
+            SfxGrid.Width = new GridLength(0);
+            Width -= Width / 2;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DisableButtonHoverAnimation();
+        }
+
+        private void DisableButtonHoverAnimation()
+        {
+            var chrome = MasterVolumeButton.Template.FindName("Chrome", MasterVolumeButton) as Xceed.Wpf.Toolkit.Chromes.ButtonChrome;
+            if (chrome != null)
+            {
+                chrome.RenderMouseOver = false;
+                chrome.RenderPressed = false;
+            }
         }
 
         private void TemplateMenu_Click(object sender, RoutedEventArgs e)
@@ -35,7 +55,7 @@ namespace Spicy
             if (grid.Width != new GridLength(0))
             {
                 grid.Width = new GridLength(0);
-                Width -= 225;
+                Width -= Width / 3;
             }
         }
 
@@ -43,8 +63,8 @@ namespace Spicy
         {
             if (grid.Width == new GridLength(0))
             {
-                grid.Width = new GridLength(0.75, GridUnitType.Star);
-                Width += 225;
+                grid.Width = new GridLength(1, GridUnitType.Star);
+                Width += Width / 2;
             }
         }
     }
