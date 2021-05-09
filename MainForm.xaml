@@ -44,6 +44,118 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="RightSliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="Black" Height="5"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LeftSliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="#FF0089EF" Height="5"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Height="15" Width="15" Fill="#FF0089EF"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="Slider" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource LeftSliderRepeatButton}" Command="Slider.DecreaseLarge"/>
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb}"/>
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource RightSliderRepeatButton}" Command="Slider.IncreaseLarge"/>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="SliderWithThumb" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21"/>
+                    <Setter Property="MinWidth" Value="104"/>
+                    <Setter Property="Template" Value="{StaticResource Slider}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="NoneThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+        </Style>
+
+        <ControlTemplate x:Key="SliderNoneThumb" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource LeftSliderRepeatButton}" Command="Slider.DecreaseLarge"/>
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource NoneThumb}"/>
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource RightSliderRepeatButton}" Command="Slider.IncreaseLarge"/>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="SliderWithoutThumb" TargetType="Slider">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21"/>
+                    <Setter Property="MinWidth" Value="104"/>
+                    <Setter Property="Template" Value="{StaticResource SliderNoneThumb}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     
     
@@ -118,15 +230,9 @@
                                                         </Button.Background>
                                                     </Button>
                                                 </Grid>
-                                                <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,0,45,0" VerticalAlignment="Center" Height="19"/>
+                                                <Slider Style="{StaticResource SliderWithoutThumb}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,3,45,0" VerticalAlignment="Center" Height="19" IsHitTestVisible="False"/>
                                                 <Label Grid.Row="1" Content="mm:ss" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
                                             </Grid>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="LimeGreen"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -181,9 +287,7 @@
                                                         <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Slider Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19">
-
-                                                </Slider>
+                                                <Slider Style="{StaticResource SliderWithThumb}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19"/>
                                                 <Label Grid.Row="2" Content="Частота повторения: " HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
                                                 <TextBox Grid.Row="2" Margin="128,3,49.6,3" MaxLength="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" Background="#FF959799" BorderThickness="0">
                                                     <TextBox.Resources>
@@ -194,12 +298,6 @@
                                                 </TextBox>
                                                 <Label Grid.Row="2" Content=" секунд" HorizontalAlignment="Right" Foreground="White" />
                                             </Grid>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="LimeGreen"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -272,7 +370,7 @@
                     </Button.Background>
                 </Button>
                 <Label Grid.Column="1" Content="Название мелодии" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontSize="15" FontFamily="Segoe UI Semibold"/>
-                <Slider Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0"/>
+                <Slider Style="{StaticResource SliderWithThumb}" Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0,3,0,0" IsMoveToPointEnabled="True"/>
                 <Label Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,0,20,0"/>
             </Grid>
             <Button Style="{StaticResource ButtonAnimation}" x:Name="MasterVolumeButton" Grid.Row="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0" Margin="0,10,10,20">
