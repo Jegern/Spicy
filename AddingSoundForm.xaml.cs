@@ -1,84 +1,60 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using static Spicy.MainForm;
 
 namespace Spicy
 {
     public partial class AddingSoundForm : Window
     {
-        MainForm owner;
+        bool repetitionRateTextBoxGotFocus = false;
+        internal bool SoundIsReady = false;
         internal Sound NewSound;
-        bool soundRepetitionRateTextboxGotFocus = false;
 
-        public AddingSoundForm(Window owner)
+        public AddingSoundForm()
         {
             InitializeComponent();
-            InitializeOtherComponent(owner);
         }
 
-        void InitializeOtherComponent(Window window)
+        private void AddingSoundWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Owner = window;
-            owner = window as MainForm;
-            ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfAllSounds, "sounds", "mp3");
-            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox(owner.ListBoxOfSounds, ListBoxOfAllSounds);
-            ListBoxFunctions.SortAscending(ListBoxOfAllSounds);
-        }
-
-        void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string name = ListBoxOfAllSounds.SelectedItem.ToString();
-            double volume = SoundVolumeSlider.Value;
-            int repetitionRate = SoundRepetitionRateTextbox.Text.Length > 0 ? Convert.ToInt32(SoundRepetitionRateTextbox.Text) : 0;
-            NewSound = new Sound(name, volume, repetitionRate);
+            ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfSounds, "sounds", "mp3");
+            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox((Owner as MainForm).ListBoxOfSounds, ListBoxOfSounds);
+            ListBoxFunctions.SortAscending(ListBoxOfSounds);
         }
 
         void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
         {
-            soundRepetitionRateTextboxGotFocus = true;
+            repetitionRateTextBoxGotFocus = true;
         }
 
         void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (soundRepetitionRateTextboxGotFocus)
+            if (repetitionRateTextBoxGotFocus)
             {
-                soundRepetitionRateTextboxGotFocus = false;
+                repetitionRateTextBoxGotFocus = false;
                 (sender as TextBox).SelectAll();
             }
         }
 
-        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (NewSound != null)
-                NewSound.Volume = (sender as Slider).Value;
-        }
-
-        void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (NewSound != null)
-                NewSound.RepetitionRate = Convert.ToInt32((sender as TextBox).Text);
-        }
-
         void AddSoundButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SoundIsReadyToAdding())
+            CheckIfSoundIsReady();
+            if (SoundIsReady)
             {
-                ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
-                //owner.PlaySound(sound);
+                string name = ListBoxOfSounds.SelectedItem.ToString();
+                double volume = SoundVolumeSlider.Value;
+                int repetitionRate = SoundRepetitionRateTextbox.Text.Length > 0 ? Convert.ToInt32(SoundRepetitionRateTextbox.Text) : 0;
+                NewSound = new Sound(name, volume, repetitionRate);
                 Close();
             }
         }
 
-        bool SoundIsReadyToAdding()
+        private void CheckIfSoundIsReady()
         {
-            bool isReady = true;
-            if (NewSound == null)
-            {
+            if (ListBoxOfSounds.SelectedItem == null)
                 MessageBox.Show("Пожалуйста, выберите звук", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                isReady = false;
-            }
-            return isReady;
+            else
+                SoundIsReady = true;
         }
     }
 }

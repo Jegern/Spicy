@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using static Spicy.MainForm;
 
 namespace Spicy
 {
@@ -11,12 +10,10 @@ namespace Spicy
     {
         public static void SortAscending(ListBox listBox)
         {
-            listBox.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
-        }
-
-        public static void SortAscending(ListBox listBox, string propertyName)
-        {
-            listBox.Items.SortDescriptions.Add(new SortDescription(propertyName, ListSortDirection.Ascending));
+            if (listBox.ItemsSource == null)
+                listBox.Items.SortDescriptions.Add(new SortDescription("", ListSortDirection.Ascending));
+            else
+                listBox.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
 
         public static void LoadFileNamesFromFolderToList(ListBox listBox, string folder, string extension)
@@ -32,10 +29,8 @@ namespace Spicy
                 listBox.Items.Add(name);
             else
                 (listBox.ItemsSource as ObservableCollection<Sound>).Add(name as Sound);
-            if (listBox.Name == "ListBoxOfTemplates")
+            if (listBox.Name != "ListBoxOfMelodies")
                 SortAscending(listBox);
-            else if (listBox.Name == "ListBoxOfSounds")
-                SortAscending(listBox, "Name");
         }
 
         public static void AddSuitableObjectToSuitableListBox(Window window)

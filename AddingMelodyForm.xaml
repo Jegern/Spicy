@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spicy"
-        mc:Ignorable="d" Height="600" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#FF212529">
+        mc:Ignorable="d" Height="600" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#FF212529" Loaded="AddingMelodyWindow_Loaded">
     <Window.Resources>
         <Style x:Key="ButtonAnimation" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -12,7 +12,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" Background="{TemplateBinding Background}">
+                        <Border Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -42,7 +42,7 @@
             </TextBox>
             <Label Width="20" Height="20" HorizontalAlignment="Left" Margin="30,20,0,10" VerticalAlignment="Center">
                 <Label.Background>
-                    <ImageBrush ImageSource="Search.png" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="images/Search.png" Stretch="Uniform"/>
                 </Label.Background>
             </Label>
             <TextBlock IsHitTestVisible="False" Text="Искать" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,20,20,10" Foreground="White" FontSize="16" FontFamily="Segoe UI Semibold">

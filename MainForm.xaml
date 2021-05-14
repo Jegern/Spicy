@@ -4,197 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Spicy" Height="800" Width="1200" Background="#FF212529" Foreground="#00000000" WindowStartupLocation="CenterScreen">
+        Title="Spicy"
+        Height="800"
+        Width="1200"
+        Background="{StaticResource WindowBackground}"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <Style x:Key="ButtonAnimation" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="MenuButtonAnimation" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="#0000" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="RightSliderRepeatButton" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RepeatButton">
-                        <Border Background="Black" Height="5"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="LeftSliderRepeatButton" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="#FF0089EF" Height="5"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="SliderThumb" TargetType="Thumb">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Thumb">
-                        <Ellipse Height="15" Width="15" Fill="#FF0089EF"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <ControlTemplate x:Key="Slider" TargetType="Slider">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Track Grid.Row="1" x:Name="PART_Track">
-                    <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource LeftSliderRepeatButton}" Command="Slider.DecreaseLarge"/>
-                    </Track.DecreaseRepeatButton>
-                    <Track.Thumb>
-                        <Thumb Style="{StaticResource SliderThumb}"/>
-                    </Track.Thumb>
-                    <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource RightSliderRepeatButton}" Command="Slider.IncreaseLarge"/>
-                    </Track.IncreaseRepeatButton>
-                </Track>
-            </Grid>
-        </ControlTemplate>
-
-        <Style x:Key="SliderWithThumb" TargetType="Slider">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Style.Triggers>
-                <Trigger Property="Orientation" Value="Horizontal">
-                    <Setter Property="MinHeight" Value="21"/>
-                    <Setter Property="MinWidth" Value="104"/>
-                    <Setter Property="Template" Value="{StaticResource Slider}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="NoneThumb" TargetType="Thumb">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-        </Style>
-
-        <ControlTemplate x:Key="SliderNoneThumb" TargetType="Slider">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Track Grid.Row="1" x:Name="PART_Track">
-                    <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource LeftSliderRepeatButton}" Command="Slider.DecreaseLarge"/>
-                    </Track.DecreaseRepeatButton>
-                    <Track.Thumb>
-                        <Thumb Style="{StaticResource NoneThumb}"/>
-                    </Track.Thumb>
-                    <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource RightSliderRepeatButton}" Command="Slider.IncreaseLarge"/>
-                    </Track.IncreaseRepeatButton>
-                </Track>
-            </Grid>
-        </ControlTemplate>
-
-        <Style x:Key="SliderWithoutThumb" TargetType="Slider">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Style.Triggers>
-                <Trigger Property="Orientation" Value="Horizontal">
-                    <Setter Property="MinHeight" Value="21"/>
-                    <Setter Property="MinWidth" Value="104"/>
-                    <Setter Property="Template" Value="{StaticResource SliderNoneThumb}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary Source="Styles.xaml"/>
     </Window.Resources>
-    
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition x:Name="SfxGrid" Width="1*"/>
-            <ColumnDefinition x:Name="TemplateGrid" Width="1*"/>
+            <ColumnDefinition x:Name="SfxMenu"/>
+            <ColumnDefinition x:Name="TemplateMenu"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Margin="20,20,0,20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
-            <TextBox x:Name="TemplateNameTextBox" Grid.Row="0" Grid.Column="0" Margin="20,20,50,10" TextWrapping="Wrap" HorizontalContentAlignment="Center" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="30" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center">
-                <TextBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-            <Button x:Name="SaveButton" Style="{StaticResource ButtonAnimation}" Grid.Row="0" Grid.Column="0" Margin="10,20,10,10" Height="30" Width="30" HorizontalAlignment="Right" BorderThickness="0" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50px"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Style="{StaticResource TextBox}" x:Name="TemplateNameTextBox"
+                     Margin="0,0,0,10"/>
+            <Button Style="{StaticResource BigIconButton}" x:Name="SaveButton"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,10,10" Visibility="Hidden">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="Save.png"/>
+                    <ImageBrush ImageSource="images/Save.png"/>
                 </Button.Background>
             </Button>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="30px"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox x:Name="ListBoxOfMelodies" Grid.Row="0" Grid.Column="0" Margin="20,10,10,10" Background="#FF2B2F33" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="15" Padding="5" TextOptions.TextHintingMode="Animated" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfMelodies" Margin="0,10,10,10" FontSize="15" Padding="5" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Margin" Value="5"/>
@@ -213,20 +69,20 @@
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition Width="40px"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="20" Height="20" BorderThickness="0">
+                                                    <Button Style="{StaticResource SmallIconButton}" Grid.Column="0" Width="20" Height="20" BorderThickness="0">
                                                         <Button.Background>
-                                                            <ImageBrush ImageSource="Play.png" Stretch="Uniform"/>
+                                                            <ImageBrush ImageSource="images/Play.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
                                                     <ContentPresenter Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    <Button x:Name="DeleteMelodyButton" Style="{StaticResource ButtonAnimation}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Click="DeleteMelodyButton_Click">
+                                                    <Button x:Name="DeleteMelodyButton" Style="{StaticResource SmallIconButton}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Click="DeleteMelodyButton_Click">
                                                         <Button.Background>
-                                                            <ImageBrush ImageSource="Cross.png" Stretch="Uniform"/>
+                                                            <ImageBrush ImageSource="images/Cross in circle.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
-                                                    <Button Style="{StaticResource ButtonAnimation}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Margin="0,0,20,0">
+                                                    <Button Style="{StaticResource SmallIconButton}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Margin="0,0,20,0">
                                                         <Button.Background>
-                                                            <ImageBrush ImageSource="Arrow Up.png" Stretch="Uniform"/>
+                                                            <ImageBrush ImageSource="images/Arrow Up.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
                                                 </Grid>
@@ -238,29 +94,19 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
-                        <ListBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="12"/>
-                            </Style>
-                        </ListBox.Resources>
                     </ListBox>
-                    <Button x:Name="AddMelodyButton" Style="{StaticResource ButtonAnimation}" Content="Добавить мелодию" Grid.Row="1" Margin="20,10,10,10" Background="#FF5E5F65" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="20" Click="AddMelodyButton_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="12"/>
-                            </Style>
-                        </Button.Resources>
-                        <Button.Foreground>
-                            <SolidColorBrush Color="White"/>
-                        </Button.Foreground>
-                    </Button>
+                    <Button x:Name="AddMelodyButton" Style="{StaticResource AddButton}"
+                            Grid.Row="1"
+                            Content="Добавить мелодию"
+                            Margin="0,10,10,10"
+                            Click="AddMelodyButton_Click"/>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox x:Name="ListBoxOfSounds" Grid.Row="0" Grid.Column="0" Margin="10,10,20,10" Background="#FF2B2F33" BorderThickness="0" FontFamily="Segoe UI Semibold" FontSize="15" Padding="5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSounds" Margin="10,10,0,10" FontSize="15" Padding="5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Margin" Value="5"/>
@@ -275,25 +121,19 @@
                                                     <RowDefinition/>
                                                 </Grid.RowDefinitions>
                                                 <ContentPresenter Margin="5,0" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Button x:Name="DeleteSoundButton" Style="{StaticResource ButtonAnimation}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Click="DeleteSoundButton_Click">
+                                                <Button x:Name="DeleteSoundButton" Style="{StaticResource SmallIconButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="DeleteSoundButton_Click">
                                                     <Button.Background>
-                                                        <ImageBrush ImageSource="Cross.png" Stretch="Uniform"/>
+                                                        <ImageBrush ImageSource="images/Cross in circle.png" Stretch="Uniform"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Button Style="{StaticResource ButtonAnimation}" Grid.Row="1" HorizontalAlignment="Left" Width="20" Height="20" BorderThickness="0">
+                                                <Button Style="{StaticResource SmallIconButton}" Grid.Row="1" HorizontalAlignment="Left">
                                                     <Button.Background>
-                                                        <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
+                                                        <ImageBrush Stretch="Uniform" ImageSource="images/Speaker.png"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Slider Style="{StaticResource SliderWithThumb}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19"/>
+                                                <Slider Style="{StaticResource SliderWithThumb}" Value="{Binding Path=Volume}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19"/>
                                                 <Label Grid.Row="2" Content="Повторение: " HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
-                                                <TextBox Grid.Row="2" Margin="104,3,62,3" MaxLength="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" Background="#FF959799" BorderThickness="0" FontFamily="Segoe UI Semibold">
-                                                    <TextBox.Resources>
-                                                        <Style TargetType="Border">
-                                                            <Setter Property="CornerRadius" Value="8"/>
-                                                        </Style>
-                                                    </TextBox.Resources>
-                                                </TextBox>
+                                                <TextBox Style="{StaticResource RepetitionRateTextBox}" Text="{Binding Path=RepetitionRate}" Grid.Row="2" Margin="104,3,62,3"/>
                                                 <Label Grid.Row="2" Content=" секунд" HorizontalAlignment="Right" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                                             </Grid>
                                         </ControlTemplate>
@@ -301,81 +141,88 @@
                                 </Setter>
                             </Style>
                         </ListBox.ItemContainerStyle>
-                        <ListBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="12"/>
-                            </Style>
-                        </ListBox.Resources>
                     </ListBox>
-                    <Button x:Name="AddSoundButton" Style="{StaticResource ButtonAnimation}" Content="Добавить звук" Grid.Row="1" Margin="10,10,20,10" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold" Click="AddSoundButton_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="12"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button Style="{StaticResource MenuButtonAnimation}" x:Name="TemplateMenu" Grid.Row="0" Grid.Column="0" Content="ШАБЛОНЫ" Click="TemplateMenu_Click" Margin="0,10" Foreground="White" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
-                        <Button.LayoutTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.LayoutTransform>
-                    </Button>
-                    <Button Style="{StaticResource MenuButtonAnimation}" x:Name="SfxMenu" Grid.Row="1" Content="SFX" Click="SfxMenu_Click" Margin="0,10" Foreground="White" BorderBrush="#FF0089EF" BorderThickness="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" VerticalContentAlignment="Top">
-                        <Button.LayoutTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.LayoutTransform>
-                    </Button>
+                    <Button Style="{StaticResource AddButton}" x:Name="AddSoundButton"
+                            Grid.Row="1"
+                            Content="Добавить звук"
+                            Margin="10,10,0,10"
+                            Click="AddSoundButton_Click"/>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Margin="20,10,50,20">
+            <Grid Grid.Column="1"
+                  Grid.Row="1"
+                  Margin="20,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Style="{StaticResource MenuButton}" x:Name="TemplateMenuButton"
+                            Content="ШАБЛОНЫ"
+                            Click="TemplateMenu_Click"/>
+                <Button Style="{StaticResource MenuButton}" x:Name="SfxMenuButton"
+                            Grid.Row="1"
+                            Content="SFX"
+                            Click="SfxMenu_Click"/>
+            </Grid>
+            <Grid Grid.Row="2"
+                  Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.ColumnSpan="4" Background="#FF2B2F33" BorderThickness="0" CornerRadius="12"/>
-                <Button x:Name="RewindMelodyButton" Style="{StaticResource ButtonAnimation}" Grid.Column="0" HorizontalAlignment="Left" Width="30" Height="30" BorderThickness="0" Margin="20,0,0,0" VerticalAlignment="Center">
+                <Border Style="{StaticResource Control}"
+                        CornerRadius="12"
+                        Grid.ColumnSpan="4"/>
+                <Button Style="{StaticResource BigIconButton}" x:Name="RewindMelodyButton"
+                        HorizontalAlignment="Left"
+                        Margin="20,0,0,0">
                     <Button.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="Rewind.png"/>
+                        <ImageBrush ImageSource="images/Rewind.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="PlayPauseMelodyButton" Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="30" Height="30" Margin="20,0,0,0" HorizontalAlignment="Center" BorderThickness="0" VerticalAlignment="Center">
+                <Button Style="{StaticResource BigIconButton}" x:Name="PlayPauseMelodyButton"
+                        Margin="20,0,0,0">
                     <Button.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="Play.png"/>
+                        <ImageBrush ImageSource="images/Play.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="ForwardMelodyButton" Style="{StaticResource ButtonAnimation}" Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Margin="0" VerticalAlignment="Center">
+                <Button Style="{StaticResource BigIconButton}" x:Name="ForwardMelodyButton"
+                        HorizontalAlignment="Right">
                     <Button.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="Forward.png"/>
+                        <ImageBrush ImageSource="images/Forward.png"/>
                     </Button.Background>
                 </Button>
-                <Label x:Name="MelodyNameLabel" Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="10,0" FontSize="15" FontFamily="Segoe UI Semibold"/>
-                <Slider x:Name="MelodySlider" Style="{StaticResource SliderWithThumb}" Grid.Column="2" Height="19" VerticalAlignment="Center" Margin="0,3,0,0" IsMoveToPointEnabled="True"/>
+                <Label x:Name="MelodyNameLabel"
+                       Grid.Column="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Margin="10,0"
+                       FontSize="15"
+                       FontFamily="Segoe UI Semibold"/>
+                <Slider Style="{StaticResource SliderWithThumb}" x:Name="MelodySlider"
+                        Grid.Column="2"
+                        Height="19"
+                        VerticalAlignment="Center"
+                        Margin="0,3,0,0"
+                        IsMoveToPointEnabled="True"/>
                 <Label x:Name="TimeMelodyLabel" Grid.Column="3" Content="mm:ss" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0,0,20,0" FontFamily="Segoe UI Semibold" FontSize="15"/>
             </Grid>
-            <Button Style="{StaticResource ButtonAnimation}" x:Name="MasterVolumeButton" Grid.Row="2" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0" Margin="0,10,10,20">
+            <Button Style="{StaticResource BigIconButton}" x:Name="VolumeButton"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Margin="0,10,10,0">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="Speaker.png"/>
+                    <ImageBrush ImageSource="images/Speaker.png"/>
                 </Button.Background>
             </Button>
         </Grid>
-        <Grid Grid.Column="1" Margin="20" >
+        <Grid x:Name="SfxGrid"
+              Grid.Column="1"
+              Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -388,226 +235,193 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Background="#FF2B2F33" CornerRadius="12" Grid.RowSpan="5" Grid.ColumnSpan="3"/>
-            <Button x:Name="SfxButton1" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="0" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock1" Grid.Row="0" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton2" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="1" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock2" Grid.Row="0" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton3" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="0" Grid.Column="2" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock3" Grid.Row="0" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton4" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="0" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock4" Grid.Row="1" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton5" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="1" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock5" Grid.Row="1" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton6" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="1" Grid.Column="2" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock6" Grid.Row="1" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton7" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="0" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock7" Grid.Row="2" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton8" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="1" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock8" Grid.Row="2" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton9" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="2" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock9" Grid.Row="2" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton10" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="0" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock10" Grid.Row="3" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton11" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="1" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock11" Grid.Row="3" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton12" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="3" Grid.Column="2" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock12" Grid.Row="3" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton13" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="0" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock13" Grid.Row="4" Grid.Column="0" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton14" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="1" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock14" Grid.Row="4" Grid.Column="1" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-            <Button x:Name="SfxButton15" Content="Button" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="66" Grid.Row="4" Grid.Column="2" Height="66">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Grid>
-                            <Ellipse x:Name="SfxButtonIcon1" Stroke="Black" Opacity="0"/>
-                            <Ellipse Stroke="Black"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <TextBlock x:Name="SfxTextBlock15" Grid.Row="4" Grid.Column="2" Text="Добавить звук" Opacity="0" Margin="0,76,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Grid>
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition/>
-                <RowDefinition Height="80"/>
-            </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold">
-                <TextBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-            <Grid Grid.Row="0" Grid.Column="0">
-                <TextBox x:Name="TemplateSearchTextBox" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center" Padding="40,0,10,0" MaxLength="30">
-                    <TextBox.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="12"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <Label Width="20" Height="20" HorizontalAlignment="Left" Margin="30,20,0,10" VerticalAlignment="Center">
-                    <Label.Background>
-                        <ImageBrush ImageSource="Search.png" Stretch="Uniform"/>
-                    </Label.Background>
-                </Label>
-                <TextBlock IsHitTestVisible="False" Text="Искать" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,20,20,10" Foreground="White" FontSize="16" FontFamily="Segoe UI Semibold">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=TemplateSearchTextBox}" Value="">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+            <Border Style="{StaticResource Control}"
+                    CornerRadius="12"
+                    Grid.RowSpan="5"
+                    Grid.ColumnSpan="3"/>
+
+            <Grid Grid.Row="0" Grid.Column="0" Margin="10,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
             </Grid>
-            <ListBox x:Name="ListBoxOfTemplates" Grid.Row="1" Margin="20,10" Background="#FF2B2F33" BorderThickness="0" Foreground="White" Padding="5">
-                <ListBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </ListBox.Resources>
-            </ListBox>
-            <Button x:Name="AddTemplateButton" Style="{StaticResource ButtonAnimation}" Content="Добавить шаблон" Grid.Row="2" Margin="20,10,20,20" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold" Click="AddTemplateButton_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+
+            <Grid Grid.Row="0" Grid.Column="1" Margin="5,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="2" Margin="5,10,10,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="0" Margin="10,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="1" Margin="5,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="2" Margin="5,10,10,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0" Margin="10,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="1" Margin="5,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="2" Margin="5,10,10,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="0" Margin="10,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="1" Margin="5,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="2" Margin="5,10,10,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.Column="0" Margin="10,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.Column="1" Margin="5,10,5,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.Column="2" Margin="5,10,10,0">
+                <Ellipse Style="{StaticResource SfxEllipse}"/>
+                <Button Style="{StaticResource SfxButtonWithAnimation}"
+                    Click="SfxButton_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="images/Plus in circle.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+        </Grid>
+        <Grid Grid.Column="2" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <TextBox Style="{StaticResource TextBox}" x:Name="TemplateSearchTextBox"
+                         Margin="0,0,0,10"
+                         FontSize="16"
+                         Padding="40,0,10,0"/>
+                <Image Width="20"
+                       Height="20"
+                       HorizontalAlignment="Left"
+                       Margin="10,0,0,10">
+                    <Image.Source>
+                        <BitmapImage UriSource="images/Search.png"/>
+                    </Image.Source>
+                </Image>
+                <TextBlock Style="{StaticResource PlaceholderTextBlock}" 
+                           Margin="40,0,0,10"/>
+            </Grid>
+            <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfTemplates"
+                     Grid.Row="1"
+                     Margin="0,10"
+                     Padding="5" SelectionChanged="ListBoxOfTemplates_SelectionChanged"/>
+            <Button Style="{StaticResource AddButton}" x:Name="AddTemplateButton"
+                    Grid.Row="2"
+                    Content="Добавить шаблон"
+                    Margin="0,10,0,0"
+                    Click="AddTemplateButton_Click"/>
         </Grid>
     </Grid>
 </Window>

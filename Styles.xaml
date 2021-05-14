@@ -1,0 +1,268 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="WindowBackground" Color="#FF212529"/>
+    <SolidColorBrush x:Key="ControlBackground" Color="#FF2B2F33"/>
+    <SolidColorBrush x:Key="AddButtonBackground" Color="#FF5E5F65"/>
+    <SolidColorBrush x:Key="TextBoxBackground" Color="#FF959799"/>
+    <SolidColorBrush x:Key="MenuButtonBackground" Color="Transparent"/>
+    <SolidColorBrush x:Key="MainColor" Color="#FF0089EF"/>
+    <SolidColorBrush x:Key="FontColor" Color="White"/>
+
+    <Style x:Key="Control">
+        <Setter Property="Control.Background" Value="{StaticResource ControlBackground}"/>
+        <Setter Property="Control.Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="Control.BorderThickness" Value="0"/>
+        <Setter Property="Control.FontFamily" Value="Segoe UI Semibold"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="12"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource Control}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AddButton" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Background" Value="{StaticResource AddButtonBackground}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="12"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="MenuButton" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Background" Value="{StaticResource MenuButtonBackground}"/>
+        <Setter Property="Margin" Value="0,10"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <RotateTransform Angle="90"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="{StaticResource MainColor}"/>
+                <Setter Property="BorderThickness" Value="0,5,0,0"/>
+            </Style>
+            <Style TargetType="ContentPresenter">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="0"/>
+            </Style>
+            <Style TargetType="ContentPresenter">
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="BigIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="30"/>
+    </Style>
+    <Style x:Key="SmallIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+    </Style>
+
+    <Style x:Key="TextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="MaxLength" Value="30"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="12"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="RepetitionRateTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource TextBoxBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MaxLength" Value="4"/>
+        <Setter Property="Text" Value="0"/>
+        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="12"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="PlaceholderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource Control}">
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Text" Value="Найти"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Text, ElementName=TemplateSearchTextBox}" Value="">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RepeatButton" TargetType="RepeatButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Height="5"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="LeftRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButton}">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource MainColor}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="RightRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButton}">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="Black"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="Thumb" TargetType="Thumb">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Ellipse Height="15" Width="15" Fill="{StaticResource MainColor}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderWithThumb" TargetType="Slider">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Maximum" Value="1"/>
+        <Setter Property="TickFrequency" Value="0.01"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Track x:Name="PART_Track">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource LeftRepeatButton}" Command="Slider.DecreaseLarge"/>
+                        </Track.DecreaseRepeatButton>
+                        <Track.Thumb>
+                            <Thumb Style="{StaticResource Thumb}"/>
+                        </Track.Thumb>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource RightRepeatButton}" Command="Slider.IncreaseLarge"/>
+                        </Track.IncreaseRepeatButton>
+                    </Track>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderWithoutThumb" TargetType="Slider">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Track x:Name="PART_Track">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource LeftRepeatButton}"/>
+                        </Track.DecreaseRepeatButton>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource RightRepeatButton}"/>
+                        </Track.IncreaseRepeatButton>
+                    </Track>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SfxEllipse" TargetType="Ellipse">
+        <Setter Property="Height" Value="70"/>
+        <Setter Property="Width" Value="70"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="StrokeThickness" Value="5"/>
+        <Setter Property="Stroke" Value="Black"/>
+    </Style>
+
+    <Style x:Key="SfxButtonWithoutAnimation" TargetType="Button">
+        <Setter Property="Width" Value="70"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Fill="{TemplateBinding Background}" Height="70" Width="70" VerticalAlignment="Top"/>
+                        <TextBlock Text="{TemplateBinding Content}" TextAlignment="Center" Margin="0,75,0,0" IsHitTestVisible="False"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SfxButtonWithAnimation" TargetType="{x:Type Button}" BasedOn="{StaticResource SfxButtonWithoutAnimation}">
+        <Setter Property="Opacity" Value="0"/>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Button.Opacity)" From="0" To="1" Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Button.Opacity)" From="1" To="0" Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="FileWork.cs" />
     <Compile Include="ListBoxFunctions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
@@ -88,6 +89,10 @@
       <DependentUpon>MainForm.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TemplateCreationForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,31 +114,47 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="images\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Cross.png" />
+    <Resource Include="images\Cross.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Speaker.png" />
+    <Resource Include="images\Speaker.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Rewind.png" />
+    <Resource Include="images\Rewind.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Play.png" />
+    <Resource Include="images\Play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Forward.png" />
+    <Resource Include="images\Forward.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Save.png" />
+    <Resource Include="images\Save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Arrow up.png" />
+    <Resource Include="images\Arrow up.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Search.png" />
+    <Resource Include="images\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Cross in circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Plus in circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Pause.png" />
+    <Resource Include="images\Speaker Mute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Note in circle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

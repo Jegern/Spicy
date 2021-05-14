@@ -12,7 +12,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" Background="{TemplateBinding Background}">
+                        <Border Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -107,7 +107,7 @@
             <RowDefinition Height="80px"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBox x:Name="TemplateName" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="30" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center" Padding="10,0" MaxLength="30" HorizontalContentAlignment="Center">
+            <TextBox x:Name="TemplateNameTextBox" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="30" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center" Padding="10,0" MaxLength="30" HorizontalContentAlignment="Center">
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="12"/>
@@ -119,7 +119,7 @@
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text, ElementName=TemplateName}" Value="">
+                            <DataTrigger Binding="{Binding Text, ElementName=TemplateNameTextBox}" Value="">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -132,14 +132,14 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="ListBoxOfAllSounds" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,10,10,10" PreviewMouseLeftButtonDown="SetLeftMouseDownTrue" PreviewMouseLeftButtonUp="SetLeftMouseDownFalse" MouseLeave="SetLeftMouseDownFalse" PreviewMouseDoubleClick="ListBoxOfAllSounds_PreviewMouseDoubleClick" AllowDrop="True" PreviewMouseMove="ListBoxOfAllSounds_PreviewMouseMove" Drop="ListBoxOfAllSounds_Drop" DragOver="ApplyNoneEffectToListBox" DragEnter="ApplyNoneEffectToListBox" Background="#FF2B2F33" Foreground="White" BorderThickness="0" Padding="5,40,5,5">
+            <ListBox x:Name="ListBoxOfAllSounds" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,10,10,10" PreviewMouseDoubleClick="ListBoxOfAllSounds_PreviewMouseDoubleClick" AllowDrop="True" Background="#FF2B2F33" Foreground="White" BorderThickness="0" Padding="5,40,5,5">
                 <ListBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="12"/>
                     </Style>
                 </ListBox.Resources>
             </ListBox>
-            <ListBox x:Name="ListBoxOfSelectedSounds" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,20,10" AllowDrop="True" Drop="ListBoxOfSelectedSounds_Drop" PreviewMouseDoubleClick="ListBoxOfSelectedSounds_PreviewMouseDoubleClick" PreviewMouseLeftButtonDown="SetLeftMouseDownTrue" PreviewMouseLeftButtonUp="SetLeftMouseDownFalse" PreviewMouseMove="ListBoxOfSelectedSounds_PreviewMouseMove" MouseLeave="SetLeftMouseDownFalse" SelectionChanged="ListBoxOfSelectedSounds_SelectionChanged" DragEnter="ApplyNoneEffectToListBox" DragOver="ApplyNoneEffectToListBox" Background="#FF2B2F33" Foreground="White" BorderThickness="0" Padding="5,40,5,5">
+            <ListBox x:Name="ListBoxOfSelectedSounds" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,20,10" AllowDrop="True" PreviewMouseDoubleClick="ListBoxOfSelectedSounds_PreviewMouseDoubleClick" SelectionChanged="ListBoxOfSelectedSounds_SelectionChanged" Background="#FF2B2F33" Foreground="White" BorderThickness="0" Padding="5,40,5,5">
                 <ListBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="12"/>
