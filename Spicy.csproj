@@ -63,7 +63,6 @@
     <Compile Include="ListBoxFunctions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MediaPlayerWithSound.cs" />
-    <Compile Include="Sound.cs" />
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
     </Compile>
