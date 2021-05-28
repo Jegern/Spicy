@@ -38,9 +38,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,12 +59,10 @@
     <Compile Include="AddingMelodyForm.xaml.cs">
       <DependentUpon>AddingMelodyForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddingSoundForm.xaml.cs">
-      <DependentUpon>AddingSoundForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FileWork.cs" />
     <Compile Include="ListBoxFunctions.cs" />
-    <Compile Include="Sound.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MediaPlayerWithSound.cs" />
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
     </Compile>
@@ -83,6 +78,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AddingSoundForm.xaml.cs">
+      <DependentUpon>AddingSoundForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -91,6 +89,10 @@
       <DependentUpon>MainForm.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TemplateCreationForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,12 +114,47 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="images\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Sound icon.png" />
+    <Resource Include="images\Cross.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Plus icon.png" />
+    <Resource Include="images\Speaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Rewind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Arrow up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Cross in circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Plus in circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Pause.png" />
+    <Resource Include="images\Speaker Mute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Note in circle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

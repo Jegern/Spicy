@@ -1,45 +1,41 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Spicy
 {
     public partial class AddingMelodyForm : Window
     {
-        MainForm owner;
+        internal bool MelodyIsReady = false;
+        internal string NewMelody = string.Empty;
 
-        public AddingMelodyForm(Window owner)
+        public AddingMelodyForm()
         {
             InitializeComponent();
-            InitializeOtherComponent(owner);
         }
 
-        void InitializeOtherComponent(Window window)
+        private void AddingMelodyWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Owner = window;
-            owner = window as MainForm;
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfMelodies, "music", "mp3");
-            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox(owner.ListBoxOfMelodies, ListBoxOfMelodies);
+            ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox((Owner as MainForm).ListBoxOfMelodies, ListBoxOfMelodies);
             ListBoxFunctions.SortAscending(ListBoxOfMelodies);
         }
 
-        void AddMelodyButton_Click(object sender, RoutedEventArgs e)
+        private void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MelodyIsReadyToAdding())
+            CheckIfMelodyIsReady();
+            if (MelodyIsReady)
             {
-                ListBoxFunctions.AddSuitableObjectToSuitableListBox(this);
-                owner.RewriteMelodiesFile();
+                NewMelody = ListBoxOfMelodies.SelectedItem.ToString();
                 Close();
             }
         }
 
-        bool MelodyIsReadyToAdding()
+        private void CheckIfMelodyIsReady()
         {
-            bool isReady = true;
             if (ListBoxOfMelodies.SelectedItem == null)
-            {
                 MessageBox.Show("Пожалуйста, выберите мелодию", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
-                isReady = false;
-            }
-            return isReady;
+            else
+                MelodyIsReady = true;
         }
     }
 }

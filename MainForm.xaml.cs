@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,506 +8,430 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 
 namespace Spicy
 {
     public partial class MainForm : Window
     {
-        #region Initialization
+        #region Инициализация
         public MainForm()
         {
             InitializeComponent();
             InitializeOtherComponent();
-            volumeSliders = new[] { SfxVolumeSlider, MusicVolumeSlider, AmbientVolumeSlider };
-            volumeButtons = new[] { SfxVolumeButton, MusicVolumeButton, AmbientVolumeButton };
         }
 
-        void InitializeOtherComponent()
+        private void InitializeOtherComponent()
         {
+            HideTemplateAndSfxMenu();
             InitializeListBoxOfTemplateSounds();
-            MinimizeSoundListAndSettings();
-            MinimizeSoundSettings();
+            LoadTemplatesInListBox();
+            InitializeMelodyMediaPlayer();
         }
 
-        void InitializeListBoxOfTemplateSounds()
+        private void HideTemplateAndSfxMenu()
         {
-            ListBoxOfTemplateSounds.ItemsSource = collectionOfTemplateSounds;
-            ListBoxOfTemplateSounds.DisplayMemberPath = "Name";
+            TemplateMenu.Width = new GridLength(0);
+            SfxMenu.Width = new GridLength(0);
+            Width -= Width / 2;
         }
 
-        void MinimizeSoundListAndSettings()
+        private void InitializeListBoxOfTemplateSounds()
         {
-            SoundListAndSettings.Width = new GridLength(0, GridUnitType.Star);
-            Width -= Width / 4;
+            ListBoxOfSounds.ItemsSource = collectionOfSounds;
+            ListBoxOfSounds.DisplayMemberPath = "Name";
         }
 
-        void MinimizeSoundSettings()
-        {
-            SoundVolumeRow.Height = new GridLength(0, GridUnitType.Pixel);
-            SoundRepetitionRateRow.Height = new GridLength(0, GridUnitType.Pixel);
-        }
-
-        void ListOfReadyMadeTemplates_Loaded(object sender, RoutedEventArgs e)
+        private void LoadTemplatesInListBox()
         {
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfTemplates, "sound templates", "bin");
             ListBoxFunctions.SortAscending(ListBoxOfTemplates);
         }
-        #endregion
 
-
-        #region General sound control
-        readonly Slider[] volumeSliders;
-        readonly Button[] volumeButtons;
-        readonly double[] volume = new[] { 1.0, 1.0, 1.0 };
-        readonly double[] pastVolume = new[] { 1.0, 1.0, 1.0 };
-        readonly bool[] volumeIsMute = new[] { false, false, false };
-        bool soundRepetitionRateTextBoxGotFocus = false;
-
-        void VolumeButton_Click(object sender, RoutedEventArgs e)
-        {
-            MuteOrUnmuteGeneralSound(sender);
-        }
-
-        void MuteOrUnmuteGeneralSound(object sender)
-        {
-            int volumeIndex = Array.IndexOf(volumeButtons, sender as Button);
-            volumeIsMute[volumeIndex] = !volumeIsMute[volumeIndex];
-            if (volumeIsMute[volumeIndex])
-                volumeSliders[volumeIndex].Value = 0;
-            else
-                volumeSliders[volumeIndex].Value = pastVolume[volumeIndex];
-        }
-
-        void SfxVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (volumeSliders != null)
-                ChangeGeneralVolume(sender);
-        }
-
-        void ChangeGeneralVolume(object sender)
-        {
-            int volumeIndex = Array.IndexOf(volumeSliders, sender as Slider);
-            volume[volumeIndex] = volumeSliders[volumeIndex].Value;
-            if (volume[volumeIndex] != 0)
-            {
-                pastVolume[volumeIndex] = volume[volumeIndex];
-                volumeIsMute[volumeIndex] = false;
-            }
-        }
-
-        void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (volumeSliders != null)
-                ChangeGeneralVolume(sender);
-            ApplyMusicVolumeToMelodyMediaPlayer();
-        }
-
-        void ApplyMusicVolumeToMelodyMediaPlayer()
-        {
-            melodyMediaPlayer.Volume = volume[1];
-        }
-
-        void AmbientVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (volumeSliders != null)
-                ChangeGeneralVolume(sender);
-            ApplyAmbientVolumeToTemplateSounds();
-        }
-
-        void ApplyAmbientVolumeToTemplateSounds()
-        {
-            for (int i = 0; i < collectionOfTemplateSounds.Count; i++)
-                mediaPlayers[i].Volume = collectionOfTemplateSounds[i].Volume * volume[2];
-        }
-        #endregion
-
-
-        #region Button animation
-        readonly DoubleAnimation fadingAnimation = new DoubleAnimation
-        {
-            From = 1,
-            To = 0,
-            Duration = new Duration(TimeSpan.FromMilliseconds(500))
-        };
-        readonly DoubleAnimation appearanceAnimation = new DoubleAnimation
-        {
-            From = 0,
-            To = 1,
-            Duration = new Duration(TimeSpan.FromMilliseconds(500)),
-        };
-
-        void SfxButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            AnimateButtonIconAndTextBlock(sender, appearanceAnimation);
-        }
-
-        void SfxButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            AnimateButtonIconAndTextBlock(sender, fadingAnimation);
-        }
-
-        void AnimateButtonIconAndTextBlock(object sender, DoubleAnimation animation)
-        {
-            Button button = sender as Button;
-            string buttonNumber = Regex.Match(button.Name, @"[0-9]{1,2}").ToString();
-            AnimateButtonIcon(animation, button, buttonNumber);
-            AnimateButtonTextBlock(animation, buttonNumber);
-        }
-
-        void AnimateButtonIcon(DoubleAnimation animation, Button button, string buttonNumber)
-        {
-            Ellipse ellipse = button.Template.FindName("SfxButtonIcon" + buttonNumber, button) as Ellipse;
-            ellipse.BeginAnimation(OpacityProperty, animation);
-        }
-
-        void AnimateButtonTextBlock(DoubleAnimation animation, string buttonNumber)
-        {
-            TextBlock textBlock = sfxGrid.FindName("SfxTextBlock" + buttonNumber) as TextBlock;
-            textBlock.BeginAnimation(OpacityProperty, animation);
-        }
-        #endregion
-
-
-        #region SFX button click
-        void SfxButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddSfxToButton(sender);
-        }
-
-        void AddSfxToButton(object sender)
-        {
-            Button button = sender as Button;
-            string buttonNumber = Regex.Match(button.Name, @"[0-9]{1,2}").ToString();
-            AddIconToSfxButton(button, "SfxButtonIcon" + buttonNumber);
-            AddTextToSfxTextBlock("SfxTextBlock" + buttonNumber, "SFX звук");
-        }
-
-        void AddIconToSfxButton(Button button, string buttonIconName)
-        {
-            Ellipse ellipse = button.Template.FindName(buttonIconName, button) as Ellipse;
-            ellipse.Fill = new ImageBrush(new BitmapImage(new Uri("images/Sound icon.png", UriKind.Relative)));
-        }
-
-        void AddTextToSfxTextBlock(string textBlockName, string text)
-        {
-            TextBlock textBlock = sfxGrid.FindName(textBlockName) as TextBlock;
-            textBlock.Text = text;
-        }
-        #endregion
-
-
-        #region Control components of templates
-        readonly List<MediaPlayer> mediaPlayers = new List<MediaPlayer>();
-
-        void ListOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ClearComponent();
-            if (ListBoxOfTemplates.SelectedItem != null)
-            {
-                DeleteTemplateButton.IsEnabled = true;
-                ExpandSoundListAndSettings();
-                LoadAndPlaySelectedTemplate();
-            }
-            else
-                DeleteTemplateButton.IsEnabled = false;
-        }
-
-        private void ClearComponent()
-        {
-            ListBoxOfMelodies.Items.Clear();
-            melodyMediaPlayer.Stop();
-            TemplateName.Text = string.Empty;
-        }
-
-        void ExpandSoundListAndSettings()
-        {
-            GridLength oneStarLength = new GridLength(1, GridUnitType.Star);
-            if (SoundListAndSettings.Width != oneStarLength)
-            {
-                Width += Width / 3;
-                if (SystemParameters.PrimaryScreenWidth - Left < Width)
-                    Left = SystemParameters.PrimaryScreenWidth - Width;
-            }
-            SoundListAndSettings.Width = oneStarLength;
-        }
-
-        void LoadAndPlaySelectedTemplate()
-        {
-            ChangeTextInTemplateName();
-            LoadNewTemplateSoundsInCollection();
-            StopCurrentTemplateSounds();
-            PlaySoundsInSelectedTemplate();
-            LoadAndPlayTemplateMelodies();
-        }
-
-        void ChangeTextInTemplateName()
-        {
-            TemplateName.Text = ListBoxOfTemplates.SelectedItem.ToString();
-        }
-
-        void LoadNewTemplateSoundsInCollection()
-        {
-            collectionOfTemplateSounds.Clear();
-            FileWork.ReadFileToSoundCollection(collectionOfTemplateSounds, TemplateName.Text);
-            ListBoxFunctions.SortAscending(ListBoxOfTemplateSounds, "Name");
-        }
-
-        void StopCurrentTemplateSounds()
-        {
-            for (int i = 0; i < mediaPlayers.Count; i++)
-                mediaPlayers[i].Stop();
-            mediaPlayers.Clear();
-        }
-
-        void PlaySoundsInSelectedTemplate()
-        {
-            for (int i = 0; i < collectionOfTemplateSounds.Count; i++)
-                PlaySound(collectionOfTemplateSounds[i]);
-        }
-
-        internal void PlaySound(Sound sound)
-        {
-            MediaPlayer mediaPlayer = ConfiguredMediaPlayer(sound);
-            mediaPlayer.Play();
-            mediaPlayers.Add(mediaPlayer);
-        }
-
-        MediaPlayer ConfiguredMediaPlayer(Sound sound)
-        {
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            mediaPlayer.MediaEnded += MediaPlayerSoundEnded;
-            mediaPlayer.Volume = 2 * sound.Volume * volume[2];
-            string soundPath = "sounds/" + sound.Name + ".mp3";
-            mediaPlayer.Open(new Uri(soundPath, UriKind.Relative));
-
-            return mediaPlayer;
-        }
-
-        async void MediaPlayerSoundEnded(object sender, EventArgs e)
-        {
-            MediaPlayer mediaPlayer = sender as MediaPlayer;
-            await Task.Delay(GetDelay(mediaPlayer));
-            ReplayMediaPlayer(mediaPlayer);
-        }
-
-        int GetDelay(MediaPlayer mediaPlayer)
-        {
-            int soundIndex = mediaPlayers.IndexOf(mediaPlayer);
-            int repetitionRate = collectionOfTemplateSounds[soundIndex].RepetitionRate;
-
-            return repetitionRate * 1000;
-        }
-
-        void ReplayMediaPlayer(MediaPlayer mediaPlayer)
-        {
-            if (mediaPlayers.Contains(mediaPlayer))
-            {
-                mediaPlayer.Position = new TimeSpan(0);
-                mediaPlayer.Play();
-            }
-        }
-
-        void LoadAndPlayTemplateMelodies()
-        {
-            if (File.Exists("music templates/" + TemplateName.Text + ".bin"))
-                FileWork.ReadFileToListBox(ListBoxOfMelodies, TemplateName.Text);
-        }
-
-        void CreateTemplateButton_Click(object sender, RoutedEventArgs e)
-        {
-            TemplateCreationForm templateCreationForm = new TemplateCreationForm
-            {
-                Owner = this
-            };
-            templateCreationForm.Show();
-        }
-
-        void DeleteTemplateButton_Click(object sender, RoutedEventArgs e)
-        {
-            StopCurrentTemplateSounds();
-            MinimizeSoundListAndSettings();
-            DeleteTemplate((string)ListBoxOfTemplates.SelectedItem);
-        }
-
-        void DeleteTemplate(string name)
-        {
-            File.Delete("sound templates/" + name + ".bin");
-            ListBoxOfTemplates.Items.Remove(name);
-        }
-        #endregion
-
-
-        #region Control components of template sounds
-        readonly ObservableCollection<Sound> collectionOfTemplateSounds = new ObservableCollection<Sound>();
-
-        void ListOfSounds_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListBoxOfTemplateSounds.SelectedItem != null)
-            {
-                ExpandSoundSettings();
-                SetSoundSettings();
-                DeleteSoundButton.IsEnabled = true;
-            }
-            else
-            {
-                MinimizeSoundSettings();
-                DeleteSoundButton.IsEnabled = false;
-            }
-        }
-
-        void ExpandSoundSettings()
-        {
-            SoundVolumeRow.Height = new GridLength(60, GridUnitType.Pixel);
-            SoundRepetitionRateRow.Height = new GridLength(60, GridUnitType.Pixel);
-        }
-
-        void SetSoundSettings()
-        {
-            Sound selectedSound = ListBoxOfTemplateSounds.SelectedItem as Sound;
-            SoundVolumeSlider.Value = selectedSound.Volume;
-            SoundRepetitionRateTextbox.Text = selectedSound.RepetitionRate.ToString();
-        }
-
-        void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (ListBoxOfTemplateSounds.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length != 0)
-            {
-                (ListBoxOfTemplateSounds.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
-                RewriteTemplateFile();
-            }
-        }
-
-        internal void RewriteTemplateFile()
-        {
-            FileWork.WriteSoundCollectionToFile(collectionOfTemplateSounds, TemplateName.Text);
-        }
-
-        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (ListBoxOfTemplateSounds.SelectedItem != null)
-            {
-                (ListBoxOfTemplateSounds.SelectedItem as Sound).Volume = SoundVolumeSlider.Value;
-                ChangeSoundVolume();
-                RewriteTemplateFile();
-            }
-        }
-
-        void ChangeSoundVolume()
-        {
-            int soundIndex = collectionOfTemplateSounds.IndexOf(ListBoxOfTemplateSounds.SelectedItem as Sound);
-            mediaPlayers[soundIndex].Volume = (ListBoxOfTemplateSounds.SelectedItem as Sound).Volume * volume[2];
-        }
-
-        void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            soundRepetitionRateTextBoxGotFocus = true;
-        }
-
-        void SoundRepetitionRateTextbox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (soundRepetitionRateTextBoxGotFocus)
-            {
-                soundRepetitionRateTextBoxGotFocus = false;
-                (sender as TextBox).SelectAll();
-            }
-        }
-
-        void AddSoundButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddingSoundForm addingSoundForm = new AddingSoundForm(this);
-            addingSoundForm.Show();
-        }
-
-        void DeleteSoundButton_Click(object sender, RoutedEventArgs e)
-        {
-            Sound selectedSound = ListBoxOfTemplateSounds.SelectedItem as Sound;
-            StopDeletableSound(selectedSound);
-            collectionOfTemplateSounds.Remove(selectedSound);
-            RewriteTemplateFile();
-        }
-
-        void StopDeletableSound(Sound sound)
-        {
-            int soundIndex = collectionOfTemplateSounds.IndexOf(ListBoxOfTemplateSounds.SelectedItem as Sound);
-            mediaPlayers[soundIndex].Stop();
-            mediaPlayers.RemoveAt(soundIndex);
-        }
-        #endregion
-
-
-        #region Control components of melodies
-        readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
-
-        void ListBoxOfMelodies_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                PlayMelodyWithNumber((sender as ListBox).SelectedIndex);
-            }
-        }
-
-        void PlayMelodyWithNumber(int index)
+        private void InitializeMelodyMediaPlayer()
         {
             melodyMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
-            melodyMediaPlayer.Volume = volume[1];
-            PlayNextMelody(index);
         }
 
         void MediaPlayerMelodyEnded(object sender, EventArgs e)
         {
-            PlayNextMelody(GetNextMelodyIndex());
+            string melodyName = Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
+            PlayNextMelody(melodyName);
         }
 
-        void PlayNextMelody(int index)
+        private void PlayNextMelody(string currentMelodyName)
         {
-            if (ListBoxOfMelodies.Items.Count > 0)
+            int currentMelodyIndex = ListBoxOfMelodies.Items.IndexOf(currentMelodyName);
+            int nextMelodyIndex = currentMelodyIndex + 1 == ListBoxOfMelodies.Items.Count ? 0 : currentMelodyIndex + 1;
+            PlayMelody(ListBoxOfMelodies.Items[nextMelodyIndex].ToString());
+        }
+        #endregion
+
+
+        #region Управление меню
+        private void TemplateMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MinimizeMenu(SfxMenu);
+            ExpandMenu(TemplateMenu);
+        }
+
+        private void SfxMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MinimizeMenu(TemplateMenu);
+            ExpandMenu(SfxMenu);
+        }
+
+        private void MinimizeMenu(ColumnDefinition grid)
+        {
+            if (grid.Width != new GridLength(0))
             {
-                if (index == ListBoxOfMelodies.Items.Count)
-                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[0] + ".mp3", UriKind.Relative));
-                else
-                    melodyMediaPlayer.Open(new Uri("music/" + ListBoxOfMelodies.Items[index] + ".mp3", UriKind.Relative));
-                melodyMediaPlayer.Play();
+                grid.Width = new GridLength(0);
+                Width -= Width / 3;
             }
         }
 
-        void AddMelodyButton_Click(object sender, RoutedEventArgs e)
+        private void ExpandMenu(ColumnDefinition grid)
         {
-            AddingMelodyForm addingMelodyForm = new AddingMelodyForm(this);
-            addingMelodyForm.Show();
-        }
-
-        void DeleteMelodyButton_Click(object sender, RoutedEventArgs e)
-        {
-            string selectedMelody = (string)ListBoxOfMelodies.SelectedItem;
-            StopIfItPlayingMelody(selectedMelody);
-            ListBoxOfMelodies.Items.Remove(selectedMelody);
-            RewriteMelodiesFile();
-        }
-
-        void StopIfItPlayingMelody(string melody)
-        {
-            if (melodyMediaPlayer.Source != null)
+            if (grid.Width == new GridLength(0))
             {
-                string playingMelody = System.IO.Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
-                if (melody == playingMelody)
-                {
-                    melodyMediaPlayer.Stop();
-                    PlayNextMelody(GetNextMelodyIndex());
-                }
+                grid.Width = new GridLength(1, GridUnitType.Star);
+                Width += Width / 2;
+            }
+        }
+        #endregion
+
+
+        #region Управление звуками
+        readonly ObservableCollection<MediaPlayerWithSound> collectionOfSounds = new ObservableCollection<MediaPlayerWithSound>();
+
+        private void SoundTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((sender as TextBox).DataContext as MediaPlayerWithSound).RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
+        }
+
+        private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ((sender as Slider).DataContext as MediaPlayerWithSound).Volume = (sender as Slider).Value;
+        }
+
+        private void AddSoundButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddingSoundForm addingSoundForm = new AddingSoundForm { Owner = this };
+            addingSoundForm.ShowDialog();
+            if (addingSoundForm.SoundIsReady)
+                AddSoundToListBoxOfSounds(addingSoundForm.NewSound);
+        }
+
+        private void AddSoundToListBoxOfSounds(MediaPlayerWithSound sound)
+        {
+            collectionOfSounds.Add(sound);
+            ListBoxFunctions.SortAscending(ListBoxOfSounds);
+            ConfiguredMediaPlayer(sound);
+            sound.Play();
+        }
+
+        private void DeleteSoundButton_Click(object sender, RoutedEventArgs e)
+        {
+            MediaPlayerWithSound sound = ((sender as Button).TemplatedParent as ListBoxItem).Content as MediaPlayerWithSound;
+            sound.Stop();
+            collectionOfSounds.Remove(sound);
+        }
+        #endregion
+
+
+        #region Управление мелодиями
+        readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
+        string playingMelodyName = string.Empty;
+        bool melodyIsPaused = false;
+
+        private void AddMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddingMelodyForm melodyForm = new AddingMelodyForm { Owner = this };
+            melodyForm.ShowDialog();
+            if (melodyForm.MelodyIsReady)
+                ListBoxOfMelodies.Items.Add(melodyForm.NewMelody);
+        }
+
+        private void DeleteMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            string deletingMelodyName = (sender as Button).DataContext.ToString();
+            if (deletingMelodyName == playingMelodyName)
+                StopMelody();
+            ListBoxOfMelodies.Items.Remove(deletingMelodyName);
+        }
+
+        private void StopMelody()
+        {
+            melodyMediaPlayer.Stop();
+            MelodyNameLabel.Content = string.Empty;
+        }
+
+        private void PlayMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            string melodyName = button.DataContext.ToString();
+            if (playingMelodyName == string.Empty || melodyName != playingMelodyName)
+                StartMelody(button);
+            else if (playingMelodyName != string.Empty)
+                ContinuePlayOrPauseMelody(button);
+        }
+
+        private void StartMelody(Button button)
+        {
+            string melodyName = button.DataContext.ToString();
+            ClearMelodyPlayer();
+            PlayMelody(melodyName);
+            ChangeMelodyButtonIcons(button, "Play");
+            ExpandMelodySlider(button);
+            MelodyNameLabel.Content = playingMelodyName = melodyName;
+        }
+
+        private void ClearMelodyPlayer()
+        {
+            for (int i = 0; i < ListBoxOfMelodies.Items.Count; i++)
+            {
+                ListBoxItem item = ListBoxOfMelodies.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
+                Button button = item.Template.FindName("PlayMelodyButton", item) as Button;
+                button.Background = Resources["Play"] as ImageBrush;
+                Grid grid = (button.Parent as Grid).Parent as Grid;
+                grid.RowDefinitions[1].Height = new GridLength(0);
             }
         }
 
-        int GetNextMelodyIndex()
+        private void PlayMelody(string name)
         {
-            string playingMelody = System.IO.Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
-            return ListBoxOfMelodies.Items.IndexOf(playingMelody) + 1;
+            melodyMediaPlayer.Open(new Uri("music/" + name + ".mp3", UriKind.Relative));
+            melodyMediaPlayer.Play();
+            melodyIsPaused = false;
         }
 
-        internal void RewriteMelodiesFile()
+        private void ChangeMelodyButtonIcons(Button button, string action)
         {
-            if (TemplateName.Text.Length > 0)
-                FileWork.WriteMelodiesToFile(ListBoxOfMelodies.Items, TemplateName.Text);
+            string iconName = action == "Play" ? "Pause" : "Play";
+            button.Background = Resources[iconName] as ImageBrush;
+            PlayPauseMelodyButton.Background = Resources[iconName] as ImageBrush;
+        }
+
+        private void ExpandMelodySlider(Button button)
+        {
+            Grid listBoxItemGrid = (button.Parent as Grid).Parent as Grid;
+            listBoxItemGrid.RowDefinitions[1].Height = new GridLength(30);
+        }
+
+        private void ContinuePlayOrPauseMelody(Button button)
+        {
+            if (melodyIsPaused)
+                ContinuePlayMelody(button);
+            else
+                PauseMelody(button);
+        }
+
+        private void ContinuePlayMelody(Button button)
+        {
+            melodyMediaPlayer.Play();
+            melodyIsPaused = false;
+            ChangeMelodyButtonIcons(button, "Play");
+        }
+
+        private void PauseMelody(Button button)
+        {
+            melodyMediaPlayer.Pause();
+            melodyIsPaused = true;
+            ChangeMelodyButtonIcons(button, "Pause");
+        }
+
+        private void PlayPauseMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (playingMelodyName != string.Empty)
+                ContinuePlayOrPauseMelody(FindMelodyButton(playingMelodyName));
+        }
+
+        private Button FindMelodyButton(string melodyName)
+        {
+            Button button = null;
+            for (int i = 0; i < ListBoxOfMelodies.Items.Count; i++)
+            {
+                ListBoxItem item = ListBoxOfMelodies.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
+                button = item.Template.FindName("PlayMelodyButton", item) as Button;
+                string buttonMelodyName = (button.Parent as Grid).DataContext.ToString();
+                if (buttonMelodyName == melodyName)
+                    break;
+            }
+            return button;
+        }
+
+        private void UpMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            string melodyName = (sender as Button).DataContext.ToString();
+            int itemIndex = ListBoxOfMelodies.Items.IndexOf(melodyName);
+            if (itemIndex > 0)
+            {
+                ListBoxOfMelodies.Items.Insert(itemIndex - 1, melodyName);
+                ListBoxOfMelodies.Items.RemoveAt(itemIndex + 1);
+                UpdateMelodyLayout(melodyName);
+            }
+        }
+
+        private void UpdateMelodyLayout(string melodyName)
+        {
+            if (melodyName == playingMelodyName)
+            {
+                ListBoxOfMelodies.UpdateLayout();
+                FindMelodyButton(playingMelodyName).Background = PlayPauseMelodyButton.Background;
+                ExpandMelodySlider(FindMelodyButton(playingMelodyName));
+            }
+        }
+        #endregion
+
+
+        #region Управление SFX
+        readonly List<MediaPlayer> listOfSfxMediaPlayers = new List<MediaPlayer>();
+
+        private void SfxButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (Extensions.GetSound(button) == null)
+                AddSoundToSfxButton(button);
+            else
+                PlaySfxSound(button);
+        }
+
+        private void AddSoundToSfxButton(Button button)
+        {
+            AttachSoundToButton(button);
+            if (Extensions.GetSound(button) != null)
+            {
+                ChangeSfxIcon(button);
+                ChangeSfxText(button);
+            }
+        }
+
+        private void AttachSoundToButton(Button button)
+        {
+            AddingSoundForm addingSoundForm = new AddingSoundForm();
+            addingSoundForm.ShowDialog();
+            if (addingSoundForm.SoundIsReady)
+                Extensions.SetSound(button, addingSoundForm.NewSound);
+        }
+
+        private void ChangeSfxIcon(Button button)
+        {
+            button.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/images/Note in circle.png")));
+            button.Style = Resources["SfxButtonWithoutAnimation"] as Style;
+            button.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, new TimeSpan(0)));
+        }
+
+        private void ChangeSfxText(Button button)
+        {
+            button.Content = Extensions.GetSound(button).Name;
+        }
+
+        private void PlaySfxSound(object sender)
+        {
+            MediaPlayerWithSound sound = Extensions.GetSound(sender as Button);
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.MediaEnded += RemoveSoundAfterPlay;
+            mediaPlayer.Open(new Uri("sounds/" + sound.Name + ".mp3", UriKind.Relative));
+            mediaPlayer.Volume = sound.Volume;
+            listOfSfxMediaPlayers.Add(mediaPlayer);
+            mediaPlayer.Play();
+        }
+
+        private void RemoveSoundAfterPlay(object sender, EventArgs e)
+        {
+            listOfSfxMediaPlayers.Remove(sender as MediaPlayer);
+        }
+        #endregion
+
+
+        #region Управление шаблонами
+        private void AddTemplateButton_Click(object sender, RoutedEventArgs e)
+        {
+            TemplateCreationForm templateCreationForm = new TemplateCreationForm { Owner = this };
+            templateCreationForm.ShowDialog();
+            if (templateCreationForm.TemplateIsReady)
+                AddTemplateToListBoxOfTemplates(templateCreationForm.TemplateName);
+        }
+
+        private void AddTemplateToListBoxOfTemplates(string templateName)
+        {
+            ListBoxOfTemplates.Items.Add(templateName);
+            ListBoxFunctions.SortAscending(ListBoxOfTemplates);
+        }
+
+        private void ListBoxOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedTemplate = (string)ListBoxOfTemplates.SelectedItem;
+            if (selectedTemplate != null)
+            {
+                StopPlayingTemplate();
+                LoadSelectedTemplateSounds(selectedTemplate);
+                LoadSelectedTemplateMelodies(selectedTemplate);
+                PlaySelectedTemplate();
+            }
+        }
+
+        private void StopPlayingTemplate()
+        {
+            for (int i = 0; i < collectionOfSounds.Count; i++)
+                collectionOfSounds[i].Stop();
+            collectionOfSounds.Clear();
+            melodyMediaPlayer.Stop();
+        }
+
+        private void LoadSelectedTemplateSounds(string selectedTemplate)
+        {
+            TemplateNameTextBox.Text = selectedTemplate;
+            collectionOfSounds.Clear();
+            FileWork.ReadFileToSoundCollection(collectionOfSounds, selectedTemplate);
+            ListBoxFunctions.SortAscending(ListBoxOfSounds);
+        }
+
+        private void LoadSelectedTemplateMelodies(string selectedTemplate)
+        {
+            ListBoxOfMelodies.Items.Clear();
+            FileWork.ReadFileToListBox(ListBoxOfMelodies, selectedTemplate);
+        }
+
+        private void PlaySelectedTemplate()
+        {
+            for (int i = 0; i < collectionOfSounds.Count; i++)
+                PlaySound(collectionOfSounds[i]);
+        }
+
+        async void PlaySound(MediaPlayerWithSound sound)
+        {
+            ConfiguredMediaPlayer(sound);
+            Random random = new Random();
+            await Task.Delay(random.Next((int)(sound.RepetitionRate * 1000)));
+            sound.Play();
+        }
+
+        void ConfiguredMediaPlayer(MediaPlayerWithSound sound)
+        {
+            sound.MediaEnded += MediaPlayerSoundEnded;
+            string soundPath = "sounds/" + sound.Name + ".mp3";
+            sound.Open(new Uri(soundPath, UriKind.Relative));
+        }
+
+        async void MediaPlayerSoundEnded(object sender, EventArgs e)
+        {
+            MediaPlayerWithSound sound = sender as MediaPlayerWithSound;
+            await Task.Delay(GetDelay(sound));
+            ReplayMediaPlayer(sound);
+        }
+
+        int GetDelay(MediaPlayerWithSound sound)
+        {
+            return (int)(sound.RepetitionRate * 1000);
+        }
+
+        void ReplayMediaPlayer(MediaPlayerWithSound sound)
+        {
+            if (collectionOfSounds.Contains(sound))
+            {
+                sound.Position = new TimeSpan(0);
+                sound.Play();
+            }
         }
         #endregion
     }

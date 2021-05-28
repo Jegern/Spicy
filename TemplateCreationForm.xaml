@@ -4,44 +4,72 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Окно создания шаблона" Height="700" Width="500" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
+        Style="{StaticResource Window}"
+        Title="Окно создания шаблона"
+        Height="800"
+        Width="600"
+        WindowStartupLocation="CenterOwner">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80px"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="80px"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="TemplateName" Grid.Row="0" HorizontalAlignment="Center" Height="50" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="25" VerticalContentAlignment="Center" MaxLines="1" MaxLength="35" MinWidth="350" KeyUp="TemplateName_KeyUp" HorizontalContentAlignment="Center"/>
+        <TextBox Style="{StaticResource TextBox}" x:Name="TemplateNameTextBox"
+                 Margin="20,20,20,10"
+                 FontSize="30"
+                 Padding="10,0"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="ListBoxOfAllSounds" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,10" PreviewMouseLeftButtonDown="SetLeftMouseDownTrue" PreviewMouseLeftButtonUp="SetLeftMouseDownFalse" MouseLeave="SetLeftMouseDownFalse" PreviewMouseDoubleClick="ListBoxOfAllSounds_PreviewMouseDoubleClick" AllowDrop="True" PreviewMouseMove="ListBoxOfAllSounds_PreviewMouseMove" Drop="ListBoxOfAllSounds_Drop" DragOver="ApplyNoneEffectToListBox" DragEnter="ApplyNoneEffectToListBox"/>
-            <ListBox x:Name="ListBoxOfSelectedSounds" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,40,10,10" AllowDrop="True" Drop="ListBoxOfSelectedSounds_Drop" PreviewMouseDoubleClick="ListBoxOfSelectedSounds_PreviewMouseDoubleClick" PreviewMouseLeftButtonDown="SetLeftMouseDownTrue" PreviewMouseLeftButtonUp="SetLeftMouseDownFalse" PreviewMouseMove="ListBoxOfSelectedSounds_PreviewMouseMove" MouseLeave="SetLeftMouseDownFalse" SelectionChanged="ListBoxOfSelectedSounds_SelectionChanged" DragEnter="ApplyNoneEffectToListBox" DragOver="ApplyNoneEffectToListBox"/>
-            <Label Content="Все звуки" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Georgia"/>
-            <Label Content="Выбранные звуки" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Georgia" Grid.Column="1"/>
+            <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfAllSounds"
+                     Margin="20,10,10,10"
+                     Padding="5,40,5,5"
+                     PreviewMouseDoubleClick="ListBoxOfAllSounds_PreviewMouseDoubleClick"/>
+            <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSelectedSounds"
+                     Grid.Column="1"
+                     Margin="10,10,20,10"
+                     Padding="5,40,5,5"
+                     PreviewMouseDoubleClick="ListBoxOfSelectedSounds_PreviewMouseDoubleClick"
+                     SelectionChanged="ListBoxOfSelectedSounds_SelectionChanged"/>
+            <Label Content="Все звуки" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Segoe UI Semibold" Foreground="White" Margin="20,10,10,0"/>
+            <Label Content="Выбранные звуки" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Segoe UI Semibold" Grid.Column="1" Foreground="White" Margin="10,10,20,0"/>
         </Grid>
-        <Button x:Name="CreateTemplateButton" Grid.Row="3" Content="Создать шаблон" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Georgia" FontSize="25" Padding="10" Background="White" BorderBrush="Black" Click="CreateTemplateButton_Click">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="10"/>
-                </Style>
-            </Button.Resources>
-        </Button>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Slider x:Name="SoundVolumeSlider" Grid.Column="0" HorizontalAlignment="Center" Margin="0,72,0,0" VerticalAlignment="Top" Width="162" Height="19" Maximum="1" IsMoveToPointEnabled="True" Value="1" ValueChanged="SoundVolumeSlider_ValueChanged" TickFrequency="0.01" SmallChange="0.01"/>
-            <Label Grid.Column="0" Content="Громкость" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
-            <Label Content="Частота повторения" VerticalAlignment="Top" Margin="0,40,0,0" Grid.Column="1" HorizontalContentAlignment="Center" Height="30" FontSize="16"/>
-            <TextBox x:Name="SoundRepetitionRateTextbox" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Margin="0,70,0,0" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" TextChanged="SoundRepetitionRateTextbox_TextChanged" GotFocus="SoundRepetitionRateTextbox_GotFocus" SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged"/>
-            <Label Content="Один раз в " VerticalAlignment="Center" Margin="0,70,154.6,0" Height="30" Grid.Column="1" HorizontalAlignment="Center" FontSize="15"/>
-            <Label Content=" секунд" VerticalAlignment="Top" Margin="125.8,70,0,0" Grid.Column="1" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia"/>
+            <Grid Grid.Column="0" Margin="20,10,10,10">
+                <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
+                <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundVolumeSlider"
+                        Margin="20,0,25,10"
+                        VerticalAlignment="Bottom"
+                        Value="1"
+                        ValueChanged="SoundVolumeSlider_ValueChanged"/>
+                <Label Content="Громкость" Margin="20,10,20,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="White"/>
+            </Grid>
+            <Grid Grid.Column="1" Margin="10,10,20,10">
+                <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
+                <Label Content="Частота повторения" VerticalAlignment="Top" Margin="20,10,20,0" Grid.Column="1" HorizontalContentAlignment="Center" FontSize="20" Foreground="White" FontFamily="Segoe UI Semibold"/>
+                <TextBox Style="{StaticResource RepetitionRateTextBox}" x:Name="SoundRepetitionRateTextbox"
+                         Grid.Column="1"
+                         Margin="98,50,68,10"
+                         GotFocus="SoundRepetitionRateTextbox_GotFocus"
+                         TextChanged="SoundRepetitionRateTextbox_TextChanged"
+                         SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged"/>
+                <Label Content="Один раз в " VerticalAlignment="Bottom" Margin="10,0,0,10" Height="30" Grid.Column="1" HorizontalAlignment="Left" FontSize="15" Foreground="White" FontFamily="Segoe UI Semibold"/>
+                <Label Content=" секунд" VerticalAlignment="Bottom" Margin="0,0,10,10" Grid.Column="1" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Semibold" Foreground="White" VerticalContentAlignment="Center"/>
+            </Grid>
         </Grid>
-        <Label Grid.Row="2" Content="Настройка выбранного звука" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" FontSize="20" FontFamily="Georgia"/>
+        <Button Style="{StaticResource AddButton}" x:Name="CreateTemplateButton"
+                Grid.Row="3"
+                Content="Создать шаблон"
+                Margin="20,10,20,20"
+                Click="CreateTemplateButton_Click"/>
     </Grid>
 </Window>

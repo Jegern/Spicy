@@ -3,34 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Spicy"
-        mc:Ignorable="d" Height="210" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        mc:Ignorable="d"
+        Style="{StaticResource Window}"
+        Height="800"
+        Width="300"
+        WindowStartupLocation="CenterOwner"
+        Loaded="AddingSoundWindow_Loaded">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ListBox x:Name="ListBoxOfAllSounds" Grid.Column="0" Margin="0,30,0,0" SelectionChanged="ListOfSounds_SelectionChanged"/>
-        <TextBox Grid.Column="0" Height="30" VerticalAlignment="Top"/>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="60"/>
-            </Grid.RowDefinitions>
-            <Label Content="Громкость" Grid.Row="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontFamily="Georgia" FontSize="16"/>
-            <Slider x:Name="SoundVolumeSlider" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="162" Height="19" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" TickFrequency="0.01" Margin="0,30,0,0" ValueChanged="SoundVolumeSlider_ValueChanged"/>
-            <Label Content="Частота повторения" Grid.Row="1" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="30" FontSize="16"/>
-            <TextBox x:Name="SoundRepetitionRateTextbox" Grid.Row="1" HorizontalAlignment="Center" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" MaxLength="4" Text="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Georgia" FontSize="15" Margin="0,30,0,0" GotFocus="SoundRepetitionRateTextbox_GotFocus" SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged" TextChanged="SoundRepetitionRateTextbox_TextChanged"/>
-            <Label Content="Один раз в " Grid.Row="1" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" FontSize="15" Margin="0,30,154.6,0"/>
-            <Label Content=" секунд" Grid.Row="1" VerticalAlignment="Top" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Georgia" Margin="125.8,30,0,0"/>
-            <Button x:Name="AddSoundButton" Content="Добавить звук" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="Georgia" FontSize="15" Padding="8" Background="White" BorderBrush="Black" Grid.Row="2" Click="AddSoundButton_Click">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="8"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80px"/>
+            <RowDefinition/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="80px"/>
+        </Grid.RowDefinitions>
+        <TextBox Style="{StaticResource SearchTextBox}" x:Name="SoundSearchTextBox"
+                 Margin="20,20,20,10"/>
+        <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSounds"
+                 Grid.Row="1"
+                 Margin="20,10"
+                 Padding="5"/>
+        <Grid Grid.Row="2"
+              Margin="20,10">
+            <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
+            <Label Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="White" Margin="20,10,20,0" VerticalContentAlignment="Center"/>
+            <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundVolumeSlider"
+                    Value="1"
+                    Margin="20,0,20,10"
+                    VerticalAlignment="Bottom"/>
         </Grid>
+        <Grid Grid.Row="3"
+              Margin="20,10">
+            <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
+            <Label Content="Частота повторения" Grid.Row="1" VerticalAlignment="Top" FontSize="20" Foreground="White" FontFamily="Segoe UI Semibold" Margin="0,10,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource RepetitionRateTextBox}" x:Name="SoundRepetitionRateTextbox"
+                         Margin="98,50,68,10"
+                         GotFocus="SoundRepetitionRateTextbox_GotFocus"
+                         SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged"/>
+            <Label Content="Один раз в " Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Left" FontSize="15" Margin="10,0,0,10" Foreground="White" VerticalContentAlignment="Center" FontFamily="Segoe UI Semibold"/>
+            <Label Content=" секунд" Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Semibold" Margin="0,0,10,10" Foreground="White" VerticalContentAlignment="Center"/>
+        </Grid>
+        <Button Style="{StaticResource AddButton}" x:Name="AddSoundButton"
+                Grid.Row="4"
+                Content="Добавить звук"
+                Margin="20,10,20,20"
+                Click="AddSoundButton_Click"/>
     </Grid>
 </Window>
