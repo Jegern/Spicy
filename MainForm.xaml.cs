@@ -105,12 +105,14 @@ namespace Spicy
 
         private void SoundTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ((sender as TextBox).DataContext as MediaPlayerWithSound).RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
+            MediaPlayerWithSound sound = (sender as TextBox).DataContext as MediaPlayerWithSound;
+            sound.RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
         }
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ((sender as Slider).DataContext as MediaPlayerWithSound).Volume = (sender as Slider).Value;
+            MediaPlayerWithSound sound = (sender as TextBox).DataContext as MediaPlayerWithSound;
+            sound.Volume = (sender as Slider).Value;
         }
 
         private void AddSoundButton_Click(object sender, RoutedEventArgs e)
@@ -239,12 +241,6 @@ namespace Spicy
             ChangeMelodyButtonIcons(button, "Pause");
         }
 
-        private void PlayPauseMelodyButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (playingMelodyName != string.Empty)
-                ContinuePlayOrPauseMelody(FindMelodyButton(playingMelodyName));
-        }
-
         private Button FindMelodyButton(string melodyName)
         {
             Button button = null;
@@ -262,11 +258,11 @@ namespace Spicy
         private void UpMelodyButton_Click(object sender, RoutedEventArgs e)
         {
             string melodyName = (sender as Button).DataContext.ToString();
-            int itemIndex = ListBoxOfMelodies.Items.IndexOf(melodyName);
-            if (itemIndex > 0)
+            int melodyIndex = ListBoxOfMelodies.Items.IndexOf(melodyName);
+            if (melodyIndex != 0)
             {
-                ListBoxOfMelodies.Items.Insert(itemIndex - 1, melodyName);
-                ListBoxOfMelodies.Items.RemoveAt(itemIndex + 1);
+                ListBoxOfMelodies.Items.Insert(melodyIndex - 1, melodyName);
+                ListBoxOfMelodies.Items.RemoveAt(melodyIndex + 1);
                 UpdateMelodyLayout(melodyName);
             }
         }
@@ -278,6 +274,35 @@ namespace Spicy
                 ListBoxOfMelodies.UpdateLayout();
                 FindMelodyButton(playingMelodyName).Background = PlayPauseMelodyButton.Background;
                 ExpandMelodySlider(FindMelodyButton(playingMelodyName));
+            }
+        }
+
+        private void PlayPauseMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (playingMelodyName != string.Empty)
+                ContinuePlayOrPauseMelody(FindMelodyButton(playingMelodyName));
+        }
+
+        private void RewindMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartMelodyWithShift(-1);
+        }
+
+        private void ForwardMelodyButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartMelodyWithShift(+1);
+        }
+
+        private void StartMelodyWithShift(int shift)
+        {
+            if (playingMelodyName != string.Empty)
+            {
+                int melodyIndex = ListBoxOfMelodies.Items.IndexOf(playingMelodyName);
+                if (0 <= melodyIndex + shift && melodyIndex + shift < ListBoxOfMelodies.Items.Count)
+                {
+                    string melodyName = ListBoxOfMelodies.Items[melodyIndex + shift].ToString();
+                    StartMelody(FindMelodyButton(melodyName));
+                }
             }
         }
         #endregion
