@@ -3,101 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Spicy"
-        mc:Ignorable="d" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#FF212529" Height="800" Loaded="AddingSoundWindow_Loaded">
-    <Window.Resources>
-        <Style x:Key="ButtonAnimation" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="RightSliderRepeatButton" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RepeatButton">
-                        <Border Background="Black" Height="5"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="LeftSliderRepeatButton" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="#FF0089EF" Height="5"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="SliderThumb" TargetType="Thumb">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Thumb">
-                        <Ellipse Height="15" Width="15" Fill="#FF0089EF"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <ControlTemplate x:Key="Slider" TargetType="Slider">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Track Grid.Row="1" x:Name="PART_Track">
-                    <Track.DecreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource LeftSliderRepeatButton}" Command="Slider.DecreaseLarge"/>
-                    </Track.DecreaseRepeatButton>
-                    <Track.Thumb>
-                        <Thumb Style="{StaticResource SliderThumb}"/>
-                    </Track.Thumb>
-                    <Track.IncreaseRepeatButton>
-                        <RepeatButton Style="{StaticResource RightSliderRepeatButton}" Command="Slider.IncreaseLarge"/>
-                    </Track.IncreaseRepeatButton>
-                </Track>
-            </Grid>
-        </ControlTemplate>
-
-        <Style x:Key="SliderWithThumb" TargetType="Slider">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Style.Triggers>
-                <Trigger Property="Orientation" Value="Horizontal">
-                    <Setter Property="MinHeight" Value="21"/>
-                    <Setter Property="MinWidth" Value="104"/>
-                    <Setter Property="Template" Value="{StaticResource Slider}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+        mc:Ignorable="d"
+        Style="{StaticResource Window}"
+        Height="800"
+        Width="300"
+        WindowStartupLocation="CenterOwner"
+        Loaded="AddingSoundWindow_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -107,57 +18,36 @@
             <RowDefinition Height="110"/>
             <RowDefinition Height="80px"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <TextBox x:Name="SoundSearchTextBox" Margin="20,20,20,10" Background="#FF2B2F33" Foreground="White" BorderThickness="0" FontSize="16" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Center" Padding="40,0,10,0" MaxLength="30">
-                <TextBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="12"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-            <Label Width="20" Height="20" HorizontalAlignment="Left" Margin="30,20,0,10" VerticalAlignment="Center">
-                <Label.Background>
-                    <ImageBrush ImageSource="images/Search.png" Stretch="Uniform"/>
-                </Label.Background>
-            </Label>
-            <TextBlock IsHitTestVisible="False" Text="Искать" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,20,20,10" Foreground="White" FontSize="16" FontFamily="Segoe UI Semibold">
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text, ElementName=SoundSearchTextBox}" Value="">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </Grid>
-        <ListBox x:Name="ListBoxOfSounds" Grid.Row="1" Margin="20,10" Background="#FF2B2F33" BorderThickness="0" Foreground="White">
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="12"/>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-        <Grid Grid.Row="2" Margin="20,10">
-            <Border Background="#FF2B2F33" CornerRadius="12"/>
+        <TextBox Style="{StaticResource SearchTextBox}" x:Name="SoundSearchTextBox"
+                 Margin="20,20,20,10"/>
+        <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSounds"
+                 Grid.Row="1"
+                 Margin="20,10"
+                 Padding="5"/>
+        <Grid Grid.Row="2"
+              Margin="20,10">
+            <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
             <Label Content="Громкость" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="White" Margin="20,10,20,0" VerticalContentAlignment="Center"/>
-            <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundVolumeSlider" Maximum="1" SmallChange="0.01" IsMoveToPointEnabled="True" Value="1" TickFrequency="0.01" Margin="20,0,20,10" VerticalAlignment="Bottom"/>
+            <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundVolumeSlider"
+                    Value="1"
+                    Margin="20,0,20,10"
+                    VerticalAlignment="Bottom"/>
         </Grid>
-        <Grid Grid.Row="3" Margin="20,10">
-            <Border Background="#FF2B2F33" CornerRadius="12"/>
+        <Grid Grid.Row="3"
+              Margin="20,10">
+            <Border Background="{StaticResource ControlBackground}" CornerRadius="12"/>
             <Label Content="Частота повторения" Grid.Row="1" VerticalAlignment="Top" FontSize="20" Foreground="White" FontFamily="Segoe UI Semibold" Margin="0,10,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <TextBox Style="{StaticResource RepetitionRateTextBox}" x:Name="SoundRepetitionRateTextbox" Grid.Row="1" Height="30" VerticalAlignment="Bottom" Width="65" Margin="0,0,0,10" GotFocus="SoundRepetitionRateTextbox_GotFocus" SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged"/>
-            <Label Content="Один раз в " Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Center" FontSize="15" Margin="0,0,154.6,10" Foreground="White" VerticalContentAlignment="Center" FontFamily="Segoe UI Semibold"/>
-            <Label Content=" секунд" Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Center" FontSize="15" FontFamily="Segoe UI Semibold" Margin="125.8,0,0,10" Foreground="White" VerticalContentAlignment="Center"/>
+            <TextBox Style="{StaticResource RepetitionRateTextBox}" x:Name="SoundRepetitionRateTextbox"
+                         Margin="98,50,68,10"
+                         GotFocus="SoundRepetitionRateTextbox_GotFocus"
+                         SelectionChanged="SoundRepetitionRateTextbox_SelectionChanged"/>
+            <Label Content="Один раз в " Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalAlignment="Left" FontSize="15" Margin="10,0,0,10" Foreground="White" VerticalContentAlignment="Center" FontFamily="Segoe UI Semibold"/>
+            <Label Content=" секунд" Grid.Row="1" VerticalAlignment="Bottom" Height="30" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontSize="15" FontFamily="Segoe UI Semibold" Margin="0,0,10,10" Foreground="White" VerticalContentAlignment="Center"/>
         </Grid>
-        <Button x:Name="AddSoundButton" Style="{StaticResource ButtonAnimation}" Content="Добавить звук" Grid.Row="4" Margin="20,10,20,20" Foreground="White" Background="#FF5E5F65" BorderThickness="0" FontSize="20" FontFamily="Segoe UI Semibold" Click="AddSoundButton_Click">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="12"/>
-                </Style>
-            </Button.Resources>
-        </Button>
+        <Button Style="{StaticResource AddButton}" x:Name="AddSoundButton"
+                Grid.Row="4"
+                Content="Добавить звук"
+                Margin="20,10,20,20"
+                Click="AddSoundButton_Click"/>
     </Grid>
 </Window>

@@ -4,14 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        Style="{StaticResource Window}"
         Title="Spicy"
         Height="800"
         Width="1200"
-        Background="{StaticResource WindowBackground}"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <ResourceDictionary Source="Styles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ImageBrush x:Key="Play"  ImageSource="images/Play.png"/>
+            <ImageBrush x:Key="Pause" ImageSource="images/Pause.png"/>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
@@ -50,18 +56,22 @@
                         <RowDefinition/>
                         <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfMelodies" Margin="0,10,10,10" FontSize="15" Padding="5" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfMelodies"
+                             Margin="0,10,10,10"
+                             FontSize="15"
+                             Padding="5"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
                                 <Setter Property="Margin" Value="5"/>
-                                <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <Grid Height="65px" Background="{TemplateBinding Background}">
+                                            <Grid Background="{TemplateBinding Background}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="35px"/>
-                                                    <RowDefinition/>
+                                                    <RowDefinition x:Name="MelodySlider" Height="0"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
@@ -69,24 +79,34 @@
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition Width="40px"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Button Style="{StaticResource SmallIconButton}" Grid.Column="0" Width="20" Height="20" BorderThickness="0">
+                                                    <Button Style="{StaticResource SmallIconButton}" x:Name="PlayMelodyButton"
+                                                            Click="PlayMelodyButton_Click">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="images/Play.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
                                                     <ContentPresenter Margin="5,0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    <Button x:Name="DeleteMelodyButton" Style="{StaticResource SmallIconButton}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Click="DeleteMelodyButton_Click">
+                                                    <Button Style="{StaticResource SmallIconButton}" x:Name="DeleteMelodyButton"
+                                                            Grid.Column="2"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            Click="DeleteMelodyButton_Click">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="images/Cross in circle.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
-                                                    <Button Style="{StaticResource SmallIconButton}" Grid.Column="2" HorizontalAlignment="Right" Width="20" Height="20" VerticalAlignment="Top" BorderThickness="0" Margin="0,0,20,0">
+                                                    <Button Style="{StaticResource SmallIconButton}" x:Name="UpMelodyButton"
+                                                            Grid.Column="2" HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            Margin="0,0,20,0" Click="UpMelodyButton_Click">
                                                         <Button.Background>
                                                             <ImageBrush ImageSource="images/Arrow Up.png" Stretch="Uniform"/>
                                                         </Button.Background>
                                                     </Button>
                                                 </Grid>
-                                                <Slider Style="{StaticResource SliderWithoutThumb}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,3,55,0" VerticalAlignment="Center" Height="19" IsHitTestVisible="False"/>
+                                                <Slider Style="{StaticResource SliderWithoutThumb}"
+                                                        Grid.Row="1"
+                                                        Margin="5,3,55,0"/>
                                                 <Label Grid.Row="1" Content="mm:ss" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
                                             </Grid>
                                         </ControlTemplate>
@@ -106,34 +126,51 @@
                         <RowDefinition/>
                         <RowDefinition Height="70"/>
                     </Grid.RowDefinitions>
-                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSounds" Margin="10,10,0,10" FontSize="15" Padding="5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfSounds"
+                             Margin="10,10,0,10"
+                             FontSize="15"
+                             Padding="5"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}">
+                            <Style TargetType="ListBoxItem">
                                 <Setter Property="Margin" Value="5"/>
-                                <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                            <Grid Height="100px" Background="{TemplateBinding Background}">
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Grid Background="{TemplateBinding Background}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="35px"/>
-                                                    <RowDefinition/>
-                                                    <RowDefinition/>
+                                                    <RowDefinition Height="32.5px"/>
+                                                    <RowDefinition Height="32.5px"/>
                                                 </Grid.RowDefinitions>
-                                                <ContentPresenter Margin="5,0" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Button x:Name="DeleteSoundButton" Style="{StaticResource SmallIconButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="DeleteSoundButton_Click">
+                                                <ContentPresenter Margin="5,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Button Style="{StaticResource SmallIconButton}" x:Name="DeleteSoundButton"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Click="DeleteSoundButton_Click">
                                                     <Button.Background>
                                                         <ImageBrush ImageSource="images/Cross in circle.png" Stretch="Uniform"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Button Style="{StaticResource SmallIconButton}" Grid.Row="1" HorizontalAlignment="Left">
+                                                <Button Style="{StaticResource SmallIconButton}" x:Name="SoundVolumeButton"
+                                                        Grid.Row="1"
+                                                        HorizontalAlignment="Left">
                                                     <Button.Background>
                                                         <ImageBrush Stretch="Uniform" ImageSource="images/Speaker.png"/>
                                                     </Button.Background>
                                                 </Button>
-                                                <Slider Style="{StaticResource SliderWithThumb}" Value="{Binding Path=Volume}" Grid.Row="1" HorizontalAlignment="Stretch" Margin="25,0,0,0" VerticalAlignment="Center" Height="19"/>
+                                                <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundSlider"
+                                                        Value="{Binding Path=Volume, Mode=TwoWay}"
+                                                        Grid.Row="1"
+                                                        Margin="25,0,0,0"
+                                                        ValueChanged="SoundSlider_ValueChanged"/>
                                                 <Label Grid.Row="2" Content="Повторение: " HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
-                                                <TextBox Style="{StaticResource RepetitionRateTextBox}" Text="{Binding Path=RepetitionRate}" Grid.Row="2" Margin="104,3,62,3"/>
+                                                <TextBox Style="{StaticResource RepetitionRateTextBox}" x:Name="SoundTextBox"
+                                                         Text="{Binding Path=RepetitionRate, Mode=TwoWay}"
+                                                         Grid.Row="2"
+                                                         Margin="104,3,62,3"
+                                                         TextChanged="SoundTextBox_TextChanged"/>
                                                 <Label Grid.Row="2" Content=" секунд" HorizontalAlignment="Right" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                                             </Grid>
                                         </ControlTemplate>
@@ -168,7 +205,7 @@
                   Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
@@ -183,7 +220,7 @@
                     </Button.Background>
                 </Button>
                 <Button Style="{StaticResource BigIconButton}" x:Name="PlayPauseMelodyButton"
-                        Margin="20,0,0,0">
+                        Margin="20,0,0,0" Click="PlayPauseMelodyButton_Click">
                     <Button.Background>
                         <ImageBrush ImageSource="images/Play.png"/>
                     </Button.Background>
@@ -202,7 +239,7 @@
                        Margin="10,0"
                        FontSize="15"
                        FontFamily="Segoe UI Semibold"/>
-                <Slider Style="{StaticResource SliderWithThumb}" x:Name="MelodySlider"
+                <Slider Style="{StaticResource SliderWithThumb}" x:Name="MasterMelodySlider"
                         Grid.Column="2"
                         Height="19"
                         VerticalAlignment="Center"
@@ -397,26 +434,13 @@
                 <RowDefinition/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <Grid>
-                <TextBox Style="{StaticResource TextBox}" x:Name="TemplateSearchTextBox"
-                         Margin="0,0,0,10"
-                         FontSize="16"
-                         Padding="40,0,10,0"/>
-                <Image Width="20"
-                       Height="20"
-                       HorizontalAlignment="Left"
-                       Margin="10,0,0,10">
-                    <Image.Source>
-                        <BitmapImage UriSource="images/Search.png"/>
-                    </Image.Source>
-                </Image>
-                <TextBlock Style="{StaticResource PlaceholderTextBlock}" 
-                           Margin="40,0,0,10"/>
-            </Grid>
+            <TextBox Style="{StaticResource SearchTextBox}" x:Name="TemplateSearchTextBox"
+                     Margin="0,0,0,10"/>
             <ListBox Style="{StaticResource Control}" x:Name="ListBoxOfTemplates"
                      Grid.Row="1"
                      Margin="0,10"
-                     Padding="5" SelectionChanged="ListBoxOfTemplates_SelectionChanged"/>
+                     Padding="5"
+                     SelectionChanged="ListBoxOfTemplates_SelectionChanged"/>
             <Button Style="{StaticResource AddButton}" x:Name="AddTemplateButton"
                     Grid.Row="2"
                     Content="Добавить шаблон"

@@ -8,7 +8,7 @@ namespace Spicy
     {
         bool repetitionRateTextBoxGotFocus = false;
         internal bool SoundIsReady = false;
-        internal Sound NewSound;
+        internal MediaPlayerWithSound NewSound;
 
         public AddingSoundForm()
         {
@@ -44,7 +44,7 @@ namespace Spicy
                 string name = ListBoxOfSounds.SelectedItem.ToString();
                 double volume = SoundVolumeSlider.Value;
                 int repetitionRate = SoundRepetitionRateTextbox.Text.Length > 0 ? Convert.ToInt32(SoundRepetitionRateTextbox.Text) : 0;
-                NewSound = new Sound(name, volume, repetitionRate);
+                NewSound = new MediaPlayerWithSound(name, volume, repetitionRate);
                 Close();
             }
         }

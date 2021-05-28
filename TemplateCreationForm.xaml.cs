@@ -10,7 +10,7 @@ namespace Spicy
     {
         internal string TemplateName;
         internal bool TemplateIsReady = false;
-        readonly ObservableCollection<Sound> collectionOfSelectedSounds = new ObservableCollection<Sound>();
+        readonly ObservableCollection<MediaPlayerWithSound> collectionOfSelectedSounds = new ObservableCollection<MediaPlayerWithSound>();
         bool soundRepetitionRateTextBoxGotFocus = false;
 
         #region Initialization
@@ -62,12 +62,12 @@ namespace Spicy
             ListBoxOfAllSounds.Items.Remove(soundName);
         }
 
-        Sound CreateSoundWithSettings(string name)
+        MediaPlayerWithSound CreateSoundWithSettings(string name)
         {
             double volume = SoundVolumeSlider.Value;
             int.TryParse(SoundRepetitionRateTextbox.Text, out int repetitionRate);
 
-            return new Sound(name, volume, repetitionRate);
+            return new MediaPlayerWithSound(name, volume, repetitionRate);
         }
         #endregion
 
@@ -89,7 +89,7 @@ namespace Spicy
 
         void MoveSoundFromSelectedToAll()
         {
-            Sound selectedSound = ListBoxOfSelectedSounds.SelectedItem as Sound;
+            MediaPlayerWithSound selectedSound = ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound;
             ListBoxOfAllSounds.Items.Add(selectedSound.Name);
             collectionOfSelectedSounds.Remove(selectedSound);
         }
@@ -101,7 +101,7 @@ namespace Spicy
         {
             if (ListBoxOfSelectedSounds.SelectedItem != null)
             {
-                Sound selectedSound = ListBoxOfSelectedSounds.SelectedItem as Sound;
+                MediaPlayerWithSound selectedSound = ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound;
                 SoundVolumeSlider.Value = selectedSound.Volume;
                 SoundRepetitionRateTextbox.Text = selectedSound.RepetitionRate.ToString();
             }
@@ -110,13 +110,13 @@ namespace Spicy
         void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (ListBoxOfSelectedSounds.SelectedItem != null)
-                (ListBoxOfSelectedSounds.SelectedItem as Sound).Volume = SoundVolumeSlider.Value;
+                (ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound).Volume = SoundVolumeSlider.Value;
         }
 
         void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (ListBoxOfSelectedSounds.SelectedItem != null && SoundRepetitionRateTextbox.Text.Length > 0)
-                (ListBoxOfSelectedSounds.SelectedItem as Sound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
+                (ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound).RepetitionRate = Convert.ToInt32(SoundRepetitionRateTextbox.Text);
         }
 
         void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)

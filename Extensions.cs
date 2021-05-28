@@ -5,16 +5,16 @@ namespace Spicy
     public class Extensions
     {
         public static readonly DependencyProperty SoundProperty =
-            DependencyProperty.RegisterAttached("Sound", typeof(Sound), typeof(Extensions), new PropertyMetadata(default(Sound)));
+            DependencyProperty.RegisterAttached("MediaPlayerWithSound", typeof(MediaPlayerWithSound), typeof(Extensions), new PropertyMetadata(default(MediaPlayerWithSound)));
 
-        public static void SetSound(UIElement element, Sound sound)
+        public static void SetSound(UIElement element, MediaPlayerWithSound sound)
         {
             element.SetValue(SoundProperty, sound);
         }
 
-        public static Sound GetSound(UIElement element)
+        public static MediaPlayerWithSound GetSound(UIElement element)
         {
-            return (Sound)element.GetValue(SoundProperty);
+            return (MediaPlayerWithSound)element.GetValue(SoundProperty);
         }
     }
 }

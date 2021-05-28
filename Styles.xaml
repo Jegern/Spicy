@@ -9,6 +9,11 @@
     <SolidColorBrush x:Key="MainColor" Color="#FF0089EF"/>
     <SolidColorBrush x:Key="FontColor" Color="White"/>
 
+    <Style x:Key="Window" TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource WindowBackground}"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+    </Style>
+    
     <Style x:Key="Control">
         <Setter Property="Control.Background" Value="{StaticResource ControlBackground}"/>
         <Setter Property="Control.Foreground" Value="{StaticResource FontColor}"/>
@@ -90,37 +95,20 @@
         <Setter Property="Width" Value="20"/>
     </Style>
 
-    <Style x:Key="TextBox" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
-        <Setter Property="BorderThickness" Value="0"/>
+    <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource Control}">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         <Setter Property="FontSize" Value="30"/>
         <Setter Property="MaxLength" Value="30"/>
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="12"/>
-            </Style>
-        </Style.Resources>
     </Style>
 
-    <Style x:Key="RepetitionRateTextBox" TargetType="TextBox">
+    <Style x:Key="RepetitionRateTextBox" TargetType="TextBox" BasedOn="{StaticResource Control}">
         <Setter Property="Background" Value="{StaticResource TextBoxBackground}"/>
-        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
-        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="MaxLength" Value="4"/>
         <Setter Property="Text" Value="0"/>
-        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
         <Setter Property="FontSize" Value="15"/>
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="12"/>
-            </Style>
-        </Style.Resources>
     </Style>
 
     <Style x:Key="PlaceholderTextBlock" TargetType="TextBlock" BasedOn="{StaticResource Control}">
@@ -129,12 +117,34 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Margin" Value="40,0,10,0"/>
         <Setter Property="Visibility" Value="Collapsed"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Text, ElementName=TemplateSearchTextBox}" Value="">
+            <DataTrigger Binding="{Binding Text, ElementName=InputTextBox}" Value="">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SearchTextBox" TargetType="TextBox">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MaxLength" Value="30"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border>
+                        <Grid>
+                            <TextBox Style="{StaticResource Control}" x:Name="InputTextBox" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="40,0,10,0"/>
+                            <Image Height="20" Width="20" HorizontalAlignment="Left" Source="images/Search.png" Margin="10,10,0,10"/>
+                            <TextBlock Style="{StaticResource PlaceholderTextBlock}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="RepeatButton" TargetType="RepeatButton">
