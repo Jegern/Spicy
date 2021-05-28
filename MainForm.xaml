@@ -214,7 +214,7 @@
                         Grid.ColumnSpan="4"/>
                 <Button Style="{StaticResource BigIconButton}" x:Name="RewindMelodyButton"
                         HorizontalAlignment="Left"
-                        Margin="20,0,0,0">
+                        Margin="20,0,0,0" Click="RewindMelodyButton_Click">
                     <Button.Background>
                         <ImageBrush ImageSource="images/Rewind.png"/>
                     </Button.Background>
@@ -226,7 +226,7 @@
                     </Button.Background>
                 </Button>
                 <Button Style="{StaticResource BigIconButton}" x:Name="ForwardMelodyButton"
-                        HorizontalAlignment="Right">
+                        HorizontalAlignment="Right" Click="ForwardMelodyButton_Click">
                     <Button.Background>
                         <ImageBrush ImageSource="images/Forward.png"/>
                     </Button.Background>
