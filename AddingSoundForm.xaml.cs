@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 
 namespace Spicy
@@ -9,10 +10,26 @@ namespace Spicy
         bool repetitionRateTextBoxGotFocus = false;
         internal bool SoundIsReady = false;
         internal MediaPlayerWithSound NewSound;
+        readonly MediaPlayer mediaPlayer = new MediaPlayer();
+        string playingSoundName = string.Empty;
+        bool soundIsPaused = false;
 
         public AddingSoundForm()
         {
             InitializeComponent();
+            InitializeOtherComponent();
+        }
+
+        private void InitializeOtherComponent()
+        {
+            mediaPlayer.MediaEnded += SoundEnded;
+        }
+
+        private void SoundEnded(object sender, EventArgs e)
+        {
+            Button button = ListBoxFunctions.FindButton(ListBoxOfSounds, playingSoundName, "Sound");
+            button.Background = Resources["Play"] as ImageBrush;
+            playingSoundName = string.Empty;
         }
 
         private void AddingSoundWindow_Loaded(object sender, RoutedEventArgs e)
@@ -20,6 +37,68 @@ namespace Spicy
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfSounds, "sounds", "mp3");
             ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox((Owner as MainForm).ListBoxOfSounds, ListBoxOfSounds);
             ListBoxFunctions.SortAscending(ListBoxOfSounds);
+        }
+
+        private void PlaySoundButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            string melodyName = button.DataContext.ToString();
+            if (playingSoundName == string.Empty || melodyName != playingSoundName)
+                StartMelody(button);
+            else if (playingSoundName != string.Empty)
+                ContinuePlayOrPauseMelody(button);
+        }
+
+        private void StartMelody(Button button)
+        {
+            string melodyName = button.DataContext.ToString();
+            ClearMelody();
+            PlayMelody(melodyName);
+            button.Background = Resources["Pause"] as ImageBrush;
+            playingSoundName = melodyName;
+        }
+
+        private void ClearMelody()
+        {
+            if (playingSoundName != string.Empty)
+            { 
+                ListBoxItem item = ListBoxOfSounds.ItemContainerGenerator.ContainerFromItem(playingSoundName) as ListBoxItem;
+                Button button = item.Template.FindName("PlaySoundButton", item) as Button;
+                button.Background = Resources["Play"] as ImageBrush;
+                //Grid grid = (button.Parent as Grid).Parent as Grid;
+                //grid.RowDefinitions[1].Height = new GridLength(0);
+            }
+        }
+
+        private void PlayMelody(string name)
+        {
+            mediaPlayer.Open(new Uri("sounds/" + name + ".mp3", UriKind.Relative));
+            mediaPlayer.Play();
+            soundIsPaused = false;
+        }
+
+        private void ContinuePlayOrPauseMelody(Button button)
+        {
+            if (soundIsPaused)
+                ContinuePlayMelody(button);
+            else
+                PauseMelody(button);
+        }
+
+        private void ContinuePlayMelody(Button button)
+        {
+            mediaPlayer.Play();
+            soundIsPaused = false;
+            button.Background = Resources["Pause"] as ImageBrush;
+
+        }
+
+        private void PauseMelody(Button button)
+        {
+            mediaPlayer.Pause();
+            soundIsPaused = true;
+            button.Background = Resources["Play"] as ImageBrush;
+
         }
 
         void SoundRepetitionRateTextbox_GotFocus(object sender, RoutedEventArgs e)
@@ -55,6 +134,11 @@ namespace Spicy
                 MessageBox.Show("Пожалуйста, выберите звук", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
             else
                 SoundIsReady = true;
+        }
+
+        private void AddingSoundWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            mediaPlayer.Close();
         }
     }
 }

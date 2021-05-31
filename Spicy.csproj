@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,6 +64,7 @@
     <Compile Include="ListBoxFunctions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MediaPlayerWithSound.cs" />
+    <Compile Include="StylesBase.cs" />
     <Compile Include="TemplateCreationForm.xaml.cs">
       <DependentUpon>TemplateCreationForm.xaml</DependentUpon>
     </Compile>

@@ -10,6 +10,16 @@
         Width="600"
         WindowStartupLocation="CenterOwner">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ImageBrush x:Key="Play"  ImageSource="images/Play.png"/>
+            <ImageBrush x:Key="Pause" ImageSource="images/Pause.png"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80px"/>

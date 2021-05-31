@@ -43,5 +43,11 @@ namespace Spicy
                     secondListBox.Items.Remove(item);
         }
 
+        public static Button FindButton(ListBox listBox, string name, string typeOfButton)
+        {
+            ListBoxItem item = listBox.ItemContainerGenerator.ContainerFromItem(name) as ListBoxItem;
+            Button button = item.Template.FindName("Play" + typeOfButton + "Button", item) as Button;
+            return button;
+        }
     }
 }

@@ -180,14 +180,14 @@ namespace Spicy
         private void StartMelody(Button button)
         {
             string melodyName = button.DataContext.ToString();
-            ClearMelodyPlayer();
+            ClearMelody();
             PlayMelody(melodyName);
             ChangeMelodyButtonIcons(button, "Play");
             ExpandMelodySlider(button);
             MelodyNameLabel.Content = playingMelodyName = melodyName;
         }
 
-        private void ClearMelodyPlayer()
+        private void ClearMelody()
         {
             for (int i = 0; i < ListBoxOfMelodies.Items.Count; i++)
             {
@@ -327,12 +327,13 @@ namespace Spicy
             {
                 ChangeSfxIcon(button);
                 ChangeSfxText(button);
+                ConfigureCrossButton(button);
             }
         }
 
         private void AttachSoundToButton(Button button)
         {
-            AddingSoundForm addingSoundForm = new AddingSoundForm();
+            AddingSoundForm addingSoundForm = new AddingSoundForm { Owner = this };
             addingSoundForm.ShowDialog();
             if (addingSoundForm.SoundIsReady)
                 Extensions.SetSound(button, addingSoundForm.NewSound);
@@ -348,6 +349,24 @@ namespace Spicy
         private void ChangeSfxText(Button button)
         {
             button.Content = Extensions.GetSound(button).Name;
+        }
+
+        private void ConfigureCrossButton(Button button)
+        {
+            button.UpdateLayout();
+            Button crossButton = button.Template.FindName("SfxCrossButton", button) as Button;
+            crossButton.Click += SfxCrossButton_Click;
+        }
+
+        private void SfxCrossButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button parentButton = (sender as Button).TemplatedParent as Button;
+            parentButton.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/images/Plus in circle.png")));
+            parentButton.Style = Resources["SfxButtonWithAnimation"] as Style;
+            parentButton.BeginAnimation(OpacityProperty, new DoubleAnimation(1, 0, new TimeSpan(0)));
+            parentButton.Content = string.Empty;
+            Extensions.ClearSound(parentButton);
+            e.Handled = true;
         }
 
         private void PlaySfxSound(object sender)
