@@ -115,47 +115,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="images\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Cross.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Speaker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Rewind.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Forward.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Arrow up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Plus.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="images\Arrow Up.png" />
     <Resource Include="images\Cross in circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Plus in circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Pause.png" />
-    <Resource Include="images\Speaker Mute.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="images\Cross.png" />
+    <Resource Include="images\Forward.png" />
     <Resource Include="images\Note in circle.png" />
+    <Resource Include="images\Pause.png" />
+    <Resource Include="images\Play.png" />
+    <Resource Include="images\Plus in circle.png" />
+    <Resource Include="images\Plus.png" />
+    <Resource Include="images\Rewind.png" />
+    <Resource Include="images\Save.png" />
+    <Resource Include="images\Search.png" />
+    <Resource Include="images\Speaker Mute.png" />
+    <Resource Include="images\Speaker.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

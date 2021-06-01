@@ -9,6 +9,10 @@
     <SolidColorBrush x:Key="MenuButtonBackground" Color="Transparent"/>
     <SolidColorBrush x:Key="MainColor" Color="#FF0089EF"/>
     <SolidColorBrush x:Key="FontColor" Color="White"/>
+    <FontFamily x:Key="MainFont">Segoe UI Semibold</FontFamily>
+
+    <ImageBrush x:Key="Search" ImageSource="images/Search.png"/>
+    <ImageBrush x:Key="Cross in circle" ImageSource="images/Cross in circle.png"/>
 
     <Style x:Key="Window" TargetType="Window">
         <Setter Property="Background" Value="{StaticResource WindowBackground}"/>
@@ -138,8 +142,15 @@
                 <ControlTemplate TargetType="TextBox">
                     <Border>
                         <Grid>
-                            <TextBox Style="{StaticResource Control}" x:Name="InputTextBox" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Padding="40,0,10,0"/>
-                            <Image Height="20" Width="20" HorizontalAlignment="Left" Source="images/Search.png" Margin="10,10,0,10"/>
+                            <TextBox Style="{StaticResource Control}" x:Name="InputTextBox"
+                                     HorizontalContentAlignment="Left"
+                                     VerticalContentAlignment="Center"
+                                     Padding="40,0,10,0"/>
+                            <Border Height="20"
+                                    Width="20"
+                                    HorizontalAlignment="Left"
+                                    Background="{StaticResource Search}"
+                                    Margin="10,10,0,10"/>
                             <TextBlock Style="{StaticResource PlaceholderTextBlock}"/>
                         </Grid>
                     </Border>
@@ -178,7 +189,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Ellipse Height="15" Width="15" Fill="{StaticResource MainColor}"/>
+                    <Ellipse Fill="{StaticResource MainColor}"
+                             Height="15"
+                             Width="15"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -244,14 +257,25 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Ellipse Fill="{TemplateBinding Background}" Height="70" Width="70" VerticalAlignment="Top"/>
-                        <TextBlock Text="{TemplateBinding Content}" TextAlignment="Center" Margin="0,75,0,0" IsHitTestVisible="False"/>
-                        <Ellipse Fill="{StaticResource ControlBackground}" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                        <Button Style="{StaticResource SmallIconButton}" x:Name="SfxCrossButton" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top">
-                            <Button.Background>
-                                <ImageBrush ImageSource="images/Cross in circle.png"/>
-                            </Button.Background>
-                        </Button>
+                        <Ellipse Fill="{TemplateBinding Background}"
+                                 Height="70"
+                                 Width="70"
+                                 VerticalAlignment="Top"/>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   TextAlignment="Center"
+                                   Margin="0,75,0,0"
+                                   IsHitTestVisible="False"/>
+                        <Ellipse Fill="{StaticResource ControlBackground}"
+                                 Height="20"
+                                 Width="20"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Top"/>
+                        <Button Style="{StaticResource SmallIconButton}" x:Name="SfxCrossButton"
+                                Height="20"
+                                Width="20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource Cross in circle}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -264,8 +288,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Ellipse Fill="{TemplateBinding Background}" Height="70" Width="70" VerticalAlignment="Top"/>
-                        <TextBlock Text="{TemplateBinding Content}" TextAlignment="Center" Margin="0,75,0,0" IsHitTestVisible="False"/>
+                        <Ellipse Fill="{TemplateBinding Background}"
+                                 Height="70"
+                                 Width="70"
+                                 VerticalAlignment="Top"/>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   TextAlignment="Center"
+                                   Margin="0,75,0,0"
+                                   IsHitTestVisible="False"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -290,6 +320,14 @@
                 </EventTrigger.Actions>
             </EventTrigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StringLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="FontSize" Value="15"/>
     </Style>
 
 </ResourceDictionary>

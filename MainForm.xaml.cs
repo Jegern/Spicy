@@ -388,6 +388,23 @@ namespace Spicy
 
 
         #region Управление шаблонами
+        private void DeleteTemplateButton_Click(object sender, RoutedEventArgs e)
+        {
+            string templateName = (sender as Button).DataContext.ToString();
+            if (MessageBox.Show("Вы уверены, что хотите удалить " + templateName + "?",
+                                "Удаление шаблона",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) == MessageBoxResult.Yes)
+                DeleteTemplate(templateName);
+        }
+
+        private void DeleteTemplate(string name)
+        {
+            ListBoxOfTemplates.Items.Remove(name);
+            File.Delete("sound templates/" + name + ".bin");
+            File.Delete("music templates/" + name + ".bin");
+        }
+
         private void AddTemplateButton_Click(object sender, RoutedEventArgs e)
         {
             TemplateCreationForm templateCreationForm = new TemplateCreationForm { Owner = this };
@@ -478,5 +495,12 @@ namespace Spicy
             }
         }
         #endregion
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            melodyMediaPlayer.Close();
+            foreach (var sound in collectionOfSounds)
+                sound.Close();
+        }
     }
 }

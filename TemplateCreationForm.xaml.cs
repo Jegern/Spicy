@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Spicy
 {
@@ -153,6 +154,7 @@ namespace Spicy
             if (TemplateIsReady)
             {
                 FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateNameTextBox.Text);
+                File.Create("music templates/" + TemplateNameTextBox.Text + ".bin");
                 TemplateName = TemplateNameTextBox.Text;
                 Close();
             }
