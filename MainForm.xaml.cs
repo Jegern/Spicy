@@ -102,17 +102,26 @@ namespace Spicy
 
         #region Управление звуками
         readonly ObservableCollection<MediaPlayerWithSound> collectionOfSounds = new ObservableCollection<MediaPlayerWithSound>();
+        bool soundTemplateChanged = false;
+
+        private void SoundTemplateHasBeenChanged()
+        {
+            soundTemplateChanged = true;
+            SaveButton.Visibility = Visibility.Visible;
+        }
 
         private void SoundTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             MediaPlayerWithSound sound = (sender as TextBox).DataContext as MediaPlayerWithSound;
             sound.RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
+            SoundTemplateHasBeenChanged();
         }
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MediaPlayerWithSound sound = (sender as TextBox).DataContext as MediaPlayerWithSound;
+            MediaPlayerWithSound sound = (sender as Slider).DataContext as MediaPlayerWithSound;
             sound.Volume = (sender as Slider).Value;
+            SoundTemplateHasBeenChanged();
         }
 
         private void AddSoundButton_Click(object sender, RoutedEventArgs e)
@@ -121,6 +130,7 @@ namespace Spicy
             addingSoundForm.ShowDialog();
             if (addingSoundForm.SoundIsReady)
                 AddSoundToListBoxOfSounds(addingSoundForm.NewSound);
+            SoundTemplateHasBeenChanged();
         }
 
         private void AddSoundToListBoxOfSounds(MediaPlayerWithSound sound)
@@ -136,6 +146,7 @@ namespace Spicy
             MediaPlayerWithSound sound = ((sender as Button).TemplatedParent as ListBoxItem).Content as MediaPlayerWithSound;
             sound.Stop();
             collectionOfSounds.Remove(sound);
+            SoundTemplateHasBeenChanged();
         }
         #endregion
 
@@ -144,6 +155,13 @@ namespace Spicy
         readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
         string playingMelodyName = string.Empty;
         bool melodyIsPaused = false;
+        bool melodyTemplateChanged = false;
+
+        private void MelodyTemplateHasBeenChanged()
+        {
+            melodyTemplateChanged = true;
+            SaveButton.Visibility = Visibility.Visible;
+        }
 
         private void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -151,6 +169,7 @@ namespace Spicy
             melodyForm.ShowDialog();
             if (melodyForm.MelodyIsReady)
                 ListBoxOfMelodies.Items.Add(melodyForm.NewMelody);
+            MelodyTemplateHasBeenChanged();
         }
 
         private void DeleteMelodyButton_Click(object sender, RoutedEventArgs e)
@@ -159,6 +178,7 @@ namespace Spicy
             if (deletingMelodyName == playingMelodyName)
                 StopMelody();
             ListBoxOfMelodies.Items.Remove(deletingMelodyName);
+            MelodyTemplateHasBeenChanged();
         }
 
         private void StopMelody()
@@ -243,6 +263,7 @@ namespace Spicy
 
         private Button FindMelodyButton(string melodyName)
         {
+            ListBoxOfMelodies.UpdateLayout();
             Button button = null;
             for (int i = 0; i < ListBoxOfMelodies.Items.Count; i++)
             {
@@ -264,6 +285,7 @@ namespace Spicy
                 ListBoxOfMelodies.Items.Insert(melodyIndex - 1, melodyName);
                 ListBoxOfMelodies.Items.RemoveAt(melodyIndex + 1);
                 UpdateMelodyLayout(melodyName);
+                MelodyTemplateHasBeenChanged();
             }
         }
 
@@ -271,7 +293,6 @@ namespace Spicy
         {
             if (melodyName == playingMelodyName)
             {
-                ListBoxOfMelodies.UpdateLayout();
                 FindMelodyButton(playingMelodyName).Background = PlayPauseMelodyButton.Background;
                 ExpandMelodySlider(FindMelodyButton(playingMelodyName));
             }
@@ -310,6 +331,13 @@ namespace Spicy
 
         #region Управление SFX
         readonly List<MediaPlayer> listOfSfxMediaPlayers = new List<MediaPlayer>();
+        bool sfxTemplateChanged = false;
+
+        private void SfxTemplateHasBeenChanged()
+        {
+            sfxTemplateChanged = true;
+            SaveButton.Visibility = Visibility.Visible;
+        }
 
         private void SfxButton_Click(object sender, RoutedEventArgs e)
         {
@@ -323,6 +351,11 @@ namespace Spicy
         private void AddSoundToSfxButton(Button button)
         {
             AttachSoundToButton(button);
+            ChangeSfxLayout(button);
+        }
+
+        internal void ChangeSfxLayout(Button button)
+        {
             if (Extensions.GetSound(button) != null)
             {
                 ChangeSfxIcon(button);
@@ -337,6 +370,7 @@ namespace Spicy
             addingSoundForm.ShowDialog();
             if (addingSoundForm.SoundIsReady)
                 Extensions.SetSound(button, addingSoundForm.NewSound);
+            SfxTemplateHasBeenChanged();
         }
 
         private void ChangeSfxIcon(Button button)
@@ -366,6 +400,7 @@ namespace Spicy
             parentButton.BeginAnimation(OpacityProperty, new DoubleAnimation(1, 0, new TimeSpan(0)));
             parentButton.Content = string.Empty;
             Extensions.ClearSound(parentButton);
+            SfxTemplateHasBeenChanged();
             e.Handled = true;
         }
 
@@ -388,6 +423,68 @@ namespace Spicy
 
 
         #region Управление шаблонами
+        string selectedTemplate = string.Empty;
+        bool templateIsReady = false;
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(selectedTemplate))
+                RewriteTemplate();
+            else
+                WriteNewTemplate();
+        }
+
+        private void RewriteTemplate()
+        {
+            if (soundTemplateChanged)
+                RewriteSoundFile();
+            if (melodyTemplateChanged)
+                RewriteMelodyFile();
+            if (sfxTemplateChanged)
+                RewriteSfxFile();
+            SaveButton.Visibility = Visibility.Hidden;
+        }
+
+        private void RewriteSoundFile()
+        {
+            FileWork.WriteSoundCollectionToFile(collectionOfSounds, TemplateNameTextBox.Text);
+            soundTemplateChanged = false;
+        }
+
+        private void RewriteMelodyFile()
+        {
+            FileWork.WriteMelodiesToFile(ListBoxOfMelodies.Items, TemplateNameTextBox.Text);
+            melodyTemplateChanged = false;
+        }
+
+        private void RewriteSfxFile()
+        {
+            FileWork.WriteSfxGridToFile(SfxGrid, TemplateNameTextBox.Text);
+            sfxTemplateChanged = false;
+        }
+
+        private void WriteNewTemplate()
+        {
+            CheckIfTemplateIsReady();
+            if (templateIsReady)
+            {
+                RewriteSoundFile();
+                RewriteMelodyFile();
+                ListBoxOfTemplates.Items.Add(TemplateNameTextBox.Text);
+                SaveButton.Visibility = Visibility.Hidden;
+            }
+        }
+
+        void CheckIfTemplateIsReady()
+        {
+            if (TemplateNameTextBox.Text.Length == 0)
+                MessageBox.Show("Пожалуйста, введите имя шаблона", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+            else if (ListBoxOfTemplates.Items.Contains(TemplateNameTextBox.Text))
+                MessageBox.Show("Такое имя шаблона уже есть", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+            else
+                templateIsReady = true;
+        }
+
         private void DeleteTemplateButton_Click(object sender, RoutedEventArgs e)
         {
             string templateName = (sender as Button).DataContext.ToString();
@@ -401,8 +498,33 @@ namespace Spicy
         private void DeleteTemplate(string name)
         {
             ListBoxOfTemplates.Items.Remove(name);
+            ClearTemplate();
             File.Delete("sound templates/" + name + ".bin");
             File.Delete("music templates/" + name + ".bin");
+            File.Delete("sfx templates/" + name + ".bin");
+        }
+
+        private void ClearTemplate()
+        {
+            CloseAllSoundsAndMelodies();
+            PlayPauseMelodyButton.Background = Resources["Play"] as ImageBrush;
+            playingMelodyName = string.Empty;
+            MelodyNameLabel.Content = string.Empty;
+            ListBoxOfMelodies.Items.Clear();
+            collectionOfSounds.Clear();
+            ClearSfxGrid();
+        }
+
+        private void ClearSfxGrid()
+        {
+            for (int i = 1; i < 16; i++)
+            {
+                if ((SfxGrid.Children[i] as Grid).Children.Count > 2)
+                {
+                    Button button = (SfxGrid.Children[i] as Grid).Children[4] as Button;
+                    SfxCrossButton_Click(button, null);
+                }
+            }
         }
 
         private void AddTemplateButton_Click(object sender, RoutedEventArgs e)
@@ -421,14 +543,17 @@ namespace Spicy
 
         private void ListBoxOfTemplates_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string selectedTemplate = (string)ListBoxOfTemplates.SelectedItem;
+            selectedTemplate = (string)ListBoxOfTemplates.SelectedItem;
             if (selectedTemplate != null)
             {
                 StopPlayingTemplate();
-                LoadSelectedTemplateSounds(selectedTemplate);
-                LoadSelectedTemplateMelodies(selectedTemplate);
+                LoadSelectedTemplateSounds();
+                LoadSelectedTemplateMelodies();
+                LoadSelectedTemplateSfx();
                 PlaySelectedTemplate();
             }
+            else
+                TemplateNameTextBox.Clear();
         }
 
         private void StopPlayingTemplate()
@@ -439,7 +564,7 @@ namespace Spicy
             melodyMediaPlayer.Stop();
         }
 
-        private void LoadSelectedTemplateSounds(string selectedTemplate)
+        private void LoadSelectedTemplateSounds()
         {
             TemplateNameTextBox.Text = selectedTemplate;
             collectionOfSounds.Clear();
@@ -447,16 +572,24 @@ namespace Spicy
             ListBoxFunctions.SortAscending(ListBoxOfSounds);
         }
 
-        private void LoadSelectedTemplateMelodies(string selectedTemplate)
+        private void LoadSelectedTemplateMelodies()
         {
             ListBoxOfMelodies.Items.Clear();
             FileWork.ReadFileToListBox(ListBoxOfMelodies, selectedTemplate);
+        }
+
+        private void LoadSelectedTemplateSfx()
+        {
+            ClearSfxGrid();
+            FileWork.ReadFileToSfxGrid(this, SfxGrid, selectedTemplate);
         }
 
         private void PlaySelectedTemplate()
         {
             for (int i = 0; i < collectionOfSounds.Count; i++)
                 PlaySound(collectionOfSounds[i]);
+            if (ListBoxOfMelodies.Items.Count > 0)
+                StartMelody(FindMelodyButton(ListBoxOfMelodies.Items[0].ToString()));
         }
 
         async void PlaySound(MediaPlayerWithSound sound)
@@ -497,6 +630,11 @@ namespace Spicy
         #endregion
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CloseAllSoundsAndMelodies();
+        }
+
+        private void CloseAllSoundsAndMelodies()
         {
             melodyMediaPlayer.Close();
             foreach (var sound in collectionOfSounds)

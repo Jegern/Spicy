@@ -50,7 +50,8 @@
                     Grid.Column="1"
                     Margin="10,0,10,10"
                     Visibility="Hidden"
-                    Background="{StaticResource Save}"/>
+                    Background="{StaticResource Save}"
+                    Click="SaveButton_Click"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -154,7 +155,7 @@
                                                 <Button Style="{StaticResource SmallIconButton}" x:Name="DeleteSoundButton"
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Top"
-                                                        Background="{StaticResource Plus in circle}"
+                                                        Background="{StaticResource Cross in circle}"
                                                         Click="DeleteSoundButton_Click"/>
                                                 <Button Style="{StaticResource SmallIconButton}" x:Name="SoundVolumeButton"
                                                         Grid.Row="1"

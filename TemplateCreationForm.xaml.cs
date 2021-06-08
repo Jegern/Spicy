@@ -155,6 +155,7 @@ namespace Spicy
             {
                 FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateNameTextBox.Text);
                 File.Create("music templates/" + TemplateNameTextBox.Text + ".bin");
+                File.Create("sfx templates/" + TemplateNameTextBox.Text + ".bin");
                 TemplateName = TemplateNameTextBox.Text;
                 Close();
             }
