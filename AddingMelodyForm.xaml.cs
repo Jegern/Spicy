@@ -21,6 +21,8 @@ namespace Spicy
 
         private void InitializeOtherComponent()
         {
+            Width = SystemParameters.PrimaryScreenWidth * 0.225;
+            Height = SystemParameters.PrimaryScreenHeight;
             mediaPlayer.MediaEnded += MelodyEnded;
         }
 
@@ -102,12 +104,22 @@ namespace Spicy
 
         private void AddMelodyButton_Click(object sender, RoutedEventArgs e)
         {
+            AddMelodyIfItIsReady();
+        }
+
+        private void AddMelodyIfItIsReady()
+        {
             CheckIfMelodyIsReady();
             if (MelodyIsReady)
             {
                 NewMelody = ListBoxOfMelodies.SelectedItem.ToString();
                 Close();
             }
+        }
+
+        private void ListBoxOfMelodies_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddMelodyIfItIsReady();
         }
 
         private void CheckIfMelodyIsReady()

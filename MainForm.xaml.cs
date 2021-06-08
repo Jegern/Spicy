@@ -22,6 +22,8 @@ namespace Spicy
 
         private void InitializeOtherComponent()
         {
+            Width = SystemParameters.PrimaryScreenWidth * 0.9;
+            Height = SystemParameters.PrimaryScreenHeight;
             HideTemplateAndSfxMenu();
             InitializeListBoxOfTemplateSounds();
             LoadTemplatesInListBox();
@@ -30,8 +32,8 @@ namespace Spicy
 
         private void HideTemplateAndSfxMenu()
         {
-            TemplateMenu.Width = new GridLength(0);
-            SfxMenu.Width = new GridLength(0);
+            MinimizeMenu(TemplateMenu);
+            MinimizeMenu(SfxMenu);
             Width -= Width / 2;
         }
 
@@ -68,34 +70,60 @@ namespace Spicy
 
 
         #region Управление меню
+
         private void TemplateMenu_Click(object sender, RoutedEventArgs e)
         {
-            MinimizeMenu(SfxMenu);
-            ExpandMenu(TemplateMenu);
+            ExpandOrMinimizeMenu(TemplateMenu, SfxMenu);
         }
 
         private void SfxMenu_Click(object sender, RoutedEventArgs e)
         {
-            MinimizeMenu(TemplateMenu);
-            ExpandMenu(SfxMenu);
+            ExpandOrMinimizeMenu(SfxMenu, TemplateMenu);
         }
 
-        private void MinimizeMenu(ColumnDefinition grid)
+        private void ExpandOrMinimizeMenu(ColumnDefinition mainMenu, ColumnDefinition secondaryMenu)
         {
-            if (grid.Width != new GridLength(0))
+            if ((bool)mainMenu.Tag)
             {
-                grid.Width = new GridLength(0);
-                Width -= Width / 3;
+                MinimizeMenu(mainMenu);
+                ReduceAppWidth();
+            }
+            else if ((bool)secondaryMenu.Tag)
+            {
+                MinimizeMenu(secondaryMenu);
+                ExpandMenu(mainMenu);
+            }
+            else
+            {
+                IncreaseAppWidth();
+                ExpandMenu(mainMenu);
             }
         }
 
-        private void ExpandMenu(ColumnDefinition grid)
+        private void ReduceAppWidth()
         {
-            if (grid.Width == new GridLength(0))
-            {
-                grid.Width = new GridLength(1, GridUnitType.Star);
-                Width += Width / 2;
-            }
+            MinWidth = 500;
+            Width -= Width / 3 - 5;
+        }
+
+        private void IncreaseAppWidth()
+        {
+            Width += Width / 2 - 7.5;
+            MinWidth = 742.5;
+            if (SystemParameters.PrimaryScreenWidth - Left - Width < 0)
+                Left = SystemParameters.PrimaryScreenWidth - Width;
+        }
+
+        private void MinimizeMenu(ColumnDefinition menu)
+        {
+            menu.Width = new GridLength(0);
+            menu.Tag = false;
+        }
+
+        private void ExpandMenu(ColumnDefinition menu)
+        {
+            menu.Width = new GridLength(1, GridUnitType.Star);
+            menu.Tag = true;
         }
         #endregion
 

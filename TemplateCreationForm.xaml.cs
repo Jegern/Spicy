@@ -23,6 +23,8 @@ namespace Spicy
 
         void InitializeOtherComponent()
         {
+            Width = SystemParameters.PrimaryScreenWidth * 0.45;
+            Height = SystemParameters.PrimaryScreenHeight;
             InitializeListBoxOfAllSounds();
             InitializeListBoxOfSelectedSounds();
         }

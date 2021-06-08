@@ -66,7 +66,7 @@ namespace Spicy
 
         public static void ReadFileToSfxGrid(Window window, Grid grid, string fileName)
         {
-            if (File.Exists("music templates/" + fileName + ".bin"))
+            if (File.Exists("sfx templates/" + fileName + ".bin"))
                 using (BinaryReader reader = new BinaryReader(File.OpenRead("sfx templates/" + fileName + ".bin")))
                     for (int i = 1; i < 16; i++)
                     {

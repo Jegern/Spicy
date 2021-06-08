@@ -22,6 +22,8 @@ namespace Spicy
 
         private void InitializeOtherComponent()
         {
+            Width = SystemParameters.PrimaryScreenWidth * 0.225;
+            Height = SystemParameters.PrimaryScreenHeight;
             mediaPlayer.MediaEnded += SoundEnded;
         }
 
@@ -117,6 +119,11 @@ namespace Spicy
 
         void AddSoundButton_Click(object sender, RoutedEventArgs e)
         {
+            AddSoundIfItIsReady();
+        }
+
+        private void AddSoundIfItIsReady()
+        {
             CheckIfSoundIsReady();
             if (SoundIsReady)
             {
@@ -126,6 +133,11 @@ namespace Spicy
                 NewSound = new MediaPlayerWithSound(name, volume, repetitionRate);
                 Close();
             }
+        }
+
+        private void ListBoxOfSounds_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            AddSoundIfItIsReady();
         }
 
         private void CheckIfSoundIsReady()

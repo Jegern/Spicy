@@ -16,7 +16,7 @@
 
     <Style x:Key="Window" TargetType="Window">
         <Setter Property="Background" Value="{StaticResource WindowBackground}"/>
-        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="ResizeMode" Value="CanResize"/>
     </Style>
     
     <Style x:Key="Control">

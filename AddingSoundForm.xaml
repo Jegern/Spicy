@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Style="{StaticResource Window}"
-        Height="800"
-        Width="300"
+        MinHeight="600"
+        MinWidth="300"
         WindowStartupLocation="CenterOwner"
         Loaded="AddingSoundWindow_Loaded"
         Closing="AddingSoundWindow_Closing">
@@ -36,7 +36,7 @@
                  Margin="20,10"
                  Padding="5"
                  FontSize="14"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="ListBoxOfSounds_MouseDoubleClick">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Style.Triggers>
