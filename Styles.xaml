@@ -133,27 +133,47 @@
 
     <Style x:Key="SearchTextBox" TargetType="TextBox">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="MaxLength" Value="30"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border>
-                        <Grid>
-                            <TextBox Style="{StaticResource Control}" x:Name="InputTextBox"
-                                     HorizontalContentAlignment="Left"
-                                     VerticalContentAlignment="Center"
-                                     Padding="40,0,10,0"/>
-                            <Border Height="20"
-                                    Width="20"
-                                    HorizontalAlignment="Left"
-                                    Background="{StaticResource Search}"
-                                    Margin="10,10,0,10"/>
-                            <TextBlock Style="{StaticResource PlaceholderTextBlock}"/>
-                        </Grid>
-                    </Border>
+                    <Grid>
+                        <TextBox Style="{StaticResource Control}" x:Name="InputTextBox"
+                                 HorizontalContentAlignment="Left"
+                                 VerticalContentAlignment="Center"
+                                 MaxLength="{TemplateBinding MaxLength}"
+                                 Padding="40,0,10,0"/>
+                        <Border Height="20"
+                                Width="20"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource Search}"
+                                Margin="10,10,0,10"/>
+                        <TextBlock Style="{StaticResource PlaceholderTextBlock}"
+                                   FontSize="{TemplateBinding FontSize}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TemplateNameTextBox" TargetType="TextBox" BasedOn="{StaticResource TextBox}">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <TextBox Style="{StaticResource Control}" x:Name="InputTextBox"
+                                 HorizontalContentAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 MaxLength="{TemplateBinding MaxLength}"
+                                 Padding="10,0"/>
+                        <TextBlock Style="{StaticResource PlaceholderTextBlock}"
+                                   Text="Введите имя шаблона"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Margin="10,0"
+                                   HorizontalAlignment="Center"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

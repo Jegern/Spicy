@@ -112,7 +112,6 @@
                                                         Margin="5,3,55,0"/>
                                                 <Label Style="{StaticResource StringLabel}"
                                                        Grid.Row="1"
-                                                       Content="mm:ss"
                                                        HorizontalAlignment="Right"/>
                                             </Grid>
                                         </ControlTemplate>
@@ -239,17 +238,19 @@
                 <Slider Style="{StaticResource SliderWithThumb}" x:Name="MasterMelodySlider"
                         Grid.Column="2"
                         Margin="0,3,0,0"
-                        IsMoveToPointEnabled="True" Visibility="Hidden"/>
+                        IsMoveToPointEnabled="True"
+                        PreviewMouseUp="MasterMelodySlider_PreviewMouseUp"
+                        PreviewMouseDown="MasterMelodySlider_PreviewMouseDown"/>
                 <Label Style="{StaticResource StringLabel}" x:Name="TimeMelodyLabel"
-                       Content="mm:ss"
                        Grid.Column="3"
-                       Margin="0,0,20,0" Visibility="Hidden"/>
+                       Margin="0,0,20,0"/>
             </Grid>
             <Button Style="{StaticResource BigIconButton}" x:Name="VolumeButton"
                     Grid.Row="2"
                     Grid.Column="1"
                     Background="{StaticResource Speaker}"
-                    Margin="10,10,10,0" Click="VolumeButton_Click"/>
+                    Margin="10,10,10,0"
+                    Click="VolumeButton_Click"/>
         </Grid>
 
         <Border x:Name="VolumeGrid"

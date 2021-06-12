@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace Spicy
 {
@@ -29,7 +31,7 @@ namespace Spicy
             HideTemplateAndSfxMenu();
             InitializeListBoxOfTemplateSounds();
             LoadTemplatesInListBox();
-            InitializeMelodyMediaPlayer();
+            InitializeMusic();
         }
 
         private void InitializeAppWidthAndHeight()
@@ -57,10 +59,16 @@ namespace Spicy
             ListBoxFunctions.SortAscending(ListBoxOfTemplates);
         }
 
-        private void InitializeMelodyMediaPlayer()
+        private void InitializeMusic()
         {
             musicMediaPlayer.Volume = volume[1];
             musicMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
+            Timer.Tick += Timer_Tick;
+            Timer.Interval = new TimeSpan(100000);
+            RewindMelodyButton.Visibility = Visibility.Hidden;
+            PlayPauseMelodyButton.Visibility = Visibility.Hidden;
+            ForwardMelodyButton.Visibility = Visibility.Hidden;
+            MasterMelodySlider.Visibility = Visibility.Hidden;
         }
 
         void MediaPlayerMelodyEnded(object sender, EventArgs e)
@@ -189,15 +197,53 @@ namespace Spicy
         #endregion
 
 
-        #region Управление мелодиями
+        #region Управление музыкой
         readonly MediaPlayer musicMediaPlayer = new MediaPlayer();
-        string playingMelodyName = string.Empty;
-        bool melodyIsPaused = false;
-        bool melodyTemplateChanged = false;
+        readonly DispatcherTimer Timer = new DispatcherTimer();
+        Slider playingMusicSlider;
+        Label playingMusicLabel;
+        string playingMusicName = string.Empty;
+        bool musicIsPaused = false;
+        bool musicTemplateChanged = false;
+        bool sliderHasMaximum = false;
+        bool masterSliderUpdating = true;
 
-        private void MelodyTemplateHasBeenChanged()
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            melodyTemplateChanged = true;
+            if (!sliderHasMaximum && musicMediaPlayer.NaturalDuration.HasTimeSpan)
+                SetSliderMaximum();
+            if (masterSliderUpdating)
+                MasterMelodySlider.Value = musicMediaPlayer.Position.TotalSeconds;
+            playingMusicSlider.Value = musicMediaPlayer.Position.TotalSeconds;
+            playingMusicLabel.Content = TimeMelodyLabel.Content = $"{musicMediaPlayer.Position.Minutes:00}:{musicMediaPlayer.Position.Seconds:00}";
+        }
+
+        private void SetSliderMaximum()
+        {
+            double minutes = musicMediaPlayer.NaturalDuration.TimeSpan.Minutes;
+            double seconds = musicMediaPlayer.NaturalDuration.TimeSpan.Seconds;
+            playingMusicSlider.Maximum = MasterMelodySlider.Maximum = minutes * 60 + seconds + 1;
+            sliderHasMaximum = true;
+
+            MasterMelodySlider.AddHandler(PreviewMouseDownEvent, new MouseButtonEventHandler(MasterMelodySlider_PreviewMouseDown), true);
+            MasterMelodySlider.AddHandler(PreviewMouseUpEvent, new MouseButtonEventHandler(MasterMelodySlider_PreviewMouseUp), true);
+        }
+
+        private void MasterMelodySlider_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            masterSliderUpdating = false;
+        }
+
+        private void MasterMelodySlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            int seconds = (int)MasterMelodySlider.Value;
+            musicMediaPlayer.Position = new TimeSpan(0, 0, seconds);
+            masterSliderUpdating = true;
+        }
+
+        private void MusicTemplateHasBeenChanged()
+        {
+            musicTemplateChanged = true;
             SaveButton.Visibility = Visibility.Visible;
         }
 
@@ -207,33 +253,39 @@ namespace Spicy
             melodyForm.ShowDialog();
             if (melodyForm.MelodyIsReady)
                 ListBoxOfMelodies.Items.Add(melodyForm.NewMelody);
-            MelodyTemplateHasBeenChanged();
+            MusicTemplateHasBeenChanged();
         }
 
         private void DeleteMelodyButton_Click(object sender, RoutedEventArgs e)
         {
             string deletingMelodyName = (sender as Button).DataContext.ToString();
-            if (deletingMelodyName == playingMelodyName)
+            if (deletingMelodyName == playingMusicName)
                 StopMelody();
             ListBoxOfMelodies.Items.Remove(deletingMelodyName);
-            MelodyTemplateHasBeenChanged();
+            MusicTemplateHasBeenChanged();
         }
 
         private void StopMelody()
         {
             musicMediaPlayer.Stop();
-            playingMelodyName = string.Empty;
+            Timer.Stop();
+            playingMusicName = string.Empty;
             MelodyNameLabel.Content = string.Empty;
+            TimeMelodyLabel.Content = string.Empty;
             PlayPauseMelodyButton.Background = Resources["Play"] as ImageBrush;
+            RewindMelodyButton.Visibility = Visibility.Hidden;
+            PlayPauseMelodyButton.Visibility = Visibility.Hidden;
+            ForwardMelodyButton.Visibility = Visibility.Hidden;
+            MasterMelodySlider.Visibility = Visibility.Hidden;
         }
 
         private void PlayMelodyButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             string melodyName = button.DataContext.ToString();
-            if (playingMelodyName == string.Empty || melodyName != playingMelodyName)
+            if (playingMusicName == string.Empty || melodyName != playingMusicName)
                 StartMelody(button);
-            else if (playingMelodyName != string.Empty)
+            else if (playingMusicName != string.Empty)
                 ContinuePlayOrPauseMelody(button);
         }
 
@@ -242,9 +294,10 @@ namespace Spicy
             string melodyName = button.DataContext.ToString();
             ClearMelody();
             PlayMelody(melodyName);
+            ConfigureMusicTimer(button);
             ChangeMelodyButtonIcons(button, "Play");
             ExpandMelodySlider(button);
-            MelodyNameLabel.Content = playingMelodyName = melodyName;
+            MelodyNameLabel.Content = playingMusicName = melodyName;
         }
 
         private void ClearMelody()
@@ -256,6 +309,7 @@ namespace Spicy
                 button.Background = Resources["Play"] as ImageBrush;
                 Grid grid = (button.Parent as Grid).Parent as Grid;
                 grid.RowDefinitions[1].Height = new GridLength(0);
+                sliderHasMaximum = false;
             }
         }
 
@@ -264,7 +318,17 @@ namespace Spicy
             musicMediaPlayer.Open(new Uri("music/" + name + ".mp3", UriKind.Relative));
             musicMediaPlayer.Volume = volume[1] * volume[0] * 0.99;
             musicMediaPlayer.Play();
-            melodyIsPaused = false;
+            musicIsPaused = false;
+        }
+
+        private void ConfigureMusicTimer(Button button)
+        {
+            Timer.Start();
+            Grid listBoxItemGrid = (button.Parent as Grid).Parent as Grid;
+            playingMusicSlider = listBoxItemGrid.Children[1] as Slider;
+            playingMusicLabel = listBoxItemGrid.Children[2] as Label;
+            playingMusicSlider.Visibility = Visibility.Visible;
+            MasterMelodySlider.Visibility = Visibility.Visible;
         }
 
         private void ChangeMelodyButtonIcons(Button button, string action)
@@ -278,11 +342,16 @@ namespace Spicy
         {
             Grid listBoxItemGrid = (button.Parent as Grid).Parent as Grid;
             listBoxItemGrid.RowDefinitions[1].Height = new GridLength(30);
+
+            RewindMelodyButton.Visibility = Visibility.Visible;
+            PlayPauseMelodyButton.Visibility = Visibility.Visible;
+            ForwardMelodyButton.Visibility = Visibility.Visible;
+            MasterMelodySlider.Visibility = Visibility.Visible;
         }
 
         private void ContinuePlayOrPauseMelody(Button button)
         {
-            if (melodyIsPaused)
+            if (musicIsPaused)
                 ContinuePlayMelody(button);
             else
                 PauseMelody(button);
@@ -291,14 +360,14 @@ namespace Spicy
         private void ContinuePlayMelody(Button button)
         {
             musicMediaPlayer.Play();
-            melodyIsPaused = false;
+            musicIsPaused = false;
             ChangeMelodyButtonIcons(button, "Play");
         }
 
         private void PauseMelody(Button button)
         {
             musicMediaPlayer.Pause();
-            melodyIsPaused = true;
+            musicIsPaused = true;
             ChangeMelodyButtonIcons(button, "Pause");
         }
 
@@ -326,23 +395,23 @@ namespace Spicy
                 ListBoxOfMelodies.Items.Insert(melodyIndex - 1, melodyName);
                 ListBoxOfMelodies.Items.RemoveAt(melodyIndex + 1);
                 UpdateMelodyLayout(melodyName);
-                MelodyTemplateHasBeenChanged();
+                MusicTemplateHasBeenChanged();
             }
         }
 
         private void UpdateMelodyLayout(string melodyName)
         {
-            if (melodyName == playingMelodyName)
+            if (melodyName == playingMusicName)
             {
-                FindMelodyButton(playingMelodyName).Background = PlayPauseMelodyButton.Background;
-                ExpandMelodySlider(FindMelodyButton(playingMelodyName));
+                FindMelodyButton(playingMusicName).Background = PlayPauseMelodyButton.Background;
+                ExpandMelodySlider(FindMelodyButton(playingMusicName));
             }
         }
 
         private void PlayPauseMelodyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (playingMelodyName != string.Empty)
-                ContinuePlayOrPauseMelody(FindMelodyButton(playingMelodyName));
+            if (playingMusicName != string.Empty)
+                ContinuePlayOrPauseMelody(FindMelodyButton(playingMusicName));
         }
 
         private void RewindMelodyButton_Click(object sender, RoutedEventArgs e)
@@ -357,9 +426,9 @@ namespace Spicy
 
         private void StartMelodyWithShift(int shift)
         {
-            if (playingMelodyName != string.Empty)
+            if (playingMusicName != string.Empty)
             {
-                int melodyIndex = ListBoxOfMelodies.Items.IndexOf(playingMelodyName);
+                int melodyIndex = ListBoxOfMelodies.Items.IndexOf(playingMusicName);
                 if (0 <= melodyIndex + shift && melodyIndex + shift < ListBoxOfMelodies.Items.Count)
                 {
                     string melodyName = ListBoxOfMelodies.Items[melodyIndex + shift].ToString();
@@ -398,16 +467,10 @@ namespace Spicy
         {
             if (Extensions.GetSound(button) != null)
             {
-                ConfigureSfx(button);
                 ChangeSfxIcon(button);
                 ChangeSfxText(button);
                 ConfigureCrossButton(button);
             }
-        }
-
-        private void ConfigureSfx(Button button)
-        {
-            Extensions.GetSound(button).Volume = volume[3] * volume[0] * 0.99;
         }
 
         private void AttachSoundToButton(Button button)
@@ -473,7 +536,7 @@ namespace Spicy
         private void PlaySfxSound(MediaPlayerWithSound sound)
         {
             sound.Open(new Uri("sounds/" + sound.Name + ".mp3", UriKind.Relative));
-            //Добавить инициализацию уровня громкости звука
+            sound.Volume = volume[3] * volume[0] * 0.99;
             sound.Play();
             sound.IsPlaying = true;
         }
@@ -496,7 +559,7 @@ namespace Spicy
         {
             if (soundTemplateChanged)
                 RewriteSoundFile();
-            if (melodyTemplateChanged)
+            if (musicTemplateChanged)
                 RewriteMelodyFile();
             if (sfxTemplateChanged)
                 RewriteSfxFile();
@@ -512,7 +575,7 @@ namespace Spicy
         private void RewriteMelodyFile()
         {
             FileWork.WriteMelodiesToFile(ListBoxOfMelodies.Items, TemplateNameTextBox.Text);
-            melodyTemplateChanged = false;
+            musicTemplateChanged = false;
         }
 
         private void RewriteSfxFile()
@@ -566,7 +629,7 @@ namespace Spicy
         {
             CloseAllSoundsAndMelodies();
             PlayPauseMelodyButton.Background = Resources["Play"] as ImageBrush;
-            playingMelodyName = string.Empty;
+            playingMusicName = string.Empty;
             MelodyNameLabel.Content = string.Empty;
             ListBoxOfMelodies.Items.Clear();
             collectionOfSounds.Clear();
@@ -685,15 +748,6 @@ namespace Spicy
                 sound.Position = new TimeSpan(0);
                 sound.Play();
             }
-        }
-
-        private bool CollectionOfSoundsContains(string name)
-        {
-            bool contains = false;
-            foreach (var sound in collectionOfSounds)
-                if (sound.Name == name)
-                    contains = true;
-            return contains;
         }
         #endregion
 

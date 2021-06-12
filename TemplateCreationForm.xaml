@@ -6,6 +6,8 @@
         mc:Ignorable="d"
         Style="{StaticResource Window}"
         Title="Окно создания шаблона"
+        Height="800"
+        Width="600"
         MinHeight="600"
         MinWidth="500"
         WindowStartupLocation="CenterOwner">
@@ -27,7 +29,7 @@
             <RowDefinition Height="110"/>
             <RowDefinition Height="80px"/>
         </Grid.RowDefinitions>
-        <TextBox Style="{StaticResource TextBox}" x:Name="TemplateNameTextBox"
+        <TextBox Style="{StaticResource TemplateNameTextBox}" x:Name="TemplateNameTextBox"
                  Margin="20,20,20,10"
                  FontSize="30"
                  Padding="10,0"/>
