@@ -105,7 +105,7 @@ namespace Spicy
             if (ListBoxOfSelectedSounds.SelectedItem != null)
             {
                 MediaPlayerWithSound selectedSound = ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound;
-                SoundVolumeSlider.Value = selectedSound.Volume;
+                SoundVolumeSlider.Value = selectedSound.SoundVolume;
                 SoundRepetitionRateTextbox.Text = selectedSound.RepetitionRate.ToString();
             }
         }
@@ -113,7 +113,7 @@ namespace Spicy
         void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (ListBoxOfSelectedSounds.SelectedItem != null)
-                (ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound).Volume = SoundVolumeSlider.Value;
+                (ListBoxOfSelectedSounds.SelectedItem as MediaPlayerWithSound).SoundVolume = SoundVolumeSlider.Value;
         }
 
         void SoundRepetitionRateTextbox_TextChanged(object sender, TextChangedEventArgs e)

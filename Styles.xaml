@@ -18,7 +18,7 @@
         <Setter Property="Background" Value="{StaticResource WindowBackground}"/>
         <Setter Property="ResizeMode" Value="CanResize"/>
     </Style>
-    
+
     <Style x:Key="Control">
         <Setter Property="Control.Background" Value="{StaticResource ControlBackground}"/>
         <Setter Property="Control.Foreground" Value="{StaticResource FontColor}"/>
@@ -159,29 +159,25 @@
         </Setter>
     </Style>
 
-    <Style x:Key="RepeatButton" TargetType="RepeatButton">
+    <Style x:Key="LeftRepeatButton" TargetType="RepeatButton">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border Height="5"/>
+                    <Border Height="5" Background="{StaticResource MainColor}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="LeftRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButton}">
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="Background" Value="{StaticResource MainColor}"/>
-            </Style>
-        </Style.Resources>
-    </Style>
-    <Style x:Key="RightRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButton}">
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="Background" Value="Black"/>
-            </Style>
-        </Style.Resources>
+    <Style x:Key="RightRepeatButton" TargetType="RepeatButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Height="5" Background="Black"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="Thumb" TargetType="Thumb">
@@ -233,6 +229,54 @@
                         </Track.DecreaseRepeatButton>
                         <Track.IncreaseRepeatButton>
                             <RepeatButton Style="{StaticResource RightRepeatButton}"/>
+                        </Track.IncreaseRepeatButton>
+                    </Track>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TopRepeatButton" TargetType="RepeatButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Width="5" Background="Black"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="BottomRepeatButton" TargetType="RepeatButton">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Width="5" Background="{StaticResource MainColor}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VerticalSliderWithThumb" TargetType="Slider">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Maximum" Value="1"/>
+        <Setter Property="Value" Value="1"/>
+        <Setter Property="TickFrequency" Value="0.01"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Track x:Name="PART_Track">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource BottomRepeatButton}" Command="Slider.DecreaseLarge"/>
+                        </Track.DecreaseRepeatButton>
+                        <Track.Thumb>
+                            <Thumb Style="{StaticResource Thumb}"/>
+                        </Track.Thumb>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Style="{StaticResource TopRepeatButton}" Command="Slider.IncreaseLarge"/>
                         </Track.IncreaseRepeatButton>
                     </Track>
                 </ControlTemplate>
@@ -328,6 +372,19 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
         <Setter Property="FontSize" Value="15"/>
+    </Style>
+
+    <Style x:Key="VolumeTextBlock" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource AddButtonBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
     </Style>
 
 </ResourceDictionary>

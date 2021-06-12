@@ -8,6 +8,7 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Spicy
 {
@@ -18,16 +19,23 @@ namespace Spicy
         {
             InitializeComponent();
             InitializeOtherComponent();
+            volumeSliders = new[] { MasterVolumeSlider, MusicVolumeSlider, SoundVolumeSlider, SfxVolumeSlider };
+            volumeButtons = new[] { MasterVolumeButton, MusicVolumeButton, SoundVolumeButton, SfxVolumeButton };
         }
 
         private void InitializeOtherComponent()
         {
-            Width = SystemParameters.PrimaryScreenWidth * 0.9;
-            Height = SystemParameters.PrimaryScreenHeight;
+            InitializeAppWidthAndHeight();
             HideTemplateAndSfxMenu();
             InitializeListBoxOfTemplateSounds();
             LoadTemplatesInListBox();
             InitializeMelodyMediaPlayer();
+        }
+
+        private void InitializeAppWidthAndHeight()
+        {
+            Width = SystemParameters.PrimaryScreenWidth * 0.9;
+            Height = SystemParameters.PrimaryScreenHeight;
         }
 
         private void HideTemplateAndSfxMenu()
@@ -51,12 +59,13 @@ namespace Spicy
 
         private void InitializeMelodyMediaPlayer()
         {
-            melodyMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
+            musicMediaPlayer.Volume = volume[1];
+            musicMediaPlayer.MediaEnded += MediaPlayerMelodyEnded;
         }
 
         void MediaPlayerMelodyEnded(object sender, EventArgs e)
         {
-            string melodyName = Path.GetFileNameWithoutExtension(melodyMediaPlayer.Source.OriginalString);
+            string melodyName = Path.GetFileNameWithoutExtension(musicMediaPlayer.Source.OriginalString);
             PlayNextMelody(melodyName);
         }
 
@@ -148,7 +157,8 @@ namespace Spicy
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MediaPlayerWithSound sound = (sender as Slider).DataContext as MediaPlayerWithSound;
-            sound.Volume = (sender as Slider).Value;
+            sound.SoundVolume = (sender as Slider).Value;
+            sound.Volume = sound.SoundVolume * volume[2];
             SoundTemplateHasBeenChanged();
         }
 
@@ -180,7 +190,7 @@ namespace Spicy
 
 
         #region Управление мелодиями
-        readonly MediaPlayer melodyMediaPlayer = new MediaPlayer();
+        readonly MediaPlayer musicMediaPlayer = new MediaPlayer();
         string playingMelodyName = string.Empty;
         bool melodyIsPaused = false;
         bool melodyTemplateChanged = false;
@@ -211,8 +221,10 @@ namespace Spicy
 
         private void StopMelody()
         {
-            melodyMediaPlayer.Stop();
+            musicMediaPlayer.Stop();
+            playingMelodyName = string.Empty;
             MelodyNameLabel.Content = string.Empty;
+            PlayPauseMelodyButton.Background = Resources["Play"] as ImageBrush;
         }
 
         private void PlayMelodyButton_Click(object sender, RoutedEventArgs e)
@@ -249,8 +261,8 @@ namespace Spicy
 
         private void PlayMelody(string name)
         {
-            melodyMediaPlayer.Open(new Uri("music/" + name + ".mp3", UriKind.Relative));
-            melodyMediaPlayer.Play();
+            musicMediaPlayer.Open(new Uri("music/" + name + ".mp3", UriKind.Relative));
+            musicMediaPlayer.Play();
             melodyIsPaused = false;
         }
 
@@ -277,14 +289,14 @@ namespace Spicy
 
         private void ContinuePlayMelody(Button button)
         {
-            melodyMediaPlayer.Play();
+            musicMediaPlayer.Play();
             melodyIsPaused = false;
             ChangeMelodyButtonIcons(button, "Play");
         }
 
         private void PauseMelody(Button button)
         {
-            melodyMediaPlayer.Pause();
+            musicMediaPlayer.Pause();
             melodyIsPaused = true;
             ChangeMelodyButtonIcons(button, "Pause");
         }
@@ -358,7 +370,6 @@ namespace Spicy
 
 
         #region Управление SFX
-        readonly List<MediaPlayer> listOfSfxMediaPlayers = new List<MediaPlayer>();
         bool sfxTemplateChanged = false;
 
         private void SfxTemplateHasBeenChanged()
@@ -373,7 +384,7 @@ namespace Spicy
             if (Extensions.GetSound(button) == null)
                 AddSoundToSfxButton(button);
             else
-                PlaySfxSound(button);
+                PlayOrStopSfxSound(button);
         }
 
         private void AddSoundToSfxButton(Button button)
@@ -432,20 +443,28 @@ namespace Spicy
             e.Handled = true;
         }
 
-        private void PlaySfxSound(object sender)
+        private void PlayOrStopSfxSound(Button button)
         {
-            MediaPlayerWithSound sound = Extensions.GetSound(sender as Button);
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            mediaPlayer.MediaEnded += RemoveSoundAfterPlay;
-            mediaPlayer.Open(new Uri("sounds/" + sound.Name + ".mp3", UriKind.Relative));
-            mediaPlayer.Volume = sound.Volume;
-            listOfSfxMediaPlayers.Add(mediaPlayer);
-            mediaPlayer.Play();
+            MediaPlayerWithSound sound = Extensions.GetSound(button);
+            if (sound.IsPlaying)
+                StopSfxSound(sound);
+            else
+                PlaySfxSound(sound);
+            
         }
 
-        private void RemoveSoundAfterPlay(object sender, EventArgs e)
+        private void StopSfxSound(MediaPlayerWithSound sound)
         {
-            listOfSfxMediaPlayers.Remove(sender as MediaPlayer);
+            sound.Stop();
+            sound.IsPlaying = false;
+        }
+
+        private void PlaySfxSound(MediaPlayerWithSound sound)
+        {
+            sound.Open(new Uri("sounds/" + sound.Name + ".mp3", UriKind.Relative));
+            //Добавить инициализацию уровня громкости звука
+            sound.Play();
+            sound.IsPlaying = true;
         }
         #endregion
 
@@ -589,7 +608,7 @@ namespace Spicy
             for (int i = 0; i < collectionOfSounds.Count; i++)
                 collectionOfSounds[i].Stop();
             collectionOfSounds.Clear();
-            melodyMediaPlayer.Stop();
+            musicMediaPlayer.Stop();
         }
 
         private void LoadSelectedTemplateSounds()
@@ -620,34 +639,36 @@ namespace Spicy
                 StartMelody(FindMelodyButton(ListBoxOfMelodies.Items[0].ToString()));
         }
 
-        async void PlaySound(MediaPlayerWithSound sound)
+        private async void PlaySound(MediaPlayerWithSound sound)
         {
             ConfiguredMediaPlayer(sound);
             Random random = new Random();
             await Task.Delay(random.Next((int)(sound.RepetitionRate * 1000)));
-            sound.Play();
+            if (collectionOfSounds.Contains(sound))
+                sound.Play();
         }
 
-        void ConfiguredMediaPlayer(MediaPlayerWithSound sound)
+        private void ConfiguredMediaPlayer(MediaPlayerWithSound sound)
         {
-            sound.MediaEnded += MediaPlayerSoundEnded;
             string soundPath = "sounds/" + sound.Name + ".mp3";
             sound.Open(new Uri(soundPath, UriKind.Relative));
+            sound.Volume = sound.SoundVolume * volume[2];
+            sound.MediaEnded += MediaPlayerSoundEnded;
         }
 
-        async void MediaPlayerSoundEnded(object sender, EventArgs e)
+        private async void MediaPlayerSoundEnded(object sender, EventArgs e)
         {
             MediaPlayerWithSound sound = sender as MediaPlayerWithSound;
             await Task.Delay(GetDelay(sound));
             ReplayMediaPlayer(sound);
         }
 
-        int GetDelay(MediaPlayerWithSound sound)
+        private int GetDelay(MediaPlayerWithSound sound)
         {
             return (int)(sound.RepetitionRate * 1000);
         }
 
-        void ReplayMediaPlayer(MediaPlayerWithSound sound)
+        private void ReplayMediaPlayer(MediaPlayerWithSound sound)
         {
             if (collectionOfSounds.Contains(sound))
             {
@@ -655,8 +676,105 @@ namespace Spicy
                 sound.Play();
             }
         }
+
+        private bool CollectionOfSoundsContains(string name)
+        {
+            bool contains = false;
+            foreach (var sound in collectionOfSounds)
+                if (sound.Name == name)
+                    contains = true;
+            return contains;
+        }
         #endregion
 
+
+        #region Управление громкостью
+        readonly Slider[] volumeSliders;
+        readonly Button[] volumeButtons;
+        readonly double[] volume = new[] { 1.0, 1.0, 1.0, 1.0 };
+        readonly double[] pastVolume = new[] { 1.0, 1.0, 1.0, 1.0 };
+        readonly bool[] volumeIsMute = new[] { false, false, false, false };
+
+        private void VolumeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VolumeGrid.Visibility == Visibility.Visible)
+                VolumeGrid.Visibility = Visibility.Hidden;
+            else
+                VolumeGrid.Visibility = Visibility.Visible;
+        }
+
+        private void GeneralVolumeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MuteOrUnmuteGeneralVolume(sender);
+        }
+
+        private void MuteOrUnmuteGeneralVolume(object sender)
+        {
+            int volumeIndex = Array.IndexOf(volumeButtons, sender as Button);
+            volumeIsMute[volumeIndex] = !volumeIsMute[volumeIndex];
+            if (volumeIsMute[volumeIndex])
+            {
+                volumeButtons[volumeIndex].Background = Resources["Speaker Mute"] as ImageBrush;
+                volumeSliders[volumeIndex].Value = 0;
+            }
+            else
+            {
+                volumeButtons[volumeIndex].Background = Resources["Speaker"] as ImageBrush;
+                volumeSliders[volumeIndex].Value = pastVolume[volumeIndex];
+            }
+        }
+
+        void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (volumeSliders != null)
+                ChangeGeneralVolume(sender);
+            ApplyMusicVolumeToMelodyMediaPlayer();
+        }
+
+        void ChangeGeneralVolume(object sender)
+        {
+            int volumeIndex = Array.IndexOf(volumeSliders, sender as Slider);
+            volume[volumeIndex] = volumeSliders[volumeIndex].Value;
+            if (volume[volumeIndex] != 0)
+            {
+                pastVolume[volumeIndex] = volume[volumeIndex];
+                volumeIsMute[volumeIndex] = false;
+                volumeButtons[volumeIndex].Background = Resources["Speaker"] as ImageBrush;
+            }
+            else
+            {
+                volumeIsMute[volumeIndex] = true;
+                volumeButtons[volumeIndex].Background = Resources["Speaker Mute"] as ImageBrush;
+            }
+        }
+
+        void ApplyMusicVolumeToMelodyMediaPlayer()
+        {
+            musicMediaPlayer.Volume = volume[1];
+        }
+
+        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (volumeSliders != null)
+                ChangeGeneralVolume(sender);
+            ApplySoundVolumeToTemplateSounds();
+        }
+
+        void ApplySoundVolumeToTemplateSounds()
+        {
+            foreach (var sound in collectionOfSounds)
+                sound.Volume = sound.SoundVolume * volume[2];
+        }
+
+        void SfxVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (volumeSliders != null)
+                ChangeGeneralVolume(sender);
+        }
+        #endregion
+
+
+        #region Закрытие приложения
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CloseAllSoundsAndMelodies();
@@ -664,9 +782,10 @@ namespace Spicy
 
         private void CloseAllSoundsAndMelodies()
         {
-            melodyMediaPlayer.Close();
+            musicMediaPlayer.Close();
             foreach (var sound in collectionOfSounds)
                 sound.Close();
         }
+        #endregion
     }
 }

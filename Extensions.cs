@@ -19,6 +19,7 @@ namespace Spicy
 
         public static void ClearSound(UIElement element)
         {
+            (element.GetValue(SoundProperty) as MediaPlayerWithSound).Close();
             element.ClearValue(SoundProperty);
         }
     }

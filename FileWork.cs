@@ -16,7 +16,7 @@ namespace Spicy
                 foreach (var sound in collection)
                 {
                     string name = sound.Name + ".mp3";
-                    string volume = sound.Volume.ToString();
+                    string volume = sound.SoundVolume.ToString();
                     string repetitionRate = sound.RepetitionRate.ToString();
                     writer.Write(name + " " + volume + " " + repetitionRate);
                 }

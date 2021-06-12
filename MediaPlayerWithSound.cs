@@ -7,12 +7,16 @@ namespace Spicy
         public MediaPlayerWithSound(string Name, double Volume, double RepetitionRate)
         {
             this.Name = Name;
-            this.Volume = Volume;
+            this.SoundVolume = Volume;
             this.RepetitionRate = RepetitionRate;
         }
 
         public string Name { get; }
 
+        public double SoundVolume { get; set; }
+
         public double RepetitionRate { get; set; }
+
+        public bool IsPlaying { get; set; }
     }
 }

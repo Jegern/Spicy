@@ -9,7 +9,7 @@
         MinHeight="600"
         MinWidth="500"
         WindowStartupLocation="CenterScreen"
-        Closing="MainWindow_Closing">
+        Closing="MainWindow_Closing" Width="1200" Height="800">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -22,6 +22,7 @@
             <ImageBrush x:Key="Forward" ImageSource="images/Forward.png"/>
             <ImageBrush x:Key="Save" ImageSource="images/Save.png"/>
             <ImageBrush x:Key="Speaker" ImageSource="images/Speaker.png"/>
+            <ImageBrush x:Key="Speaker Mute" ImageSource="images/Speaker Mute.png"/>
             <ImageBrush x:Key="Arrow Up" ImageSource="images/Arrow Up.png"/>
             <ImageBrush x:Key="Plus in circle" ImageSource="images/Plus in circle.png"/>
             <ImageBrush x:Key="Cross in circle" ImageSource="images/Cross in circle.png"/>
@@ -238,18 +239,110 @@
                 <Slider Style="{StaticResource SliderWithThumb}" x:Name="MasterMelodySlider"
                         Grid.Column="2"
                         Margin="0,3,0,0"
-                        IsMoveToPointEnabled="True"/>
+                        IsMoveToPointEnabled="True" Visibility="Hidden"/>
                 <Label Style="{StaticResource StringLabel}" x:Name="TimeMelodyLabel"
                        Content="mm:ss"
                        Grid.Column="3"
-                       Margin="0,0,20,0"/>
+                       Margin="0,0,20,0" Visibility="Hidden"/>
             </Grid>
             <Button Style="{StaticResource BigIconButton}" x:Name="VolumeButton"
                     Grid.Row="2"
                     Grid.Column="1"
                     Background="{StaticResource Speaker}"
-                    Margin="10,10,10,0"/>
+                    Margin="10,10,10,0" Click="VolumeButton_Click"/>
         </Grid>
+
+        <Border x:Name="VolumeGrid"
+                BorderThickness="4"
+                BorderBrush="{StaticResource MainColor}"
+                Background="{StaticResource AddButtonBackground}"
+                Grid.Column="0"
+                Height="300"
+                Width="310"
+                CornerRadius="12"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Visibility="Hidden"
+                Padding="20"
+                Opacity="0.85"
+                Margin="0,0,10,70">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="MasterVolumeButton" 
+                        Grid.Column="0"
+                        Style="{StaticResource BigIconButton}"
+                        Background="{StaticResource Speaker}" 
+                        Click="GeneralVolumeButton_Click"/>
+                <TextBox Style="{StaticResource VolumeTextBlock}"
+                         Grid.Column="0"
+                         Grid.Row="1"
+                         Text="Общая громкость"/>
+                <Slider x:Name="MasterVolumeSlider" Style="{StaticResource VerticalSliderWithThumb}"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"/>
+
+                <Button x:Name="MusicVolumeButton"
+                        Grid.Column="1"
+                        Style="{StaticResource BigIconButton}" 
+                        Background="{StaticResource Speaker}"
+                        Click="GeneralVolumeButton_Click"/>
+                <TextBox Style="{StaticResource VolumeTextBlock}"
+                         Grid.Column="1"
+                         Grid.Row="1"
+                         Text="Громкость музыки"/>
+                <Slider x:Name="MusicVolumeSlider" Style="{StaticResource VerticalSliderWithThumb}"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"
+                        ValueChanged="MusicVolumeSlider_ValueChanged"/>
+
+                <Button x:Name="SoundVolumeButton"
+                        Grid.Column="2"
+                        Style="{StaticResource BigIconButton}" 
+                        Background="{StaticResource Speaker}"
+                        Click="GeneralVolumeButton_Click"/>
+                <TextBox Style="{StaticResource VolumeTextBlock}"
+                         Grid.Column="2"
+                         Grid.Row="1"
+                         Text="Громкость звуков"/>
+                <Slider x:Name="SoundVolumeSlider" Style="{StaticResource VerticalSliderWithThumb}"
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"
+                        ValueChanged="SoundVolumeSlider_ValueChanged"/>
+
+                <Button x:Name="SfxVolumeButton"
+                        Grid.Column="3"
+                        Style="{StaticResource BigIconButton}" 
+                        Background="{StaticResource Speaker}"
+                        Click="GeneralVolumeButton_Click"/>
+                <TextBox Style="{StaticResource VolumeTextBlock}"
+                         Grid.Column="3"
+                         Grid.Row="1"
+                         Text="Громкость SFX"/>
+                <Slider x:Name="SfxVolumeSlider" Style="{StaticResource VerticalSliderWithThumb}"
+                        Grid.Column="3"
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical"
+                        ValueChanged="SfxVolumeSlider_ValueChanged"/>
+            </Grid>
+        </Border>
+
         <Grid x:Name="SfxGrid"
               Grid.Column="1"
               Margin="20">
@@ -376,6 +469,7 @@
             </Grid>
 
         </Grid>
+
         <Grid Grid.Column="2" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
