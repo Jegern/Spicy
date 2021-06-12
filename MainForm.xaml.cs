@@ -262,6 +262,7 @@ namespace Spicy
         private void PlayMelody(string name)
         {
             musicMediaPlayer.Open(new Uri("music/" + name + ".mp3", UriKind.Relative));
+            musicMediaPlayer.Volume = volume[1] * volume[0] * 0.99;
             musicMediaPlayer.Play();
             melodyIsPaused = false;
         }
@@ -397,10 +398,16 @@ namespace Spicy
         {
             if (Extensions.GetSound(button) != null)
             {
+                ConfigureSfx(button);
                 ChangeSfxIcon(button);
                 ChangeSfxText(button);
                 ConfigureCrossButton(button);
             }
+        }
+
+        private void ConfigureSfx(Button button)
+        {
+            Extensions.GetSound(button).Volume = volume[3] * volume[0] * 0.99;
         }
 
         private void AttachSoundToButton(Button button)
@@ -433,14 +440,18 @@ namespace Spicy
 
         private void SfxCrossButton_Click(object sender, RoutedEventArgs e)
         {
-            Button parentButton = (sender as Button).TemplatedParent as Button;
+            DeleteSfxSound((sender as Button).TemplatedParent as Button);
+            SfxTemplateHasBeenChanged();
+            e.Handled = true;
+        }
+
+        private void DeleteSfxSound(Button parentButton)
+        {
             parentButton.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/images/Plus in circle.png")));
             parentButton.Style = Resources["SfxButtonWithAnimation"] as Style;
             parentButton.BeginAnimation(OpacityProperty, new DoubleAnimation(1, 0, new TimeSpan(0)));
             parentButton.Content = string.Empty;
             Extensions.ClearSound(parentButton);
-            SfxTemplateHasBeenChanged();
-            e.Handled = true;
         }
 
         private void PlayOrStopSfxSound(Button button)
@@ -564,13 +575,11 @@ namespace Spicy
 
         private void ClearSfxGrid()
         {
-            for (int i = 1; i < 16; i++)
+            for (int i = 1; i < SfxGrid.Children.Count - 1; i++)
             {
-                if ((SfxGrid.Children[i] as Grid).Children.Count > 2)
-                {
-                    Button button = (SfxGrid.Children[i] as Grid).Children[4] as Button;
-                    SfxCrossButton_Click(button, null);
-                }
+                Button button = (SfxGrid.Children[i] as Grid).Children[1] as Button;
+                if (button.Content != null && button.Content.ToString() != string.Empty)
+                    DeleteSfxSound(button);
             }
         }
 
@@ -609,6 +618,7 @@ namespace Spicy
                 collectionOfSounds[i].Stop();
             collectionOfSounds.Clear();
             musicMediaPlayer.Stop();
+            ClearSfxGrid();
         }
 
         private void LoadSelectedTemplateSounds()
@@ -652,7 +662,7 @@ namespace Spicy
         {
             string soundPath = "sounds/" + sound.Name + ".mp3";
             sound.Open(new Uri(soundPath, UriKind.Relative));
-            sound.Volume = sound.SoundVolume * volume[2];
+            sound.Volume = sound.SoundVolume * volume[2] * volume[0] * 0.99;
             sound.MediaEnded += MediaPlayerSoundEnded;
         }
 
@@ -724,14 +734,16 @@ namespace Spicy
             }
         }
 
-        void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (volumeSliders != null)
+            {
                 ChangeGeneralVolume(sender);
-            ApplyMusicVolumeToMelodyMediaPlayer();
+                ApplyMasterVolume();
+            }
         }
 
-        void ChangeGeneralVolume(object sender)
+        private void ChangeGeneralVolume(object sender)
         {
             int volumeIndex = Array.IndexOf(volumeSliders, sender as Slider);
             volume[volumeIndex] = volumeSliders[volumeIndex].Value;
@@ -748,28 +760,60 @@ namespace Spicy
             }
         }
 
-        void ApplyMusicVolumeToMelodyMediaPlayer()
+        private void ApplyMasterVolume()
         {
-            musicMediaPlayer.Volume = volume[1];
+            ApplyMusicVolumeToMelodyMediaPlayer();
+            ApplySoundVolumeToTemplateSounds();
+            ApplySfxVolumeToSfxSounds();
         }
 
-        void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MusicVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (volumeSliders != null)
+            {
                 ChangeGeneralVolume(sender);
-            ApplySoundVolumeToTemplateSounds();
+                ApplyMusicVolumeToMelodyMediaPlayer();
+            }
         }
 
-        void ApplySoundVolumeToTemplateSounds()
+        private void ApplyMusicVolumeToMelodyMediaPlayer()
+        {
+            musicMediaPlayer.Volume = volume[1] * volume[0];
+        }
+
+        private void SoundVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (volumeSliders != null)
+            {
+                ChangeGeneralVolume(sender);
+                ApplySoundVolumeToTemplateSounds();
+            }
+        }
+
+        private void ApplySoundVolumeToTemplateSounds()
         {
             foreach (var sound in collectionOfSounds)
-                sound.Volume = sound.SoundVolume * volume[2];
+                sound.Volume = sound.SoundVolume * volume[2] * volume[0];
         }
 
-        void SfxVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SfxVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (volumeSliders != null)
+            {
                 ChangeGeneralVolume(sender);
+                ApplySfxVolumeToSfxSounds();
+            }
+        }
+
+        private void ApplySfxVolumeToSfxSounds()
+        {
+            for (int i = 1; i < SfxGrid.Children.Count - 1; i++)
+            {
+                Button button = (SfxGrid.Children[i] as Grid).Children[1] as Button;
+                MediaPlayerWithSound sound = Extensions.GetSound(button);
+                if (sound != null)
+                    sound.Volume = volume[3] * volume[0];
+            }
         }
         #endregion
 

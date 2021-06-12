@@ -57,7 +57,7 @@ namespace Spicy
         public static void WriteSfxGridToFile(Grid grid, string fileName)
         {
             using (BinaryWriter writer = new BinaryWriter(File.Create("sfx templates/" + fileName + ".bin")))
-                for (int i = 1; i < 16; i++)
+                for (int i = 1; i < grid.Children.Count - 1; i++)
                 {
                     string name = (string)((grid.Children[i] as Grid).Children[1] as Button).Content;
                     writer.Write(name + ".mp3");

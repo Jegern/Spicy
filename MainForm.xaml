@@ -291,7 +291,8 @@
                         Grid.Column="0"
                         Grid.Row="2"
                         HorizontalAlignment="Center"
-                        Orientation="Vertical"/>
+                        Orientation="Vertical"
+                        ValueChanged="MasterVolumeSlider_ValueChanged"/>
 
                 <Button x:Name="MusicVolumeButton"
                         Grid.Column="1"
