@@ -3,13 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace Spicy
 {
     public partial class TemplateCreationForm : Window
     {
-        internal string TemplateName;
+        internal string TemplateName = string.Empty;
         internal bool TemplateIsReady = false;
         readonly ObservableCollection<MediaPlayerWithSound> collectionOfSelectedSounds = new ObservableCollection<MediaPlayerWithSound>();
         bool soundRepetitionRateTextBoxGotFocus = false;
@@ -18,13 +17,21 @@ namespace Spicy
         public TemplateCreationForm()
         {
             InitializeComponent();
+        }
+
+        private void TemplateCreationWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             InitializeOtherComponent();
         }
 
         void InitializeOtherComponent()
         {
-            Width = SystemParameters.PrimaryScreenWidth * 0.45;
-            Height = SystemParameters.PrimaryScreenHeight;
+            if ((bool)(Owner as MainForm).SfxMenu.Tag || (bool)(Owner as MainForm).TemplateMenu.Tag)
+                Width = Owner.Width * 2 / 3;
+            else
+                Width = Owner.Width;
+            Height = Owner.Height;
+            Top = Owner.Top;
             InitializeListBoxOfAllSounds();
             InitializeListBoxOfSelectedSounds();
         }
@@ -153,24 +160,23 @@ namespace Spicy
         void CompleteTemplateCreation()
         {
             CheckIfTemplateIsReady();
-            if (TemplateIsReady)
+            if (TemplateName != string.Empty)
             {
-                FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateNameTextBox.Text);
-                File.Create("music templates/" + TemplateNameTextBox.Text + ".bin");
-                File.Create("sfx templates/" + TemplateNameTextBox.Text + ".bin");
-                TemplateName = TemplateNameTextBox.Text;
+                FileWork.WriteSoundCollectionToFile(collectionOfSelectedSounds, TemplateName);
+                TemplateIsReady = true;
                 Close();
             }
         }
 
-        void CheckIfTemplateIsReady()
+        private void CheckIfTemplateIsReady()
         {
-            if (TemplateNameTextBox.Text.Length == 0)
+            TextBox textBox = TemplateNameTextBox.Template.FindName("InputTextBox", TemplateNameTextBox) as TextBox;
+            if (textBox.Text.Length == 0)
                 MessageBox.Show("Пожалуйста, введите имя шаблона", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
             else if ((Owner as MainForm).ListBoxOfTemplates.Items.Contains(TemplateNameTextBox.Text))
                 MessageBox.Show("Такое имя шаблона уже есть", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
             else
-                TemplateIsReady = true;
+                TemplateName = textBox.Text;
         }
         #endregion
     }

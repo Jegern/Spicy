@@ -6,9 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Threading;
 using System.Windows.Input;
 
@@ -36,8 +34,8 @@ namespace Spicy
 
         private void InitializeAppWidthAndHeight()
         {
-            Width = SystemParameters.PrimaryScreenWidth * 0.9;
-            Height = SystemParameters.PrimaryScreenHeight;
+            Width = SystemParameters.FullPrimaryScreenWidth * 0.9;
+            Height = SystemParameters.FullPrimaryScreenHeight + SystemParameters.WindowCaptionHeight;
         }
 
         private void HideTemplateAndSfxMenu()
@@ -158,8 +156,11 @@ namespace Spicy
         private void SoundTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             MediaPlayerWithSound sound = (sender as TextBox).DataContext as MediaPlayerWithSound;
-            sound.RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
-            SoundTemplateHasBeenChanged();
+            if ((sender as TextBox).Text != string.Empty)
+            {
+                sound.RepetitionRate = Convert.ToDouble((sender as TextBox).Text);
+                SoundTemplateHasBeenChanged();
+            }
         }
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -591,7 +592,7 @@ namespace Spicy
             {
                 RewriteSoundFile();
                 RewriteMelodyFile();
-                ListBoxOfTemplates.Items.Add(TemplateNameTextBox.Text);
+                AddTemplateToListBoxOfTemplates(TemplateNameTextBox.Text);
                 SaveButton.Visibility = Visibility.Hidden;
             }
         }
@@ -630,6 +631,7 @@ namespace Spicy
             CloseAllSoundsAndMelodies();
             PlayPauseMelodyButton.Background = Resources["Play"] as ImageBrush;
             playingMusicName = string.Empty;
+            TemplateNameTextBox.Text = string.Empty;
             MelodyNameLabel.Content = string.Empty;
             ListBoxOfMelodies.Items.Clear();
             collectionOfSounds.Clear();
@@ -753,11 +755,11 @@ namespace Spicy
 
 
         #region Управление громкостью
-        readonly Slider[] volumeSliders;
-        readonly Button[] volumeButtons;
-        readonly double[] volume = new[] { 1.0, 1.0, 1.0, 1.0 };
-        readonly double[] pastVolume = new[] { 1.0, 1.0, 1.0, 1.0 };
-        readonly bool[] volumeIsMute = new[] { false, false, false, false };
+        readonly internal Slider[] volumeSliders;
+        readonly internal Button[] volumeButtons;
+        readonly internal double[] volume = new[] { 1.0, 1.0, 1.0, 1.0 };
+        readonly internal double[] pastVolume = new[] { 1.0, 1.0, 1.0, 1.0 };
+        readonly internal bool[] volumeIsMute = new[] { false, false, false, false };
 
         private void VolumeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -876,6 +878,7 @@ namespace Spicy
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             CloseAllSoundsAndMelodies();
+            FileWork.WriteSettingsToFile(this);
         }
 
         private void CloseAllSoundsAndMelodies()
@@ -885,5 +888,16 @@ namespace Spicy
                 sound.Close();
         }
         #endregion
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //if (File.Exists("settings.bin"))
+            //{
+            //    FileWork.ReadFileToSettings(this);
+            //    for (int i = 0; i < volumeIsMute.Length; i++)
+            //        if (volumeIsMute[i])
+            //            volumeButtons[i].Background = Resources["Speaker Mute"] as ImageBrush;
+            //}
+        }
     }
 }

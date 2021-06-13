@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Globalization;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using static Spicy.MainForm;
-using System.Windows;
 
 namespace Spicy
 {
@@ -68,7 +67,7 @@ namespace Spicy
         {
             if (File.Exists("sfx templates/" + fileName + ".bin"))
                 using (BinaryReader reader = new BinaryReader(File.OpenRead("sfx templates/" + fileName + ".bin")))
-                    for (int i = 1; i < 16; i++)
+                    for (int i = 1; i < grid.Children.Count - 1; i++)
                     {
                         string name = reader.ReadString().Replace(".mp3", "");
                         if (name != string.Empty)
@@ -79,6 +78,42 @@ namespace Spicy
                             (window as MainForm).ChangeSfxLayout(button);
                         }
                     }
+        }
+
+        public static void WriteSettingsToFile(Window window)
+        {
+            MainForm main = window as MainForm;
+            using (BinaryWriter writer = new BinaryWriter(File.Create("settings.bin")))
+            {
+                for (int i = 0; i < main.volume.Length; i++)
+                {
+                    writer.Write(main.volume[i].ToString());
+                    writer.Write(main.pastVolume[i].ToString());
+                    writer.Write(main.volumeIsMute[i].ToString());
+                }
+                writer.Write(main.Width.ToString());
+                writer.Write(main.Height.ToString());
+                writer.Write(main.Left.ToString());
+                writer.Write(main.Top.ToString());
+            }
+        }
+
+        public static void ReadFileToSettings(Window window)
+        {
+            MainForm main = window as MainForm;
+            using (BinaryReader reader = new BinaryReader(File.OpenRead("settings.bin")))
+            {
+                for (int i = 0; i < main.volume.Length; i++)
+                {
+                    main.volumeSliders[i].Value = main.volume[i] = Convert.ToDouble(reader.ReadString());
+                    main.pastVolume[i] = Convert.ToDouble(reader.ReadString());
+                    main.volumeIsMute[i] = Convert.ToBoolean(reader.ReadString());
+                }
+                main.Width = Convert.ToDouble(reader.ReadString());
+                main.Height = Convert.ToDouble(reader.ReadString());
+                main.Left = Convert.ToDouble(reader.ReadString());
+                main.Top = Convert.ToDouble(reader.ReadString());
+            }
         }
     }
 }

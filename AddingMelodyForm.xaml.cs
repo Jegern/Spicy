@@ -16,13 +16,16 @@ namespace Spicy
         public AddingMelodyForm()
         {
             InitializeComponent();
-            InitializeOtherComponent();
         }
 
         private void InitializeOtherComponent()
         {
-            Width = SystemParameters.PrimaryScreenWidth * 0.225;
-            Height = SystemParameters.PrimaryScreenHeight;
+            if ((bool)(Owner as MainForm).SfxMenu.Tag || (bool)(Owner as MainForm).TemplateMenu.Tag)
+                Width = Owner.Width / 3;
+            else
+                Width = Owner.Width / 2;
+            Height = Owner.Height;
+            Top = Owner.Top;
             mediaPlayer.MediaEnded += MelodyEnded;
         }
 
@@ -35,6 +38,7 @@ namespace Spicy
 
         private void AddingMelodyWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            InitializeOtherComponent();
             ListBoxFunctions.LoadFileNamesFromFolderToList(ListBoxOfMelodies, "music", "mp3");
             ListBoxFunctions.RemoveNamesOfFirstListBoxFromSecondListBox((Owner as MainForm).ListBoxOfMelodies, ListBoxOfMelodies);
             ListBoxFunctions.SortAscending(ListBoxOfMelodies);

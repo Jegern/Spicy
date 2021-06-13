@@ -157,7 +157,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TemplateNameTextBox" TargetType="TextBox" BasedOn="{StaticResource TextBox}">
+    <Style x:Key="TemplateNameWithPlaceholder" TargetType="TextBox" BasedOn="{StaticResource TextBox}">
         <Setter Property="FontSize" Value="30"/>
         <Setter Property="Template">
             <Setter.Value>

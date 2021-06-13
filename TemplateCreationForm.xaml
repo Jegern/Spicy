@@ -10,7 +10,7 @@
         Width="600"
         MinHeight="600"
         MinWidth="500"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner" Loaded="TemplateCreationWindow_Loaded">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -29,7 +29,7 @@
             <RowDefinition Height="110"/>
             <RowDefinition Height="80px"/>
         </Grid.RowDefinitions>
-        <TextBox Style="{StaticResource TemplateNameTextBox}" x:Name="TemplateNameTextBox"
+        <TextBox Style="{StaticResource TemplateNameWithPlaceholder}" x:Name="TemplateNameTextBox"
                  Margin="20,20,20,10"
                  FontSize="30"
                  Padding="10,0"/>
