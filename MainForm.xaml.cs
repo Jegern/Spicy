@@ -81,6 +81,17 @@ namespace Spicy
             int nextMelodyIndex = currentMelodyIndex + 1 == ListBoxOfMelodies.Items.Count ? 0 : currentMelodyIndex + 1;
             PlayMelody(ListBoxOfMelodies.Items[nextMelodyIndex].ToString());
         }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists("settings.bin"))
+            {
+                FileWork.ReadFileToSettings(this);
+                for (int i = 0; i < volumeIsMute.Length; i++)
+                    if (volumeIsMute[i])
+                        volumeButtons[i].Background = Resources["Speaker Mute"] as ImageBrush;
+            }
+        }
         #endregion
 
 
@@ -554,6 +565,7 @@ namespace Spicy
                 RewriteTemplate();
             else
                 WriteNewTemplate();
+            SaveButtonPopup.IsOpen = true;
         }
 
         private void RewriteTemplate()
@@ -681,6 +693,8 @@ namespace Spicy
         {
             for (int i = 0; i < collectionOfSounds.Count; i++)
                 collectionOfSounds[i].Stop();
+            musicTemplateChanged = soundTemplateChanged = sfxTemplateChanged = false;
+            SaveButton.Visibility = Visibility.Hidden;
             collectionOfSounds.Clear();
             musicMediaPlayer.Stop();
             ClearSfxGrid();
@@ -888,16 +902,5 @@ namespace Spicy
                 sound.Close();
         }
         #endregion
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //if (File.Exists("settings.bin"))
-            //{
-            //    FileWork.ReadFileToSettings(this);
-            //    for (int i = 0; i < volumeIsMute.Length; i++)
-            //        if (volumeIsMute[i])
-            //            volumeButtons[i].Background = Resources["Speaker Mute"] as ImageBrush;
-            //}
-        }
     }
 }

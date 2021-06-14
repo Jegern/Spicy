@@ -53,6 +53,17 @@
                     Visibility="Hidden"
                     Background="{StaticResource Save}"
                     Click="SaveButton_Click"/>
+            <Popup x:Name="SaveButtonPopup"
+                   IsOpen="False"
+                   StaysOpen="False"
+                   Placement="Top"
+                   PlacementTarget="{Binding ElementName=SaveButton}">
+                <TextBlock Text="Шаблон был сохранен"
+                           FontSize="13"
+                           Background="{StaticResource FontColor}"
+                           Padding="3"/>
+            </Popup>
+
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -162,7 +173,7 @@
                                                         HorizontalAlignment="Left"
                                                         Background="{StaticResource Speaker}"/>
                                                 <Slider Style="{StaticResource SliderWithThumb}" x:Name="SoundSlider"
-                                                        Value="{Binding Path=Volume, Mode=TwoWay}"
+                                                        Value="{Binding Path=SoundVolume, Mode=TwoWay}"
                                                         Grid.Row="1"
                                                         Margin="25,0,0,0"
                                                         ValueChanged="SoundSlider_ValueChanged"/>

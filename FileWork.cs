@@ -91,6 +91,12 @@ namespace Spicy
                     writer.Write(main.pastVolume[i].ToString());
                     writer.Write(main.volumeIsMute[i].ToString());
                 }
+                if ((bool)main.SfxMenu.Tag)
+                    writer.Write("SfxMenu");
+                else if ((bool)main.TemplateMenu.Tag)
+                    writer.Write("TemplateMenu");
+                else
+                    writer.Write("None");
                 writer.Write(main.Width.ToString());
                 writer.Write(main.Height.ToString());
                 writer.Write(main.Left.ToString());
@@ -108,6 +114,17 @@ namespace Spicy
                     main.volumeSliders[i].Value = main.volume[i] = Convert.ToDouble(reader.ReadString());
                     main.pastVolume[i] = Convert.ToDouble(reader.ReadString());
                     main.volumeIsMute[i] = Convert.ToBoolean(reader.ReadString());
+                }
+                string menu = reader.ReadString();
+                if (menu == "SfxMenu")
+                {
+                    main.SfxMenu.Width = new GridLength(1, GridUnitType.Star);
+                    main.SfxMenu.Tag = true;
+                }
+                else if (menu == "TemplateMenu")
+                {
+                    main.TemplateMenu.Width = new GridLength(1, GridUnitType.Star);
+                    main.TemplateMenu.Tag = true;
                 }
                 main.Width = Convert.ToDouble(reader.ReadString());
                 main.Height = Convert.ToDouble(reader.ReadString());
