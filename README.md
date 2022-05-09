@@ -1,0 +1,1 @@
+The first serious application that I wrote in WPF. Allows you to create your own templates to reproduce various environments that play endlessly. Allows you to control each sound individually. Allows you to run sounds once. Has no sound base.
